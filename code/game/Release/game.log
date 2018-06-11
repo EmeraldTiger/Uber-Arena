@@ -1,0 +1,241 @@
+﻿  ai_chat.c
+ai_chat.c(71): warning C4459: declaration of 'maxclients' hides global declaration
+  f:\program files (x86)\q3source\testsource2\github\quake-iii-arena-master\code\game\ai_dmq3.h(190): note: see declaration of 'maxclients'
+ai_chat.c(97): warning C4459: declaration of 'maxclients' hides global declaration
+  f:\program files (x86)\q3source\testsource2\github\quake-iii-arena-master\code\game\ai_dmq3.h(190): note: see declaration of 'maxclients'
+ai_chat.c(125): warning C4459: declaration of 'maxclients' hides global declaration
+  f:\program files (x86)\q3source\testsource2\github\quake-iii-arena-master\code\game\ai_dmq3.h(190): note: see declaration of 'maxclients'
+ai_chat.c(154): warning C4459: declaration of 'maxclients' hides global declaration
+  f:\program files (x86)\q3source\testsource2\github\quake-iii-arena-master\code\game\ai_dmq3.h(190): note: see declaration of 'maxclients'
+ai_chat.c(188): warning C4459: declaration of 'maxclients' hides global declaration
+  f:\program files (x86)\q3source\testsource2\github\quake-iii-arena-master\code\game\ai_dmq3.h(190): note: see declaration of 'maxclients'
+ai_chat.c(222): warning C4459: declaration of 'maxclients' hides global declaration
+  f:\program files (x86)\q3source\testsource2\github\quake-iii-arena-master\code\game\ai_dmq3.h(190): note: see declaration of 'maxclients'
+ai_chat.c(268): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\string.h(343): note: see declaration of 'strncpy'
+ai_chat.c(591): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+ai_chat.c(760): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+ai_chat.c(921): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+ai_chat.c(1193): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  ai_cmd.c
+ai_cmd.c(240): warning C4459: declaration of 'maxclients' hides global declaration
+  f:\program files (x86)\q3source\testsource2\github\quake-iii-arena-master\code\game\ai_dmq3.h(190): note: see declaration of 'maxclients'
+ai_cmd.c(263): warning C4459: declaration of 'maxclients' hides global declaration
+  f:\program files (x86)\q3source\testsource2\github\quake-iii-arena-master\code\game\ai_dmq3.h(190): note: see declaration of 'maxclients'
+ai_cmd.c(288): warning C4459: declaration of 'maxclients' hides global declaration
+  f:\program files (x86)\q3source\testsource2\github\quake-iii-arena-master\code\game\ai_dmq3.h(190): note: see declaration of 'maxclients'
+ai_cmd.c(1118): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\string.h(343): note: see declaration of 'strncpy'
+ai_cmd.c(1147): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+ai_cmd.c(1189): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(2260): note: see declaration of 'sscanf'
+ai_cmd.c(1310): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\string.h(343): note: see declaration of 'strncpy'
+  ai_dmnet.c
+ai_dmnet.c(700): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+ai_dmnet.c(702): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+ai_dmnet.c(703): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  ai_dmq3.c
+ai_dmq3.c(1397): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\string.h(343): note: see declaration of 'strncpy'
+ai_dmq3.c(1416): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\string.h(343): note: see declaration of 'strncpy'
+ai_dmq3.c(1429): warning C4459: declaration of 'maxclients' hides global declaration
+  ai_dmq3.c(75): note: see declaration of 'maxclients'
+ai_dmq3.c(1449): warning C4459: declaration of 'maxclients' hides global declaration
+  ai_dmq3.c(75): note: see declaration of 'maxclients'
+ai_dmq3.c(1491): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+ai_dmq3.c(1525): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\string.h(343): note: see declaration of 'strncpy'
+ai_dmq3.c(3685): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\string.h(343): note: see declaration of 'strncpy'
+  ai_main.c
+ai_main.c(100): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(1467): note: see declaration of 'vsprintf'
+ai_main.c(285): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+ai_main.c(288): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+ai_main.c(289): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+ai_main.c(435): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+ai_main.c(438): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+ai_main.c(1122): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(2260): note: see declaration of 'sscanf'
+ai_main.c(1575): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+ai_main.c(1590): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+ai_main.c(1618): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  ai_team.c
+ai_team.c(86): warning C4459: declaration of 'maxclients' hides global declaration
+  f:\program files (x86)\q3source\testsource2\github\quake-iii-arena-master\code\game\ai_dmq3.h(190): note: see declaration of 'maxclients'
+ai_team.c(130): warning C4459: declaration of 'maxclients' hides global declaration
+  f:\program files (x86)\q3source\testsource2\github\quake-iii-arena-master\code\game\ai_dmq3.h(190): note: see declaration of 'maxclients'
+ai_team.c(191): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+ai_team.c(883): warning C4459: declaration of 'maxclients' hides global declaration
+  f:\program files (x86)\q3source\testsource2\github\quake-iii-arena-master\code\game\ai_dmq3.h(190): note: see declaration of 'maxclients'
+ai_team.c(1962): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\string.h(343): note: see declaration of 'strncpy'
+  ai_vcmd.c
+  bg_misc.c
+  bg_pmove.c
+bg_pmove.c(932): warning C4101: 'up': unreferenced local variable
+bg_pmove.c(932): warning C4101: 'right': unreferenced local variable
+bg_pmove.c(932): warning C4101: 'forward': unreferenced local variable
+bg_pmove.c(932): warning C4101: 'angles': unreferenced local variable
+bg_pmove.c(1293): warning C4101: 'sample2': unreferenced local variable
+bg_pmove.c(1292): warning C4101: 'sample1': unreferenced local variable
+bg_pmove.c(1369): warning C4305: '*=': truncation from 'double' to 'vec_t'
+  bg_slidemove.c
+  g_active.c
+g_active.c(345): warning C4047: 'function': 'qboolean *' differs in levels of indirection from 'int'
+g_active.c(345): warning C4024: 'Pmove': different types for formal and actual parameter 3
+g_active.c(345): warning C4024: 'Pmove': different types for formal and actual parameter 4
+g_active.c(557): warning C4101: 'weapon': unreferenced local variable
+g_active.c(1185): warning C4013: 'PM_AddEvent' undefined; assuming extern returning int
+  g_arenas.c
+g_arenas.c(133): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g_bot.c
+g_bot.c(106): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_bot.c(113): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_bot.c(177): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_bot.c(178): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_bot.c(292): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\string.h(343): note: see declaration of 'strncpy'
+g_bot.c(323): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_bot.c(775): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_bot.c(777): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_bot.c(779): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_bot.c(781): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_bot.c(783): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_bot.c(785): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_bot.c(787): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_bot.c(789): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_bot.c(915): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_bot.c(916): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g_client.c
+g_client.c(509): warning C4013: 'PM_AddEvent' undefined; assuming extern returning int
+g_client.c(724): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_client.c(861): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_client.c(862): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_client.c(864): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_client.c(865): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g_cmds.c
+g_cmds.c(81): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_cmds.c(1411): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g_combat.c
+g_combat.c(653): warning C4456: declaration of 'i' hides previous local declaration
+  g_combat.c(444): note: see declaration of 'i'
+g_combat.c(1210): warning C4013: 'Knock_Item' undefined; assuming extern returning int
+  g_items.c
+g_items.c(232): warning C4130: '==': logical operation on address of string constant
+g_items.c(358): warning C4013: 'PM_AddEvent' undefined; assuming extern returning int
+g_items.c(519): warning C4101: 'dest': unreferenced local variable
+g_items.c(517): warning C4101: 'dir': unreferenced local variable
+g_items.c(518): warning C4101: 'tr': unreferenced local variable
+g_items.c(958): warning C4101: 'groundEnt': unreferenced local variable
+  g_main.c
+g_main.c(252): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(1467): note: see declaration of 'vsprintf'
+g_main.c(263): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(1467): note: see declaration of 'vsprintf'
+g_main.c(548): warning C4459: declaration of 'level' hides global declaration
+  g_main.c(26): note: see declaration of 'level'
+g_main.c(553): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(1467): note: see declaration of 'vsprintf'
+g_main.c(564): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(1467): note: see declaration of 'vsprintf'
+g_main.c(1098): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(1467): note: see declaration of 'vsprintf'
+  g_mem.c
+  g_misc.c
+  Generating Code...
+f:\program files (x86)\q3source\testsource2\github\quake-iii-arena-master\code\game\g_items.c(931): warning C4716: 'Knock_Item': must return a value
+  Compiling...
+  g_missile.c
+g_missile.c(331): warning C4130: '==': logical operation on address of string constant
+g_missile.c(578): warning C4130: '==': logical operation on address of string constant
+g_missile.c(606): warning C4130: '==': logical operation on address of string constant
+g_missile.c(697): warning C4130: '==': logical operation on address of string constant
+g_missile.c(530): warning C4101: 'endview': unreferenced local variable
+g_missile.c(523): warning C4101: 'shortestDist': unreferenced local variable
+g_missile.c(531): warning C4189: 'error': local variable is initialized but not referenced
+g_missile.c(527): warning C4101: 'deltanorm': unreferenced local variable
+g_missile.c(532): warning C4101: 'targetOrigin': unreferenced local variable
+g_missile.c(516): warning C4101: 'maxs': unreferenced local variable
+g_missile.c(515): warning C4101: 'targets': unreferenced local variable
+g_missile.c(527): warning C4101: 'dirnewnorm': unreferenced local variable
+g_missile.c(532): warning C4101: 'rocketOrigin': unreferenced local variable
+g_missile.c(529): warning C4101: 'ptr': unreferenced local variable
+g_missile.c(522): warning C4101: 'dist': unreferenced local variable
+g_missile.c(516): warning C4101: 'mins': unreferenced local variable
+g_missile.c(520): warning C4101: 'dirnew': unreferenced local variable
+g_missile.c(526): warning C4101: 'speed': unreferenced local variable
+g_missile.c(518): warning C4101: 'num': unreferenced local variable
+g_missile.c(533): warning C4101: 'dirchange': unreferenced local variable
+g_missile.c(527): warning C4101: 'dirnorm': unreferenced local variable
+  g_mover.c
+  g_session.c
+g_session.c(81): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(2260): note: see declaration of 'sscanf'
+  g_spawn.c
+g_spawn.c(68): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(2260): note: see declaration of 'sscanf'
+g_spawn.c(377): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(2260): note: see declaration of 'sscanf'
+  g_svcmds.c
+  g_syscalls.c
+  g_target.c
+  g_team.c
+g_team.c(110): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(1467): note: see declaration of 'vsprintf'
+g_team.c(552): warning C4013: 'MoveBouncedItem' undefined; assuming extern returning int
+g_team.c(1121): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g_trigger.c
+g_trigger.c(166): warning C4013: 'BG_TouchFlip' undefined; assuming extern returning int
+  g_utils.c
+g_utils.c(44): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_utils.c(50): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+g_utils.c(51): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g_weapon.c
+g_weapon.c(368): warning C4459: declaration of 'forward' hides global declaration
+  g_weapon.c(29): note: see declaration of 'forward'
+g_weapon.c(368): warning C4459: declaration of 'right' hides global declaration
+  g_weapon.c(29): note: see declaration of 'right'
+g_weapon.c(368): warning C4459: declaration of 'up' hides global declaration
+  g_weapon.c(29): note: see declaration of 'up'
+g_weapon.c(466): warning C4013: 'fire_pendulum' undefined; assuming extern returning int
+g_weapon.c(466): warning C4047: '=': 'gentity_t *' differs in levels of indirection from 'int'
+g_weapon.c(951): warning C4459: declaration of 'forward' hides global declaration
+  g_weapon.c(29): note: see declaration of 'forward'
+g_weapon.c(951): warning C4459: declaration of 'right' hides global declaration
+  g_weapon.c(29): note: see declaration of 'right'
+g_weapon.c(951): warning C4459: declaration of 'up' hides global declaration
+  g_weapon.c(29): note: see declaration of 'up'
+g_weapon.c(966): warning C4459: declaration of 'forward' hides global declaration
+  g_weapon.c(29): note: see declaration of 'forward'
+g_weapon.c(966): warning C4459: declaration of 'right' hides global declaration
+  g_weapon.c(29): note: see declaration of 'right'
+g_weapon.c(966): warning C4459: declaration of 'up' hides global declaration
+  g_weapon.c(29): note: see declaration of 'up'
+  q_math.c
+  q_shared.c
+q_shared.c(268): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(1467): note: see declaration of 'vsprintf'
+q_shared.c(280): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(1467): note: see declaration of 'vsprintf'
+q_shared.c(723): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\string.h(343): note: see declaration of 'strncpy'
+q_shared.c(876): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(1467): note: see declaration of 'vsprintf'
+q_shared.c(912): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\stdio.h(1467): note: see declaration of 'vsprintf'
+q_shared.c(1072): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+q_shared.c(1127): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+q_shared.c(1202): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+q_shared.c(1203): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+q_shared.c(1250): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  Generating Code...
+f:\program files (x86)\q3source\testsource2\github\quake-iii-arena-master\code\game\g_weapon.c(1007): warning C4715: 'GetWeaponCounter': not all control paths return a value
+f:\program files (x86)\q3source\testsource2\github\quake-iii-arena-master\code\game\g_missile.c(656): warning C4701: potentially uninitialized local variable 'candidate' used
+f:\program files (x86)\q3source\testsource2\github\quake-iii-arena-master\code\game\g_missile.c(656): warning C4703: potentially uninitialized local pointer variable 'candidate' used
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(1198,5): warning MSB8012: TargetPath(F:\Program Files (x86)\Q3Source\testsource2\GitHub\Quake-III-Arena-master\code\game\.\Release\game.dll) does not match the Linker's OutputFile property value (F:\Program Files (x86)\Q3Source\testsource2\GitHub\Quake-III-Arena-master\code\Release\qagamex86.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(1200,5): warning MSB8012: TargetName(game) does not match the Linker's OutputFile property value (qagamex86). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+     Creating library .\Release/qagamex86.lib and object .\Release/qagamex86.exp
+  game.vcxproj -> F:\Program Files (x86)\Q3Source\testsource2\GitHub\Quake-III-Arena-master\code\game\.\Release\game.dll

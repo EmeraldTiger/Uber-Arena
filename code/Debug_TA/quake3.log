@@ -1,0 +1,106 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.Cpp.Common.props(144,5): warning MSB4211: The property "WindowsTargetPlatformVersion" is being set to a value for the first time, but it was already consumed at "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.Cpp.WindowsSDK.props (29,5)".
+  cl_cgame.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  cl_cin.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  cl_console.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  cl_input.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  cl_keys.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  cl_main.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  cl_net_chan.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  cl_parse.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  cl_scrn.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  cl_ui.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  snd_adpcm.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  snd_dma.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  snd_mem.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  snd_mix.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  snd_wavelet.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  q_math.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  q_shared.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  cmd.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  cm_load.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  cm_patch.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  Generating Code...
+  Compiling...
+  cm_polylib.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  cm_test.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  cm_trace.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  common.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  cvar.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  files.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  huffman.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  md4.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\qcommon\md4.c(3): fatal error C1083: Cannot open include file: 'string.h': No such file or directory
+  msg.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  net_chan.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  unzip.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  vm.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  vm_interpreted.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  vm_x86.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  sv_bot.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  sv_ccmds.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  sv_client.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  sv_game.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  sv_init.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  sv_main.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  Generating Code...
+  Compiling...
+  sv_net_chan.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  sv_snapshot.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  sv_world.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  win_input.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  win_main.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  win_net.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  win_shared.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  win_snd.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\win32\win_snd.c(22): fatal error C1083: Cannot open include file: 'float.h': No such file or directory
+  win_syscon.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  win_wndproc.c
+f:\program files (x86)\q3source\testsource2\quake-iii-arena-master\code\game\q_shared.h(81): fatal error C1083: Cannot open include file: 'assert.h': No such file or directory
+  Generating Code...

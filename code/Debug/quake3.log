@@ -1,0 +1,126 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets(1767,5): warning : The referenced project 'botlib\botlib.vcxproj' does not exist.
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets(1767,5): warning : The referenced project 'renderer\renderer.vcxproj' does not exist.
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets(1767,5): warning : The referenced project 'splines\Splines.vcxproj' does not exist.
+  cl_cgame.c
+c1 : fatal error C1083: Cannot open source file: 'client\cl_cgame.c': No such file or directory
+  cl_cin.c
+c1 : fatal error C1083: Cannot open source file: 'client\cl_cin.c': No such file or directory
+  cl_console.c
+c1 : fatal error C1083: Cannot open source file: 'client\cl_console.c': No such file or directory
+  cl_input.c
+c1 : fatal error C1083: Cannot open source file: 'client\cl_input.c': No such file or directory
+  cl_keys.c
+c1 : fatal error C1083: Cannot open source file: 'client\cl_keys.c': No such file or directory
+  cl_main.c
+c1 : fatal error C1083: Cannot open source file: 'client\cl_main.c': No such file or directory
+  cl_net_chan.c
+c1 : fatal error C1083: Cannot open source file: 'client\cl_net_chan.c': No such file or directory
+  cl_parse.c
+c1 : fatal error C1083: Cannot open source file: 'client\cl_parse.c': No such file or directory
+  cl_scrn.c
+c1 : fatal error C1083: Cannot open source file: 'client\cl_scrn.c': No such file or directory
+  cl_ui.c
+c1 : fatal error C1083: Cannot open source file: 'client\cl_ui.c': No such file or directory
+  snd_adpcm.c
+c1 : fatal error C1083: Cannot open source file: 'client\snd_adpcm.c': No such file or directory
+  snd_dma.c
+c1 : fatal error C1083: Cannot open source file: 'client\snd_dma.c': No such file or directory
+  snd_mem.c
+c1 : fatal error C1083: Cannot open source file: 'client\snd_mem.c': No such file or directory
+  snd_mix.c
+c1 : fatal error C1083: Cannot open source file: 'client\snd_mix.c': No such file or directory
+  snd_wavelet.c
+c1 : fatal error C1083: Cannot open source file: 'client\snd_wavelet.c': No such file or directory
+  q_math.c
+  q_shared.c
+f:\program files (x86)\q3source\testsource2\github\code\game\q_shared.c(268): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(1467): note: see declaration of 'vsprintf'
+f:\program files (x86)\q3source\testsource2\github\code\game\q_shared.c(280): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(1467): note: see declaration of 'vsprintf'
+f:\program files (x86)\q3source\testsource2\github\code\game\q_shared.c(723): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(343): note: see declaration of 'strncpy'
+f:\program files (x86)\q3source\testsource2\github\code\game\q_shared.c(876): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(1467): note: see declaration of 'vsprintf'
+f:\program files (x86)\q3source\testsource2\github\code\game\q_shared.c(912): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(1467): note: see declaration of 'vsprintf'
+f:\program files (x86)\q3source\testsource2\github\code\game\q_shared.c(1072): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(136): note: see declaration of 'strcpy'
+f:\program files (x86)\q3source\testsource2\github\code\game\q_shared.c(1127): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(136): note: see declaration of 'strcpy'
+f:\program files (x86)\q3source\testsource2\github\code\game\q_shared.c(1202): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(93): note: see declaration of 'strcat'
+f:\program files (x86)\q3source\testsource2\github\code\game\q_shared.c(1203): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(136): note: see declaration of 'strcpy'
+f:\program files (x86)\q3source\testsource2\github\code\game\q_shared.c(1250): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(93): note: see declaration of 'strcat'
+  cmd.c
+c1 : fatal error C1083: Cannot open source file: 'qcommon\cmd.c': No such file or directory
+  cm_load.c
+c1 : fatal error C1083: Cannot open source file: 'qcommon\cm_load.c': No such file or directory
+  cm_patch.c
+c1 : fatal error C1083: Cannot open source file: 'qcommon\cm_patch.c': No such file or directory
+  Generating Code...
+  Compiling...
+  cm_polylib.c
+c1 : fatal error C1083: Cannot open source file: 'qcommon\cm_polylib.c': No such file or directory
+  cm_test.c
+c1 : fatal error C1083: Cannot open source file: 'qcommon\cm_test.c': No such file or directory
+  cm_trace.c
+c1 : fatal error C1083: Cannot open source file: 'qcommon\cm_trace.c': No such file or directory
+  common.c
+c1 : fatal error C1083: Cannot open source file: 'qcommon\common.c': No such file or directory
+  cvar.c
+c1 : fatal error C1083: Cannot open source file: 'qcommon\cvar.c': No such file or directory
+  files.c
+c1 : fatal error C1083: Cannot open source file: 'qcommon\files.c': No such file or directory
+  huffman.c
+c1 : fatal error C1083: Cannot open source file: 'qcommon\huffman.c': No such file or directory
+  md4.c
+c1 : fatal error C1083: Cannot open source file: 'qcommon\md4.c': No such file or directory
+  msg.c
+c1 : fatal error C1083: Cannot open source file: 'qcommon\msg.c': No such file or directory
+  net_chan.c
+c1 : fatal error C1083: Cannot open source file: 'qcommon\net_chan.c': No such file or directory
+  unzip.c
+c1 : fatal error C1083: Cannot open source file: 'qcommon\unzip.c': No such file or directory
+  vm.c
+c1 : fatal error C1083: Cannot open source file: 'qcommon\vm.c': No such file or directory
+  vm_interpreted.c
+c1 : fatal error C1083: Cannot open source file: 'qcommon\vm_interpreted.c': No such file or directory
+  vm_x86.c
+c1 : fatal error C1083: Cannot open source file: 'qcommon\vm_x86.c': No such file or directory
+  sv_bot.c
+c1 : fatal error C1083: Cannot open source file: 'server\sv_bot.c': No such file or directory
+  sv_ccmds.c
+c1 : fatal error C1083: Cannot open source file: 'server\sv_ccmds.c': No such file or directory
+  sv_client.c
+c1 : fatal error C1083: Cannot open source file: 'server\sv_client.c': No such file or directory
+  sv_game.c
+c1 : fatal error C1083: Cannot open source file: 'server\sv_game.c': No such file or directory
+  sv_init.c
+c1 : fatal error C1083: Cannot open source file: 'server\sv_init.c': No such file or directory
+  sv_main.c
+c1 : fatal error C1083: Cannot open source file: 'server\sv_main.c': No such file or directory
+  Generating Code...
+  Compiling...
+  sv_net_chan.c
+c1 : fatal error C1083: Cannot open source file: 'server\sv_net_chan.c': No such file or directory
+  sv_snapshot.c
+c1 : fatal error C1083: Cannot open source file: 'server\sv_snapshot.c': No such file or directory
+  sv_world.c
+c1 : fatal error C1083: Cannot open source file: 'server\sv_world.c': No such file or directory
+  win_input.c
+c1 : fatal error C1083: Cannot open source file: 'win32\win_input.c': No such file or directory
+  win_main.c
+c1 : fatal error C1083: Cannot open source file: 'win32\win_main.c': No such file or directory
+  win_net.c
+c1 : fatal error C1083: Cannot open source file: 'win32\win_net.c': No such file or directory
+  win_shared.c
+c1 : fatal error C1083: Cannot open source file: 'win32\win_shared.c': No such file or directory
+  win_snd.c
+c1 : fatal error C1083: Cannot open source file: 'win32\win_snd.c': No such file or directory
+  win_syscon.c
+c1 : fatal error C1083: Cannot open source file: 'win32\win_syscon.c': No such file or directory
+  win_wndproc.c
+c1 : fatal error C1083: Cannot open source file: 'win32\win_wndproc.c': No such file or directory
+  Generating Code...
