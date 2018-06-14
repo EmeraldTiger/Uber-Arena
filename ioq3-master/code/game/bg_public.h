@@ -415,6 +415,11 @@ typedef enum {
 	EV_SHOTGUN,
 	EV_BULLET,				// otherEntity is the shooter
 
+	// UBER ARENA
+	// Uberweapon events
+
+	EV_EXPSHOTGUN,
+
 	EV_PAIN,
 	EV_DEATH1,
 	EV_DEATH2,

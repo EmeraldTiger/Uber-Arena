@@ -309,6 +309,18 @@ struct gclient_s {
 	// like health / armor countdowns and regeneration
 	int			timeResidual;
 
+	// UBER ARENA
+	// Uberweapon counters, one for each non-starter weapon; if a counter reaches 3, activate any uberweapon-related code
+	// Counters can be raised by picking up copies of the same weapon, using a tuning device, or using the /uber cmd
+	// Uberweapon names are given next to the counters
+	int			shotgunCounter; // Explosive Shotgun
+	int			grenadeCounter; // Multi-Grenade Launcher
+	int			rocketCounter; // Homing Rocket Launcher
+	int			lightningCounter; // Arc Lightning Gun
+	int			plasmaCounter; // Ion Plasma Gun
+	int			railCounter; // Toxic Railgun
+	int			bfgCounter; // BFG30K
+
 #ifdef MISSIONPACK
 	gentity_t	*persistantPowerup;
 	int			portalID;

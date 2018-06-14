@@ -289,6 +289,13 @@ qboolean ShotgunPellet( vec3_t start, vec3_t end, gentity_t *ent ) {
 			return qfalse;
 		}
 
+		// UBER ARENA
+		// Explosive Shotgun creates explosions for each pellet
+		if (ent->client->shotgunCounter >= 3)
+		{
+			G_RadiusDamage(tr.endpos, ent, 11, 120, 0, MOD_SHOTGUN);
+		}
+
 		if ( traceEnt->takedamage) {
 			damage = DEFAULT_SHOTGUN_DAMAGE * s_quadFactor;
 #ifdef MISSIONPACK
@@ -350,7 +357,12 @@ void weapon_supershotgun_fire (gentity_t *ent) {
 	gentity_t		*tent;
 
 	// send shotgun blast
-	tent = G_TempEntity( muzzle, EV_SHOTGUN );
+	// UBER ARENA
+	// send different event for the explosive shotgun, to generate the visual explosion effect
+	if (ent->client->shotgunCounter >= 3)
+		tent = G_TempEntity( muzzle, EV_EXPSHOTGUN );
+	else
+		tent = G_TempEntity(muzzle, EV_SHOTGUN);
 	VectorScale( forward, 4096, tent->s.origin2 );
 	SnapVector( tent->s.origin2 );
 	tent->s.eventParm = rand() & 255;		// seed for spread pattern

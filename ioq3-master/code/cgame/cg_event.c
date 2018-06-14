@@ -971,13 +971,13 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 	case EV_MISSILE_MISS:
 		DEBUGNAME("EV_MISSILE_MISS");
 		ByteToDir( es->eventParm, dir );
-		CG_MissileHitWall( es->weapon, 0, position, dir, IMPACTSOUND_DEFAULT );
+		CG_MissileHitWall( es->weapon, 0, position, dir, IMPACTSOUND_DEFAULT, qfalse );
 		break;
 
 	case EV_MISSILE_MISS_METAL:
 		DEBUGNAME("EV_MISSILE_MISS_METAL");
 		ByteToDir( es->eventParm, dir );
-		CG_MissileHitWall( es->weapon, 0, position, dir, IMPACTSOUND_METAL );
+		CG_MissileHitWall( es->weapon, 0, position, dir, IMPACTSOUND_METAL, qfalse );
 		break;
 
 	case EV_RAILTRAIL:
@@ -997,7 +997,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		// if the end was on a nomark surface, don't make an explosion
 		if ( es->eventParm != 255 ) {
 			ByteToDir( es->eventParm, dir );
-			CG_MissileHitWall( es->weapon, es->clientNum, position, dir, IMPACTSOUND_DEFAULT );
+			CG_MissileHitWall( es->weapon, es->clientNum, position, dir, IMPACTSOUND_DEFAULT, qfalse );
 		}
 		break;
 
@@ -1014,7 +1014,14 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 
 	case EV_SHOTGUN:
 		DEBUGNAME("EV_SHOTGUN");
-		CG_ShotgunFire( es );
+		CG_ShotgunFire( es, qfalse );
+		break;
+
+	// UBER ARENA
+	// Explosive shotgun event
+	case EV_EXPSHOTGUN:
+		DEBUGNAME("EV_SHOTGUN");
+		CG_ShotgunFire(es, qtrue);
 		break;
 
 	case EV_GENERAL_SOUND:

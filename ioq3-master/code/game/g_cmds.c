@@ -355,6 +355,36 @@ void Cmd_God_f (gentity_t *ent)
 	trap_SendServerCommand( ent-g_entities, va("print \"%s\"", msg));
 }
 
+/*
+==================
+Cmd_Uber_f
+
+Upgrades all of the client's weapons to uberweapons
+
+argv(0) uber
+==================
+*/
+void Cmd_Uber_f(gentity_t *ent)
+{
+	char	*msg;
+
+	if (!CheatsOk(ent)) {
+		return;
+	}
+
+	ent->client->shotgunCounter = 3;
+	ent->client->grenadeCounter = 3;
+	ent->client->rocketCounter = 3;
+	ent->client->lightningCounter = 3;
+	ent->client->plasmaCounter = 3;
+	ent->client->railCounter = 3;
+	ent->client->bfgCounter = 3;
+
+	msg = "All weapons are now uberweapons.\n";
+
+	trap_SendServerCommand(ent - g_entities, va("print \"%s\"", msg));
+}
+
 
 /*
 ==================
@@ -1817,6 +1847,10 @@ void ClientCommand( int clientNum ) {
 		Cmd_SetViewpos_f( ent );
 	else if (Q_stricmp (cmd, "stats") == 0)
 		Cmd_Stats_f( ent );
+	// UBER ARENA
+	// new cmds start here
+	else if (Q_stricmp(cmd, "uber") == 0)
+		Cmd_Uber_f(ent);
 	else
 		trap_SendServerCommand( clientNum, va("print \"unknown cmd %s\n\"", cmd ) );
 }

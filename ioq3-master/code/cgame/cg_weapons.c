@@ -1738,7 +1738,7 @@ CG_MissileHitWall
 Caused by an EV_MISSILE_MISS event, or directly by local bullet tracing
 =================
 */
-void CG_MissileHitWall( int weapon, int clientNum, vec3_t origin, vec3_t dir, impactSound_t soundType ) {
+void CG_MissileHitWall( int weapon, int clientNum, vec3_t origin, vec3_t dir, impactSound_t soundType, qboolean uber ) {
 	qhandle_t		mod;
 	qhandle_t		mark;
 	qhandle_t		shader;
@@ -1857,11 +1857,23 @@ void CG_MissileHitWall( int weapon, int clientNum, vec3_t origin, vec3_t dir, im
 		isSprite = qtrue;
 		break;
 	case WP_SHOTGUN:
+		// UBER ARENA
+		// Explosive shotgun effects
 		mod = cgs.media.bulletFlashModel;
-		shader = cgs.media.bulletExplosionShader;
+		if (uber) {
+			shader = cgs.media.rocketExplosionShader;
+			sfx = cgs.media.sfx_rockexp;
+		}
+		else {
+			shader = cgs.media.bulletExplosionShader;
+			sfx = 0;
+		}
 		mark = cgs.media.bulletMarkShader;
-		sfx = 0;
 		radius = 4;
+		if (uber) {
+			isSprite = qtrue;
+			CG_ParticleExplosion("explode1", sprOrg, sprVel, 1400, 20, 30);
+		}
 		break;
 
 #ifdef MISSIONPACK
@@ -1957,7 +1969,7 @@ void CG_MissileHitPlayer( int weapon, vec3_t origin, vec3_t dir, int entityNum )
 	case WP_CHAINGUN:
 	case WP_PROX_LAUNCHER:
 #endif
-		CG_MissileHitWall( weapon, 0, origin, dir, IMPACTSOUND_FLESH );
+		CG_MissileHitWall( weapon, 0, origin, dir, IMPACTSOUND_FLESH, qfalse );
 		break;
 	default:
 		break;
@@ -1979,7 +1991,7 @@ SHOTGUN TRACING
 CG_ShotgunPellet
 ================
 */
-static void CG_ShotgunPellet( vec3_t start, vec3_t end, int skipNum ) {
+static void CG_ShotgunPellet( vec3_t start, vec3_t end, int skipNum, qboolean uber ) {
 	trace_t		tr;
 	int sourceContentType, destContentType;
 
@@ -2017,9 +2029,9 @@ static void CG_ShotgunPellet( vec3_t start, vec3_t end, int skipNum ) {
 			return;
 		}
 		if ( tr.surfaceFlags & SURF_METALSTEPS ) {
-			CG_MissileHitWall( WP_SHOTGUN, 0, tr.endpos, tr.plane.normal, IMPACTSOUND_METAL );
+			CG_MissileHitWall( WP_SHOTGUN, 0, tr.endpos, tr.plane.normal, IMPACTSOUND_METAL, uber );
 		} else {
-			CG_MissileHitWall( WP_SHOTGUN, 0, tr.endpos, tr.plane.normal, IMPACTSOUND_DEFAULT );
+			CG_MissileHitWall( WP_SHOTGUN, 0, tr.endpos, tr.plane.normal, IMPACTSOUND_DEFAULT, uber );
 		}
 	}
 }
@@ -2032,7 +2044,7 @@ Perform the same traces the server did to locate the
 hit splashes
 ================
 */
-static void CG_ShotgunPattern( vec3_t origin, vec3_t origin2, int seed, int otherEntNum ) {
+static void CG_ShotgunPattern( vec3_t origin, vec3_t origin2, int seed, int otherEntNum, qboolean uber ) {
 	int			i;
 	float		r, u;
 	vec3_t		end;
@@ -2052,7 +2064,7 @@ static void CG_ShotgunPattern( vec3_t origin, vec3_t origin2, int seed, int othe
 		VectorMA (end, r, right, end);
 		VectorMA (end, u, up, end);
 
-		CG_ShotgunPellet( origin, end, otherEntNum );
+		CG_ShotgunPellet( origin, end, otherEntNum, uber );
 	}
 }
 
@@ -2061,7 +2073,7 @@ static void CG_ShotgunPattern( vec3_t origin, vec3_t origin2, int seed, int othe
 CG_ShotgunFire
 ==============
 */
-void CG_ShotgunFire( entityState_t *es ) {
+void CG_ShotgunFire( entityState_t *es, qboolean uber ) {
 	vec3_t	v;
 	int		contents;
 
@@ -2079,7 +2091,7 @@ void CG_ShotgunFire( entityState_t *es ) {
 			CG_SmokePuff( v, up, 32, 1, 1, 1, 0.33f, 900, cg.time, 0, LEF_PUFF_DONT_SCALE, cgs.media.shotgunSmokePuffShader );
 		}
 	}
-	CG_ShotgunPattern( es->pos.trBase, es->origin2, es->eventParm, es->otherEntityNum );
+	CG_ShotgunPattern( es->pos.trBase, es->origin2, es->eventParm, es->otherEntityNum, uber );
 }
 
 /*
@@ -2255,7 +2267,7 @@ void CG_Bullet( vec3_t end, int sourceEntityNum, vec3_t normal, qboolean flesh, 
 	if ( flesh ) {
 		CG_Bleed( end, fleshEntityNum );
 	} else {
-		CG_MissileHitWall( WP_MACHINEGUN, 0, end, normal, IMPACTSOUND_DEFAULT );
+		CG_MissileHitWall( WP_MACHINEGUN, 0, end, normal, IMPACTSOUND_DEFAULT, qfalse );
 	}
 
 }
