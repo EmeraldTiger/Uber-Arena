@@ -387,7 +387,7 @@ void weapon_grenadelauncher_fire (gentity_t *ent) {
 	forward[2] += 0.2f;
 	VectorNormalize( forward );
 
-	m = fire_grenade (ent, muzzle, forward);
+	m = fire_grenade (ent, muzzle, forward, 3);
 	m->damage *= s_quadFactor;
 	m->splashDamage *= s_quadFactor;
 

@@ -30,10 +30,14 @@ G_BounceMissile
 
 ================
 */
-void G_BounceMissile( gentity_t *ent, trace_t *trace ) {
+void G_BounceMissile( gentity_t *ent, trace_t *trace, int original, qboolean done ) {
 	vec3_t	velocity;
 	float	dot;
 	int		hitTime;
+
+	gentity_t	holdEnt;
+	vec3_t		dir1, dir2, dir3, dir4, dirtotal;
+	vec3_t		forward, right, forward2, right2;
 
 	// reflect the velocity on the trace plane
 	hitTime = level.previousTime + ( level.time - level.previousTime ) * trace->fraction;
@@ -54,6 +58,53 @@ void G_BounceMissile( gentity_t *ent, trace_t *trace ) {
 	VectorAdd( ent->r.currentOrigin, trace->plane.normal, ent->r.currentOrigin);
 	VectorCopy( ent->r.currentOrigin, ent->s.pos.trBase );
 	ent->s.pos.trTime = level.time;
+
+	// UBER ARENA
+	// Everything past this point in this function is multi-grenade code
+	// CLEANUP
+
+	// Check for client, because otherwise grenade shooter entities will crash the game
+	if (ent->parent->client && ent->parent->client->grenadeCounter >= 3) {
+		// We need to preserve the original grenades's values, as they are passed by address and their
+		// values get modified in the grenade fire function. So we use a temporary entity to "hold"
+		// those values
+		holdEnt = *ent;
+
+		AngleVectors(ent->parent->client->ps.viewangles, forward, right, 0);
+		VectorMA(forward, 0.5, right, dir1);
+		VectorMA(forward, -0.5, right, dir2);
+		VectorAdd(dir1, dir2, dirtotal);
+		VectorScale(dirtotal, 0.5, dirtotal);
+		AngleVectors(dirtotal, forward2, right2, 0);
+		VectorMA(forward2, 0.5, right2, dir3);
+		VectorMA(forward2, -0.5, right2, dir4);
+
+		if ((original == 3) && !(done)) {
+			VectorNormalize(dir1);
+			VectorNormalize(dir2);
+			// HACK ALERT
+			// If we don't add the surface normal to the direction of the grenades at the time of
+			// the bounce, then the second grenade split will occur at the same time as the first
+			// split, so this is a bit of a hacky bugfix. It will work well on perfectly flat
+			// surfaces, but breaks down on curvy / uneven ones. But this is acceptable, because
+			// players can exploit this for a gameplay advantage.
+			VectorAdd(trace->plane.normal, dir1, dir1);
+			VectorAdd(trace->plane.normal, dir2, dir2);
+			fire_grenade(ent->parent, ent->r.currentOrigin, dir1, 2);
+			fire_grenade(ent->parent, ent->r.currentOrigin, dir2, 2);
+		}
+		else if ((original == 2) && !(done)) {
+			fire_grenade(ent->parent, ent->r.currentOrigin, dir3, 1);
+			fire_grenade(ent->parent, ent->r.currentOrigin, dir4, 1);
+		}
+
+		// Get back original grenade values
+		*ent = holdEnt;
+
+		// But we're done making more grenades
+		if ((original == 3 || original == 2) && !done)
+			ent->done = qtrue;
+	}
 }
 
 
@@ -279,7 +330,7 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace ) {
 	// check for bounce
 	if ( !other->takedamage &&
 		( ent->s.eFlags & ( EF_BOUNCE | EF_BOUNCE_HALF ) ) ) {
-		G_BounceMissile( ent, trace );
+		G_BounceMissile( ent, trace, ent->original, ent->done );
 		G_AddEvent( ent, EV_GRENADE_BOUNCE, 0 );
 		return;
 	}
@@ -560,7 +611,7 @@ gentity_t *fire_plasma (gentity_t *self, vec3_t start, vec3_t dir) {
 fire_grenade
 =================
 */
-gentity_t *fire_grenade (gentity_t *self, vec3_t start, vec3_t dir) {
+gentity_t *fire_grenade (gentity_t *self, vec3_t start, vec3_t dir, int original) {
 	gentity_t	*bolt;
 
 	VectorNormalize (dir);
@@ -582,6 +633,10 @@ gentity_t *fire_grenade (gentity_t *self, vec3_t start, vec3_t dir) {
 	bolt->splashMethodOfDeath = MOD_GRENADE_SPLASH;
 	bolt->clipmask = MASK_SHOT;
 	bolt->target_ent = NULL;
+
+	bolt->original = original;
+
+	bolt->done = qfalse;
 
 	bolt->s.pos.trType = TR_GRAVITY;
 	bolt->s.pos.trTime = level.time - MISSILE_PRESTEP_TIME;		// move a bit on the very first frame

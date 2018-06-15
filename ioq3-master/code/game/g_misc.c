@@ -272,7 +272,7 @@ void Use_Shooter( gentity_t *ent, gentity_t *other, gentity_t *activator ) {
 
 	switch ( ent->s.weapon ) {
 	case WP_GRENADE_LAUNCHER:
-		fire_grenade( ent, ent->s.origin, dir );
+		fire_grenade( ent, ent->s.origin, dir, 0 );
 		break;
 	case WP_ROCKET_LAUNCHER:
 		fire_rocket( ent, ent->s.origin, dir );
