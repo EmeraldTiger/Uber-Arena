@@ -176,9 +176,9 @@ struct gentity_s {
 	gitem_t		*item;			// for bonus items
 
 	// UBER ARENA
-
-	int			original;
-	qboolean	done;
+	// These are related to the Multi-Grenade Launcher
+	int			grenadeNumber;	// index number of the grenade; used to keep track of multi-grenade hierarchy and place a cap on number of grenades spawned
+	qboolean	done;			// when this is true, don't spawn any more multi-grenades
 };
 
 
@@ -531,7 +531,7 @@ void TossClientCubes( gentity_t *self );
 void G_RunMissile( gentity_t *ent );
 
 gentity_t *fire_plasma (gentity_t *self, vec3_t start, vec3_t aimdir);
-gentity_t *fire_grenade (gentity_t *self, vec3_t start, vec3_t aimdir, int original);
+gentity_t *fire_grenade (gentity_t *self, vec3_t start, vec3_t aimdir, int grenadeNumber);
 gentity_t *fire_rocket (gentity_t *self, vec3_t start, vec3_t dir);
 gentity_t *fire_bfg (gentity_t *self, vec3_t start, vec3_t dir);
 gentity_t *fire_grapple (gentity_t *self, vec3_t start, vec3_t dir);

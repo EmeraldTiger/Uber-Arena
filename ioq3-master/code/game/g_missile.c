@@ -30,7 +30,7 @@ G_BounceMissile
 
 ================
 */
-void G_BounceMissile( gentity_t *ent, trace_t *trace, int original, qboolean done ) {
+void G_BounceMissile( gentity_t *ent, trace_t *trace, int grenadeNumber, qboolean done ) {
 	vec3_t	velocity;
 	float	dot;
 	int		hitTime;
@@ -61,7 +61,6 @@ void G_BounceMissile( gentity_t *ent, trace_t *trace, int original, qboolean don
 
 	// UBER ARENA
 	// Everything past this point in this function is multi-grenade code
-	// CLEANUP
 
 	// Check for client, because otherwise grenade shooter entities will crash the game
 	if (ent->parent->client && ent->parent->client->grenadeCounter >= 3) {
@@ -79,7 +78,10 @@ void G_BounceMissile( gentity_t *ent, trace_t *trace, int original, qboolean don
 		VectorMA(forward2, 0.5, right2, dir3);
 		VectorMA(forward2, -0.5, right2, dir4);
 
-		if ((original == 3) && !(done)) {
+		// Grenade numbers go in reverse; first batch is 3, second is 2, and last is 1.
+
+		// First batch
+		if ((grenadeNumber == 3) && !(done)) {
 			VectorNormalize(dir1);
 			VectorNormalize(dir2);
 			// HACK ALERT
@@ -93,16 +95,19 @@ void G_BounceMissile( gentity_t *ent, trace_t *trace, int original, qboolean don
 			fire_grenade(ent->parent, ent->r.currentOrigin, dir1, 2);
 			fire_grenade(ent->parent, ent->r.currentOrigin, dir2, 2);
 		}
-		else if ((original == 2) && !(done)) {
+		// Second batch
+		else if ((grenadeNumber == 2) && !(done)) {
 			fire_grenade(ent->parent, ent->r.currentOrigin, dir3, 1);
 			fire_grenade(ent->parent, ent->r.currentOrigin, dir4, 1);
+		// Third and final batch, which doesn't produce grenades, so no condition here
 		}
 
 		// Get back original grenade values
 		*ent = holdEnt;
 
-		// But we're done making more grenades
-		if ((original == 3 || original == 2) && !done)
+		// The first and second grenade batches need to stop spawning more grenades after their split.
+		// Final batch doesn't need one because it doesn't spawn any grenades.
+		if ((grenadeNumber == 3 || grenadeNumber == 2) && !done)
 			ent->done = qtrue;
 	}
 }
@@ -330,7 +335,7 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace ) {
 	// check for bounce
 	if ( !other->takedamage &&
 		( ent->s.eFlags & ( EF_BOUNCE | EF_BOUNCE_HALF ) ) ) {
-		G_BounceMissile( ent, trace, ent->original, ent->done );
+		G_BounceMissile( ent, trace, ent->grenadeNumber, ent->done );
 		G_AddEvent( ent, EV_GRENADE_BOUNCE, 0 );
 		return;
 	}
@@ -611,7 +616,7 @@ gentity_t *fire_plasma (gentity_t *self, vec3_t start, vec3_t dir) {
 fire_grenade
 =================
 */
-gentity_t *fire_grenade (gentity_t *self, vec3_t start, vec3_t dir, int original) {
+gentity_t *fire_grenade (gentity_t *self, vec3_t start, vec3_t dir, int grenadeNumber) {
 	gentity_t	*bolt;
 
 	VectorNormalize (dir);
@@ -634,7 +639,7 @@ gentity_t *fire_grenade (gentity_t *self, vec3_t start, vec3_t dir, int original
 	bolt->clipmask = MASK_SHOT;
 	bolt->target_ent = NULL;
 
-	bolt->original = original;
+	bolt->grenadeNumber = grenadeNumber;
 
 	bolt->done = qfalse;
 
