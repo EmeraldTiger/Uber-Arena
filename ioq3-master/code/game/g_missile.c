@@ -534,6 +534,8 @@ void G_RunMissile( gentity_t *ent ) {
 	// UBER ARENA
 	// Homing Rocket Code
 	// COME BACK LATER: Rocket code can act crazy at times, still determining fix
+	// Some code courtesy of Chris Hilton of Code3Arena
+	// https://www.quakewiki.net/archives/code3arena/tutorials/tutorial35.shtml
 	if (ent->parent->client->rocketCounter >= 3 && ent->classname == "rocket") {
 		VectorCopy(ent->s.pos.trDelta, forward);
 		VectorNormalize(forward);
@@ -566,17 +568,12 @@ void G_RunMissile( gentity_t *ent ) {
 				continue;
 			}
 
-			// Courtesy of Chris Hilton of Code3Arena
-			// https://www.quakewiki.net/archives/code3arena/tutorials/tutorial35.shtml
 			VectorSubtract(spotted->r.currentOrigin, ent->r.currentOrigin, dir);
 			rocketlength = VectorLength(dir);
 			if (rocketlength > finallength) {
 				continue;
 			}
 
-			// Courtesy of Chris Hilton of Code3Arena
-			// Draw an invisible sight cone for rockets
-			// https://www.quakewiki.net/archives/code3arena/tutorials/tutorial35.shtml
 			VectorNormalize(dir);
 			if (DotProduct(forward, dir) < 0.9) continue;
 
