@@ -505,6 +505,11 @@ void G_RunMissile( gentity_t *ent ) {
 	vec3_t		origin;
 	trace_t		tr;
 	int			passent;
+	vec3_t		forward, dir, finaldir;
+	float		finallength;
+	gentity_t	*spotted, *candidate;
+	int			i, rocketlength;
+	trace_t		vtr;
 
 	// get current position
 	BG_EvaluateTrajectory( &ent->s.pos, level.time, origin );
@@ -525,6 +530,78 @@ void G_RunMissile( gentity_t *ent ) {
 	}
 	// trace a line from the previous position to the current position
 	trap_Trace( &tr, ent->r.currentOrigin, ent->r.mins, ent->r.maxs, origin, passent, ent->clipmask );
+
+	// UBER ARENA
+	// Homing Rocket Code
+	// COME BACK LATER: Rocket code can act crazy at times, still determining fix
+	if (ent->parent->client->rocketCounter >= 3 && ent->classname == "rocket") {
+		VectorCopy(ent->s.pos.trDelta, forward);
+		VectorNormalize(forward);
+		// Homing rockets can "see" for 2048 units
+		finallength = 2048;
+
+		for (i = 0; i < level.maxclients; i++) {
+			spotted = &g_entities[i];
+			if (!spotted->client) {
+				continue;
+			}
+
+			// don't track the player who fired it
+			if (spotted == ent->parent) {
+				continue;
+			}
+
+			// don't track corpses
+			if (spotted->client->ps.pm_type == PM_DEAD) {
+				continue;
+			}
+
+			// don't track players on the same team
+			if (OnSameTeam(spotted, ent->parent)) {
+				continue;
+			}
+
+			// homing rockets won't track invisible players
+			if (spotted->client->ps.powerups[PW_INVIS]) {
+				continue;
+			}
+
+			// Courtesy of Chris Hilton of Code3Arena
+			// https://www.quakewiki.net/archives/code3arena/tutorials/tutorial35.shtml
+			VectorSubtract(spotted->r.currentOrigin, ent->r.currentOrigin, dir);
+			rocketlength = VectorLength(dir);
+			if (rocketlength > finallength) {
+				continue;
+			}
+
+			// Courtesy of Chris Hilton of Code3Arena
+			// Draw an invisible sight cone for rockets
+			// https://www.quakewiki.net/archives/code3arena/tutorials/tutorial35.shtml
+			VectorNormalize(dir);
+			if (DotProduct(forward, dir) < 0.9) continue;
+
+			trap_Trace(&vtr, ent->r.currentOrigin, NULL, NULL, spotted->r.currentOrigin, ENTITYNUM_NONE, MASK_SHOT);
+
+			// don't track if the target is not within rocket's line-of-sight (behind walls, etc.)
+			if (spotted != &g_entities[vtr.entityNum]) {
+				continue;
+			}
+
+			// we've found our candidate
+			candidate = spotted;
+			finallength = rocketlength;
+			VectorCopy(dir, finaldir);
+
+		}
+		if (candidate) {
+			VectorNormalize(ent->s.pos.trDelta);
+			VectorAdd(finaldir, ent->s.pos.trDelta, finaldir);
+			VectorMA(forward, 0.3, finaldir, finaldir);
+			VectorNormalize(finaldir);
+			vectoangles(finaldir, ent->r.currentAngles);
+			VectorScale(finaldir, 800, ent->s.pos.trDelta);
+		}
+	}
 
 	if ( tr.startsolid || tr.allsolid ) {
 		// make sure the tr.entityNum is set to the entity we're stuck in
