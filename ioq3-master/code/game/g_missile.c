@@ -336,7 +336,12 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace ) {
 	if ( !other->takedamage &&
 		( ent->s.eFlags & ( EF_BOUNCE | EF_BOUNCE_HALF ) ) ) {
 		G_BounceMissile( ent, trace, ent->grenadeNumber, ent->done );
-		G_AddEvent( ent, EV_GRENADE_BOUNCE, 0 );
+		if (ent->classname == "plasma" && ent->parent->client->plasmaCounter >= 3) {
+			G_AddEvent(ent, EV_ION_BOUNCE, 0);
+		}
+		else {
+			G_AddEvent(ent, EV_GRENADE_BOUNCE, 0);
+		}
 		return;
 	}
 
@@ -611,6 +616,14 @@ void G_RunMissile( gentity_t *ent ) {
 
 	trap_LinkEntity( ent );
 
+	// UBER ARENA
+	// Ion plasma bolts don't collide against players, so use radius-based damage instead
+	if (ent->parent->client) {
+		if (ent->parent->client->plasmaCounter >= 3 && ent->classname == "plasma") {
+			G_RadiusDamage(ent->r.currentOrigin, ent->parent, 10, 50, ent->parent, MOD_PLASMA);
+		}
+	}
+
 	if ( tr.fraction != 1 ) {
 		// never explode or bounce on sky
 		if ( tr.surfaceFlags & SURF_NOIMPACT ) {
@@ -656,7 +669,11 @@ gentity_t *fire_plasma (gentity_t *self, vec3_t start, vec3_t dir) {
 
 	bolt = G_Spawn();
 	bolt->classname = "plasma";
-	bolt->nextthink = level.time + 10000;
+	if (self->client->plasmaCounter >= 3)
+		// Reduce ion plasma bolt lifetime for balancing / networking reasons
+		bolt->nextthink = level.time + 3000;
+	else
+		bolt->nextthink = level.time + 10000;
 	bolt->think = G_ExplodeMissile;
 	bolt->s.eType = ET_MISSILE;
 	bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN;
@@ -668,8 +685,16 @@ gentity_t *fire_plasma (gentity_t *self, vec3_t start, vec3_t dir) {
 	bolt->splashRadius = 20;
 	bolt->methodOfDeath = MOD_PLASMA;
 	bolt->splashMethodOfDeath = MOD_PLASMA_SPLASH;
-	bolt->clipmask = MASK_SHOT;
+	if (bolt->parent->client->plasmaCounter >= 3)
+		// Ion plasma bolts go through players instead of being removed from world
+		bolt->clipmask = MASK_SOLID;
+	else
+		bolt->clipmask = MASK_SHOT;
 	bolt->target_ent = NULL;
+
+	if (bolt->parent->client->plasmaCounter >= 3)
+		// Ion plasma bolts bounce
+		bolt->s.eFlags = EF_BOUNCE;
 
 	bolt->s.pos.trType = TR_LINEAR;
 	bolt->s.pos.trTime = level.time - MISSILE_PRESTEP_TIME;		// move a bit on the very first frame

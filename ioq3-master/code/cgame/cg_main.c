@@ -759,6 +759,8 @@ static void CG_RegisterSounds( void ) {
 	cgs.media.n_healthSound = trap_S_RegisterSound("sound/items/n_health.wav", qfalse );
 	cgs.media.hgrenb1aSound = trap_S_RegisterSound("sound/weapons/grenade/hgrenb1a.wav", qfalse);
 	cgs.media.hgrenb2aSound = trap_S_RegisterSound("sound/weapons/grenade/hgrenb2a.wav", qfalse);
+	cgs.media.ionb1Sound = trap_S_RegisterSound("sound/weapons/plasma/ionb1.wav", qfalse); // UBER ARENA
+	cgs.media.ionb2Sound = trap_S_RegisterSound("sound/weapons/plasma/ionb2.wav", qfalse); // UBER ARENA
 
 #ifdef MISSIONPACK
 	trap_S_RegisterSound("sound/player/james/death1.wav", qfalse );

@@ -977,6 +977,8 @@ typedef struct {
 	sfxHandle_t	n_healthSound;
 	sfxHandle_t	hgrenb1aSound;
 	sfxHandle_t	hgrenb2aSound;
+	sfxHandle_t	ionb1Sound; // UBER ARENA
+	sfxHandle_t	ionb2Sound; // UBER ARENA
 	sfxHandle_t	wstbimplSound;
 	sfxHandle_t	wstbimpmSound;
 	sfxHandle_t	wstbimpdSound;

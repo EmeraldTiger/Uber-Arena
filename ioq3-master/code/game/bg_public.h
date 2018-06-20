@@ -404,6 +404,7 @@ typedef enum {
 	EV_PLAYER_TELEPORT_OUT,
 
 	EV_GRENADE_BOUNCE,		// eventParm will be the soundindex
+	EV_ION_BOUNCE,			// ion plasma bolt bounce sound
 
 	EV_GENERAL_SOUND,
 	EV_GLOBAL_SOUND,		// no attenuation

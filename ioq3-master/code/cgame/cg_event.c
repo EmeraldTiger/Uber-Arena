@@ -918,6 +918,16 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		}
 		break;
 
+	case EV_ION_BOUNCE:
+		DEBUGNAME("EV_ION_BOUNCE");
+		if (rand() & 1) {
+			trap_S_StartSound(NULL, es->number, CHAN_AUTO, cgs.media.ionb1Sound);
+		}
+		else {
+			trap_S_StartSound(NULL, es->number, CHAN_AUTO, cgs.media.ionb2Sound);
+		}
+		break;
+
 #ifdef MISSIONPACK
 	case EV_PROXIMITY_MINE_STICK:
 		DEBUGNAME("EV_PROXIMITY_MINE_STICK");
