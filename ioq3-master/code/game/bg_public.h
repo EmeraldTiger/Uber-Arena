@@ -210,7 +210,11 @@ typedef enum {
 	STAT_ARMOR,				
 	STAT_DEAD_YAW,					// look this direction when dead (FIXME: get rid of?)
 	STAT_CLIENTS_READY,				// bit mask of clients wishing to exit the intermission (FIXME: configstring?)
-	STAT_MAX_HEALTH					// health / armor limit, changeable by handicap
+	STAT_MAX_HEALTH,				// health / armor limit, changeable by handicap
+
+	// UBER ARENA: Arc lightning stats; based off of PainKeep Arena's methodology
+	STAT_CLG_SHAFTEE_NUM,			// index number for the direct lightning target
+	STAT_CLG_SHAFTEE_NUM2,			// index number for the indirect (arced) lightning target
 } statIndex_t;
 
 
@@ -251,7 +255,7 @@ typedef enum {
 #define	EF_AWARD_GAUNTLET	0x00000040		// draw a gauntlet sprite
 #define	EF_NODRAW			0x00000080		// may have an event, but no model (unspawned items)
 #define	EF_FIRING			0x00000100		// for lightning gun
-#define	EF_KAMIKAZE			0x00000200
+#define	EF_KAMIKAZE			0x00000200		// UBER ARENA: repurposed for the arc lightning gun
 #define	EF_MOVER_STOP		0x00000400		// will push otherwise
 #define EF_AWARD_CAP		0x00000800		// draw the capture sprite
 #define	EF_TALK				0x00001000		// draw a talk balloon
@@ -598,6 +602,8 @@ typedef enum {
 	MOD_SUICIDE,
 	MOD_TARGET_LASER,
 	MOD_TRIGGER_HURT,
+	// UBER ARENA MODS
+	MOD_ARC_LIGHTNING_INDIRECT,
 #ifdef MISSIONPACK
 	MOD_NAIL,
 	MOD_CHAINGUN,

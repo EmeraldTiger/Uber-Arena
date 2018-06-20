@@ -626,6 +626,17 @@ void Weapon_LightningFire( gentity_t *ent ) {
 	gentity_t	*traceEnt, *tent;
 	int			damage, i, passent;
 
+	// UBER ARENA: Arc lightning variables
+	int			num;
+	int			touch[MAX_GENTITIES];
+	vec3_t		mins, maxs;
+	gentity_t	*hit;
+
+	static vec3_t range = { LIGHTNING_RANGE, LIGHTNING_RANGE, LIGHTNING_RANGE };
+	vec3_t		hitdir;
+	trace_t		los;
+	int j;
+
 	damage = 8 * s_quadFactor;
 
 	passent = ent->s.number;
@@ -670,6 +681,65 @@ void Weapon_LightningFire( gentity_t *ent ) {
 				continue;
 			}
 #endif
+
+			// UBER ARENA
+			// Arc lightning logic
+			if (ent->client->lightningCounter >= 3) {
+				VectorSubtract(traceEnt->r.currentOrigin, range, mins);
+				VectorAdd(traceEnt->r.currentOrigin, range, maxs);
+
+				num = trap_EntitiesInBox(mins, maxs, touch, MAX_GENTITIES);
+
+				for (j = 0; j < num; j++) {
+					hit = &g_entities[touch[j]];
+
+					if (!hit->client)
+						continue;
+
+					// Don't hit yourself. Idiot.
+					if (hit->s.number == passent)
+						continue;
+
+					// Don't arc to teammates
+					if (OnSameTeam(hit, ent))
+						continue;
+
+					// Don't arc back towards the original target
+					if (hit == traceEnt)
+						continue;
+
+					// If they can't take damage then what is the point of arcing to them?
+					if (!hit->takedamage)
+						continue;
+
+					// Don't arc to invisible players
+					if (hit->client->ps.powerups[PW_INVIS])
+						continue;
+
+					trap_Trace(&los, traceEnt->r.currentOrigin, NULL, NULL, hit->r.currentOrigin, passent, MASK_OPAQUE);
+
+					// Don't arc through level geometry
+					if (los.contents & CONTENTS_SOLID) {
+						continue;
+					}
+
+					VectorSubtract(hit->r.currentOrigin, traceEnt->r.currentOrigin, hitdir);
+					VectorNormalize(hitdir);
+
+					ent->client->ps.eFlags |= EF_KAMIKAZE;
+					ent->s.otherEntityNum = traceEnt->s.number;
+					ent->s.otherEntityNum2 = hit->s.number;
+
+					// Assign entity numbers to stat fields to use for visual effects (PainKeep Arena methodology)
+					ent->client->ps.stats[STAT_CLG_SHAFTEE_NUM] = traceEnt->s.number;
+					ent->client->ps.stats[STAT_CLG_SHAFTEE_NUM2] = hit->s.number;
+
+					G_Damage(hit, ent, ent, hitdir, hit->r.currentOrigin,
+						damage, 0, MOD_ARC_LIGHTNING_INDIRECT);
+				}
+
+			}
+
 			if( LogAccuracyHit( traceEnt, ent ) ) {
 				ent->client->accuracy_hits++;
 			}

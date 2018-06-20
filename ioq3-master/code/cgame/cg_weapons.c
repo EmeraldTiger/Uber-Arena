@@ -971,11 +971,46 @@ static void CG_LightningBolt( centity_t *cent, vec3_t origin ) {
 	vec3_t   muzzlePoint, endPoint;
 	int      anim;
 
+	// UBER ARENA: Arc lightning variables
+	int		j;
+	int		shaftee;
+	int		shaftee2;
+
+	centity_t	*target, *target2;
+	vec3_t	shaftdir;
+
 	if (cent->currentState.weapon != WP_LIGHTNING) {
 		return;
 	}
 
 	memset( &beam, 0, sizeof( beam ) );
+
+	// EMERALD: Arc Lightning Gun client logic
+	// Based on the methodology from PainKeep Arena's source code
+	if (cent->currentState.eFlags & EF_KAMIKAZE) {
+		for (j = 0; j <= MAX_CLIENTS; j++) {
+			if (MAX_CLIENTS <= 0)
+				break;
+			// Modulo by maxclients so we get them all no matter what entityNum we start at
+			shaftee = (cent->currentState.otherEntityNum2 + j) % MAX_CLIENTS;
+			shaftee2 = cent->currentState.otherEntityNum;
+			target = &cg_entities[shaftee];
+			target2 = &cg_entities[shaftee2];
+
+			VectorCopy(target2->lerpOrigin, beam.origin);
+			VectorCopy(target->lerpOrigin, beam.oldorigin);
+
+			CG_Trace(&trace, beam.origin, vec3_origin, vec3_origin, beam.oldorigin,
+				cent->currentState.number, MASK_SHOT);
+
+			if (!(trace.contents & CONTENTS_SOLID)) {
+
+				beam.reType = RT_LIGHTNING;
+				beam.customShader = cgs.media.lightningShader;
+				trap_R_AddRefEntityToScene(&beam);
+			}
+		}
+	}
 
 	// CPMA  "true" lightning
 	if ((cent->currentState.number == cg.predictedPlayerState.clientNum) && (cg_trueLightning.value != 0)) {

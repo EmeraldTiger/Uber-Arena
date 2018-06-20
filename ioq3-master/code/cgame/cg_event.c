@@ -294,6 +294,11 @@ static void CG_Obituary( entityState_t *ent ) {
 			message = "was blasted by";
 			message2 = "'s BFG";
 			break;
+		// UBER ARENA MODS
+		case MOD_ARC_LIGHTNING_INDIRECT:
+			message = "was an excellent conductor of";
+			message2 = "'s arc lightning gun";
+			break;
 #ifdef MISSIONPACK
 		case MOD_NAIL:
 			message = "was nailed by";

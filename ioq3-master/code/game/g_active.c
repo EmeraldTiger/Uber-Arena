@@ -955,6 +955,8 @@ void ClientThink_real( gentity_t *ent ) {
 
 	if ( !( ent->client->ps.eFlags & EF_FIRING ) ) {
 		client->fireHeld = qfalse;		// for grapple
+		// UBER ARENA: Disable flag so arc lightning doesn't continue to visually connect when the player is not firing at a player
+		client->ps.eFlags &= ~EF_KAMIKAZE;
 	}
 
 	// use the snapped origin for linking so it matches client predicted versions
