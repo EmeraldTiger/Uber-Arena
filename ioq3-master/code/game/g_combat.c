@@ -508,6 +508,15 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 		if ( attacker == self || OnSameTeam (self, attacker ) ) {
 			AddScore( attacker, self->r.currentOrigin, -1 );
 		} else {
+			// UBER ARENA: Toxic railgun-specific code
+			if ((self->client->poisoner != NULL) && (self->client->ps.eFlags & EF_POISONED)) {
+				// if victim is currently poisoned, they lose a frag when they die
+				AddScore(self, self->r.currentOrigin, -1);
+				if (attacker != self->client->poisoner) {
+					// the person who originally inflicted damage with the toxic railgun gets a frag as well. not just the actual fragger
+					AddScore(self->client->poisoner, self->r.currentOrigin, 1);
+				}
+			}
 			AddScore( attacker, self->r.currentOrigin, 1 );
 
 			if( meansOfDeath == MOD_GAUNTLET ) {

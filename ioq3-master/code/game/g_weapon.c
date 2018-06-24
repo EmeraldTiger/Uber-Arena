@@ -508,6 +508,18 @@ void weapon_railgun_fire (gentity_t *ent) {
 					hits++;
 				}
 				G_Damage (traceEnt, ent, ent, forward, trace.endpos, damage, 0, MOD_RAILGUN);
+				// UBER ARENA: Toxic railgun code
+				if (traceEnt->client) {
+					if (ent->client->railCounter >= 3 && (traceEnt->client->ps.pm_type != PM_DEAD)) {
+						// Check to make sure they're not already dead, or you'll have zombies
+						if (traceEnt->health > 0) {
+							traceEnt->client->ps.eFlags |= EF_POISONED;
+							G_Damage(traceEnt, ent, ent, forward, trace.endpos, (traceEnt->client->ps.stats[STAT_HEALTH] - 1), 0, MOD_RAILGUN);
+							traceEnt->client->poisoner = ent;
+							traceEnt->client->poisonTime = level.time + 10000;
+						}
+					}
+				}
 #endif
 		}
 		if ( trace.contents & CONTENTS_SOLID ) {

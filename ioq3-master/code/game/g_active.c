@@ -959,6 +959,13 @@ void ClientThink_real( gentity_t *ent ) {
 		client->ps.eFlags &= ~EF_KAMIKAZE;
 	}
 
+	// UBER ARENA: Toxic railgun status effects
+	if (ent->client->ps.eFlags & EF_POISONED) {
+		if (level.time > ent->client->poisonTime) {
+			ent->client->ps.eFlags &= ~EF_POISONED;
+		}
+	}
+
 	// use the snapped origin for linking so it matches client predicted versions
 	VectorCopy( ent->s.pos.trBase, ent->r.currentOrigin );
 

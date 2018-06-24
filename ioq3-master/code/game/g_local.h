@@ -326,6 +326,11 @@ struct gclient_s {
 	int			railCounter; // Toxic Railgun
 	int			bfgCounter; // BFG30K
 
+	// UBER ARENA
+	// Toxic railgun-specific attributes
+	gentity_t	*poisoner; // person that originally hit a player with the toxic railgun
+	int			poisonTime;	// amount of time it takes for poison tagging effect to wear off
+
 #ifdef MISSIONPACK
 	gentity_t	*persistantPowerup;
 	int			portalID;
