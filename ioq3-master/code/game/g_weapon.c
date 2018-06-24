@@ -246,10 +246,29 @@ BFG
 
 void BFG_Fire ( gentity_t *ent ) {
 	gentity_t	*m;
+	vec3_t	dir1, dir2, dir3, dir4, dirtotal, forward2, right2;
 
 	m = fire_bfg (ent, muzzle, forward);
 	m->damage *= s_quadFactor;
 	m->splashDamage *= s_quadFactor;
+
+	// UBER ARENA: BFG30K code
+	// Fire two additional BFG bolts at 30-degree angle offsets from the central bolt
+	if (ent->client->bfgCounter >= 3) {
+		AngleVectors(ent->client->ps.viewangles, forward, right, 0);
+		// arcsin[0.5] = 30 degrees
+		VectorMA(forward, 0.5, right, dir1);
+		VectorMA(forward, -0.5, right, dir2);
+		VectorAdd(dir1, dir2, dirtotal);
+		VectorScale(dirtotal, 0.5, dirtotal);
+		AngleVectors(dirtotal, forward2, right2, 0);
+		VectorMA(forward2, 0.5, right2, dir3);
+		VectorMA(forward2, -0.5, right2, dir4);
+		VectorNormalize(dir1);
+		VectorNormalize(dir2);
+		fire_bfg(ent, muzzle, dir1);
+		fire_bfg(ent, muzzle, dir2);
+	}
 
 //	VectorAdd( m->s.pos.trDelta, ent->client->ps.velocity, m->s.pos.trDelta );	// "real" physics
 }
