@@ -376,6 +376,13 @@ void RespawnItem( gentity_t *ent ) {
 		return;
 	}
 
+	// UBER ARENA: Move back bounced items on respawn
+	if (ent->flags & FL_BOUNCED_ITEM) {
+		ent->flags &= ~FL_BOUNCED_ITEM;
+		ent->s.pos.trType = TR_STATIONARY;
+		G_SetOrigin(ent, ent->init_origin);
+	}
+
 	ent->r.contents = CONTENTS_TRIGGER;
 	ent->s.eFlags &= ~EF_NODRAW;
 	ent->r.svFlags &= ~SVF_NOCLIENT;
@@ -633,6 +640,46 @@ gentity_t *Drop_Item( gentity_t *ent, gitem_t *item, float angle ) {
 	return LaunchItem( item, ent->s.pos.trBase, velocity );
 }
 
+/*
+================
+UBER ARENA: Knock_Item
+
+Weapon knockback from splash damage sends items flying
+================
+*/
+gentity_t *Knock_Item(gentity_t *ent, gitem_t *item, vec3_t angles, float force) {
+	vec3_t	velocity;
+	float	dot;
+	vec3_t	up;
+
+	VectorSet(up, 0, 0, 1);
+
+	VectorCopy(angles, velocity);
+	VectorNormalize(velocity);
+	dot = DotProduct(velocity, up);
+	if (velocity[2] < 0)
+		velocity[2] = 0;
+	VectorScale(velocity, 400, velocity);
+	VectorMA(velocity, -2 * dot, up, ent->s.pos.trDelta);
+
+	G_SetOrigin(ent, ent->s.pos.trBase);
+	ent->s.pos.trType = TR_GRAVITY;
+	ent->s.pos.trTime = level.time;
+	VectorCopy(velocity, ent->s.pos.trDelta);
+
+	ent->s.eFlags |= EF_BOUNCE_HALF;
+	ent->flags |= FL_BOUNCED_ITEM;
+	if (g_gametype.integer == GT_CTF && item->giType == IT_TEAM) { // Special case for CTF flags
+		ent->think = Team_DroppedFlagThink;
+		ent->nextthink = level.time + 30000;
+		Team_CheckDroppedItem(ent);
+	}
+	ent->think = RespawnItem;
+	// Bounced items respawn back in original locations after 10 seconds
+	ent->nextthink = level.time + 10000;
+}
+
+
 
 /*
 ================
@@ -674,6 +721,8 @@ void FinishSpawningItem( gentity_t *ent ) {
 	if ( ent->spawnflags & 1 ) {
 		// suspended
 		G_SetOrigin( ent, ent->s.origin );
+		// UBER ARENA: Set item's initial origin for item knockback
+		VectorCopy(ent->s.origin, ent->init_origin);
 	} else {
 		// drop to floor
 		VectorSet( dest, ent->s.origin[0], ent->s.origin[1], ent->s.origin[2] - 4096 );
@@ -688,6 +737,13 @@ void FinishSpawningItem( gentity_t *ent ) {
 		ent->s.groundEntityNum = tr.entityNum;
 
 		G_SetOrigin( ent, tr.endpos );
+		// UBER ARENA: Set item's initial origin for item knockback
+		if (ent->spawnflags & 1) {
+			VectorCopy(ent->s.origin, ent->init_origin);
+		}
+		else {
+			VectorCopy(tr.endpos, ent->init_origin);
+		}
 	}
 
 	// team slaves and targeted items aren't present at start
@@ -1005,6 +1061,15 @@ void G_RunItem( gentity_t *ent ) {
 	// if it is in a nodrop volume, remove it
 	contents = trap_PointContents( ent->r.currentOrigin, -1 );
 	if ( contents & CONTENTS_NODROP ) {
+		// EMERALD: Return bounced items to original locations
+		if (ent->flags & FL_BOUNCED_ITEM) {
+			if (ent->item && ent->item->giType == IT_TEAM) {
+				Team_FreeEntity(ent);
+				return;
+			}
+			RespawnItem(ent);
+			return;
+		}
 		if (ent->item && ent->item->giType == IT_TEAM) {
 			Team_FreeEntity(ent);
 		} else {

@@ -378,7 +378,7 @@ void CheckAlmostCapture( gentity_t *self, gentity_t *attacker ) {
 		do
 		{
 			ent = G_Find(ent, FOFS(classname), classname);
-		} while (ent && (ent->flags & FL_DROPPED_ITEM));
+		} while (ent && (ent->flags & FL_DROPPED_ITEM || ent->flags & FL_BOUNCED_ITEM));
 		// if we found the destination flag and it's not picked up
 		if (ent && !(ent->r.svFlags & SVF_NOCLIENT) ) {
 			// if the player was *very* close
@@ -1181,6 +1181,7 @@ qboolean G_RadiusDamage ( vec3_t origin, gentity_t *attacker, float damage, floa
 	vec3_t		dir;
 	int			i, e;
 	qboolean	hitClient = qfalse;
+	vec3_t		angles;
 
 	if ( radius < 1 ) {
 		radius = 1;
@@ -1198,8 +1199,9 @@ qboolean G_RadiusDamage ( vec3_t origin, gentity_t *attacker, float damage, floa
 
 		if (ent == ignore)
 			continue;
-		if (!ent->takedamage)
-			continue;
+		// UBER ARENA: We need to check items to do item knockback, so remove check for takedamage
+		/* if (!ent->takedamage)
+			continue; */
 
 		// find the distance from the edge of the bounding box
 		for ( i = 0 ; i < 3 ; i++ ) {
@@ -1218,6 +1220,12 @@ qboolean G_RadiusDamage ( vec3_t origin, gentity_t *attacker, float damage, floa
 		}
 
 		points = damage * ( 1.0 - dist / radius );
+
+		// UBER ARENA: Item Knockback
+		if (ent->item && !(ent->s.eFlags & EF_NODRAW)) {
+			VectorSubtract(ent->r.currentOrigin, origin, angles);
+			Knock_Item(ent, ent->item, angles, damage);
+		}
 
 		if( CanDamage (ent, origin) ) {
 			if( LogAccuracyHit( ent, attacker ) ) {

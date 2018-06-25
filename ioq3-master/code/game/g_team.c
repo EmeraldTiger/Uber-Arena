@@ -412,7 +412,8 @@ void Team_FragBonuses(gentity_t *targ, gentity_t *inflictor, gentity_t *attacker
 #endif
 	flag = NULL;
 	while ((flag = G_Find (flag, FOFS(classname), c)) != NULL) {
-		if (!(flag->flags & FL_DROPPED_ITEM))
+		// UBER ARENA: Don't give bonuses for bounced items either
+		if (!(flag->flags & FL_DROPPED_ITEM) || !(flag->flags & FL_BOUNCED_ITEM))
 			break;
 	}
 
@@ -528,6 +529,10 @@ gentity_t *Team_ResetFlag( int team ) {
 		if (ent->flags & FL_DROPPED_ITEM)
 			G_FreeEntity(ent);
 		else {
+			// UBER ARENA: Move bounced flags back
+			if (ent->flags & FL_BOUNCED_ITEM) {
+				RespawnItem(ent);
+			}
 			rent = ent;
 			RespawnItem(ent);
 		}
@@ -696,12 +701,15 @@ int Team_TouchOurFlag( gentity_t *ent, gentity_t *other, int team ) {
 		enemy_flag = PW_REDFLAG;
 	}
 
-	if ( ent->flags & FL_DROPPED_ITEM ) {
+	if ( ent->flags & FL_DROPPED_ITEM || ent->flags & FL_BOUNCED_ITEM) {
 		// hey, it's not home.  return it by teleporting it back
 		PrintMsg( NULL, "%s" S_COLOR_WHITE " returned the %s flag!\n", 
 			cl->pers.netname, TeamName(team));
-		AddScore(other, ent->r.currentOrigin, CTF_RECOVERY_BONUS);
-		other->client->pers.teamState.flagrecovery++;
+		// UBER ARENA: Don't give points for returning bounced flags, to prevent teams from bouncing their own flag for points
+		if (!(ent->flags & FL_BOUNCED_ITEM)) {
+			AddScore(other, ent->r.currentOrigin, CTF_RECOVERY_BONUS);
+			other->client->pers.teamState.flagrecovery++;
+		}
 		other->client->pers.teamState.lastreturnedflag = level.time;
 		//ResetFlag will remove this entity!  We must return zero
 		Team_ReturnFlagSound(Team_ResetFlag(team), team);
@@ -711,80 +719,86 @@ int Team_TouchOurFlag( gentity_t *ent, gentity_t *other, int team ) {
 	}
 #endif
 
-	// the flag is at home base.  if the player has the enemy
-	// flag, he's just won!
-	if (!cl->ps.powerups[enemy_flag])
-		return 0; // We don't have the flag
+	// UBER ARENA: Check that the flag is at its original location before doing a capture
+	// This prevents teams from trying to make captures too easy by moving their flag around
+	if (VectorCompare(ent->r.currentOrigin, ent->init_origin)) {
+
+		// the flag is at home base.  if the player has the enemy
+		// flag, he's just won!
+		if (!cl->ps.powerups[enemy_flag])
+			return 0; // We don't have the flag
 #ifdef MISSIONPACK
-	if( g_gametype.integer == GT_1FCTF ) {
-		PrintMsg( NULL, "%s" S_COLOR_WHITE " captured the flag!\n", cl->pers.netname );
-	}
-	else {
+		if (g_gametype.integer == GT_1FCTF) {
+			PrintMsg(NULL, "%s" S_COLOR_WHITE " captured the flag!\n", cl->pers.netname);
+		}
+		else {
 #endif
-	PrintMsg( NULL, "%s" S_COLOR_WHITE " captured the %s flag!\n", cl->pers.netname, TeamName(OtherTeam(team)));
+			PrintMsg(NULL, "%s" S_COLOR_WHITE " captured the %s flag!\n", cl->pers.netname, TeamName(OtherTeam(team)));
 #ifdef MISSIONPACK
-	}
+		}
 #endif
 
-	cl->ps.powerups[enemy_flag] = 0;
+		cl->ps.powerups[enemy_flag] = 0;
 
-	teamgame.last_flag_capture = level.time;
-	teamgame.last_capture_team = team;
+		teamgame.last_flag_capture = level.time;
+		teamgame.last_capture_team = team;
 
-	// Increase the team's score
-	AddTeamScore(ent->s.pos.trBase, other->client->sess.sessionTeam, 1);
-	Team_ForceGesture(other->client->sess.sessionTeam);
+		// Increase the team's score
+		AddTeamScore(ent->s.pos.trBase, other->client->sess.sessionTeam, 1);
+		Team_ForceGesture(other->client->sess.sessionTeam);
 
-	other->client->pers.teamState.captures++;
-	// add the sprite over the player's head
-	other->client->ps.eFlags &= ~(EF_AWARD_IMPRESSIVE | EF_AWARD_EXCELLENT | EF_AWARD_GAUNTLET | EF_AWARD_ASSIST | EF_AWARD_DEFEND | EF_AWARD_CAP );
-	other->client->ps.eFlags |= EF_AWARD_CAP;
-	other->client->rewardTime = level.time + REWARD_SPRITE_TIME;
-	other->client->ps.persistant[PERS_CAPTURES]++;
+		other->client->pers.teamState.captures++;
+		// add the sprite over the player's head
+		other->client->ps.eFlags &= ~(EF_AWARD_IMPRESSIVE | EF_AWARD_EXCELLENT | EF_AWARD_GAUNTLET | EF_AWARD_ASSIST | EF_AWARD_DEFEND | EF_AWARD_CAP);
+		other->client->ps.eFlags |= EF_AWARD_CAP;
+		other->client->rewardTime = level.time + REWARD_SPRITE_TIME;
+		other->client->ps.persistant[PERS_CAPTURES]++;
 
-	// other gets another 10 frag bonus
-	AddScore(other, ent->r.currentOrigin, CTF_CAPTURE_BONUS);
+		// other gets another 10 frag bonus
+		AddScore(other, ent->r.currentOrigin, CTF_CAPTURE_BONUS);
 
-	Team_CaptureFlagSound( ent, team );
+		Team_CaptureFlagSound(ent, team);
 
-	// Ok, let's do the player loop, hand out the bonuses
-	for (i = 0; i < g_maxclients.integer; i++) {
-		player = &g_entities[i];
+		// Ok, let's do the player loop, hand out the bonuses
+		for (i = 0; i < g_maxclients.integer; i++) {
+			player = &g_entities[i];
 
-		// also make sure we don't award assist bonuses to the flag carrier himself.
-		if (!player->inuse || player == other)
-			continue;
+			// also make sure we don't award assist bonuses to the flag carrier himself.
+			if (!player->inuse || player == other)
+				continue;
 
-		if (player->client->sess.sessionTeam !=
-			cl->sess.sessionTeam) {
-			player->client->pers.teamState.lasthurtcarrier = -5;
-		} else if (player->client->sess.sessionTeam ==
-			cl->sess.sessionTeam) {
+			if (player->client->sess.sessionTeam !=
+				cl->sess.sessionTeam) {
+				player->client->pers.teamState.lasthurtcarrier = -5;
+			}
+			else if (player->client->sess.sessionTeam ==
+				cl->sess.sessionTeam) {
 #ifdef MISSIONPACK
-			AddScore(player, ent->r.currentOrigin, CTF_TEAM_BONUS);
+				AddScore(player, ent->r.currentOrigin, CTF_TEAM_BONUS);
 #endif
-			// award extra points for capture assists
-			if (player->client->pers.teamState.lastreturnedflag + 
-				CTF_RETURN_FLAG_ASSIST_TIMEOUT > level.time) {
-				AddScore (player, ent->r.currentOrigin, CTF_RETURN_FLAG_ASSIST_BONUS);
-				other->client->pers.teamState.assists++;
+				// award extra points for capture assists
+				if (player->client->pers.teamState.lastreturnedflag +
+					CTF_RETURN_FLAG_ASSIST_TIMEOUT > level.time) {
+					AddScore(player, ent->r.currentOrigin, CTF_RETURN_FLAG_ASSIST_BONUS);
+					other->client->pers.teamState.assists++;
 
-				player->client->ps.persistant[PERS_ASSIST_COUNT]++;
-				// add the sprite over the player's head
-				player->client->ps.eFlags &= ~(EF_AWARD_IMPRESSIVE | EF_AWARD_EXCELLENT | EF_AWARD_GAUNTLET | EF_AWARD_ASSIST | EF_AWARD_DEFEND | EF_AWARD_CAP );
-				player->client->ps.eFlags |= EF_AWARD_ASSIST;
-				player->client->rewardTime = level.time + REWARD_SPRITE_TIME;
+					player->client->ps.persistant[PERS_ASSIST_COUNT]++;
+					// add the sprite over the player's head
+					player->client->ps.eFlags &= ~(EF_AWARD_IMPRESSIVE | EF_AWARD_EXCELLENT | EF_AWARD_GAUNTLET | EF_AWARD_ASSIST | EF_AWARD_DEFEND | EF_AWARD_CAP);
+					player->client->ps.eFlags |= EF_AWARD_ASSIST;
+					player->client->rewardTime = level.time + REWARD_SPRITE_TIME;
 
-			} 
-			if (player->client->pers.teamState.lastfraggedcarrier + 
-				CTF_FRAG_CARRIER_ASSIST_TIMEOUT > level.time) {
-				AddScore(player, ent->r.currentOrigin, CTF_FRAG_CARRIER_ASSIST_BONUS);
-				other->client->pers.teamState.assists++;
-				player->client->ps.persistant[PERS_ASSIST_COUNT]++;
-				// add the sprite over the player's head
-				player->client->ps.eFlags &= ~(EF_AWARD_IMPRESSIVE | EF_AWARD_EXCELLENT | EF_AWARD_GAUNTLET | EF_AWARD_ASSIST | EF_AWARD_DEFEND | EF_AWARD_CAP );
-				player->client->ps.eFlags |= EF_AWARD_ASSIST;
-				player->client->rewardTime = level.time + REWARD_SPRITE_TIME;
+				}
+				if (player->client->pers.teamState.lastfraggedcarrier +
+					CTF_FRAG_CARRIER_ASSIST_TIMEOUT > level.time) {
+					AddScore(player, ent->r.currentOrigin, CTF_FRAG_CARRIER_ASSIST_BONUS);
+					other->client->pers.teamState.assists++;
+					player->client->ps.persistant[PERS_ASSIST_COUNT]++;
+					// add the sprite over the player's head
+					player->client->ps.eFlags &= ~(EF_AWARD_IMPRESSIVE | EF_AWARD_EXCELLENT | EF_AWARD_GAUNTLET | EF_AWARD_ASSIST | EF_AWARD_DEFEND | EF_AWARD_CAP);
+					player->client->ps.eFlags |= EF_AWARD_ASSIST;
+					player->client->rewardTime = level.time + REWARD_SPRITE_TIME;
+				}
 			}
 		}
 	}

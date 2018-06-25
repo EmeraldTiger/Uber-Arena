@@ -51,6 +51,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #define FL_NO_BOTS				0x00002000	// spawn point not for bot use
 #define FL_NO_HUMANS			0x00004000	// spawn point just for bots
 #define FL_FORCE_GESTURE		0x00008000	// force gesture on client
+// UBER ARENA
+#define FL_BOUNCED_ITEM			0x00010000	// item was bounced around by weapon knockback
 
 // movers are things like doors, plats, buttons, etc
 typedef enum {
@@ -179,6 +181,10 @@ struct gentity_s {
 	// These are related to the Multi-Grenade Launcher
 	int			grenadeNumber;	// index number of the grenade; used to keep track of multi-grenade hierarchy and place a cap on number of grenades spawned
 	qboolean	done;			// when this is true, don't spawn any more multi-grenades
+
+	// UBER ARENA
+	// These are related to item knockback
+	vec3_t		init_origin; // the original spawn location for an item on startup; items that were knocked back will eventually return here
 };
 
 
