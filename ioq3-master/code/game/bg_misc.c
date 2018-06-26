@@ -212,7 +212,7 @@ gitem_t	bg_itemlist[] =
 		NULL, NULL, NULL},
 /* icon */		"icons/iconw_shotgun",
 /* pickup */	"Shotgun",
-		10,
+		5, // UBER ARENA: formerly 10
 		IT_WEAPON,
 		WP_SHOTGUN,
 /* precache */ "",
@@ -228,7 +228,7 @@ gitem_t	bg_itemlist[] =
 		NULL, NULL, NULL},
 /* icon */		"icons/iconw_machinegun",
 /* pickup */	"Machinegun",
-		40,
+		20, // UBER ARENA: formerly 40
 		IT_WEAPON,
 		WP_MACHINEGUN,
 /* precache */ "",
@@ -244,7 +244,7 @@ gitem_t	bg_itemlist[] =
 		NULL, NULL, NULL},
 /* icon */		"icons/iconw_grenade",
 /* pickup */	"Grenade Launcher",
-		10,
+		5, // UBER ARENA: formerly 10
 		IT_WEAPON,
 		WP_GRENADE_LAUNCHER,
 /* precache */ "",
@@ -260,7 +260,7 @@ gitem_t	bg_itemlist[] =
 		NULL, NULL, NULL},
 /* icon */		"icons/iconw_rocket",
 /* pickup */	"Rocket Launcher",
-		10,
+		5, // UBER ARENA: formerly 10
 		IT_WEAPON,
 		WP_ROCKET_LAUNCHER,
 /* precache */ "",
@@ -276,7 +276,7 @@ gitem_t	bg_itemlist[] =
 		NULL, NULL, NULL},
 /* icon */		"icons/iconw_lightning",
 /* pickup */	"Lightning Gun",
-		100,
+		50, // UBER ARENA: formerly 100
 		IT_WEAPON,
 		WP_LIGHTNING,
 /* precache */ "",
@@ -292,7 +292,7 @@ gitem_t	bg_itemlist[] =
 		NULL, NULL, NULL},
 /* icon */		"icons/iconw_railgun",
 /* pickup */	"Railgun",
-		10,
+		5, // UBER ARENA: formerly 10
 		IT_WEAPON,
 		WP_RAILGUN,
 /* precache */ "",
@@ -308,7 +308,7 @@ gitem_t	bg_itemlist[] =
 		NULL, NULL, NULL},
 /* icon */		"icons/iconw_plasma",
 /* pickup */	"Plasma Gun",
-		50,
+		25, // UBER ARENA: formerly 50
 		IT_WEAPON,
 		WP_PLASMAGUN,
 /* precache */ "",
@@ -324,7 +324,7 @@ gitem_t	bg_itemlist[] =
 		NULL, NULL, NULL},
 /* icon */		"icons/iconw_bfg",
 /* pickup */	"BFG10K",
-		20,
+		10, // UBER ARENA: formerly 20
 		IT_WEAPON,
 		WP_BFG,
 /* precache */ "",
