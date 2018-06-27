@@ -259,6 +259,18 @@ typedef struct {
 	qboolean	teamInfo;			// send team overlay updates?
 } clientPersistant_t;
 
+// UBER ARENA
+// Uberweapon counter defines
+// Definitions are based on weapon_t defines, to make uberweapon-related code more modular
+// That way we can simply just get the weapon id, subtract 3, and manipulate the counter, avoiding long switch statements
+#define COUNTER_SHOTGUN		WP_SHOTGUN - 3
+#define COUNTER_GRENADE		WP_GRENADE_LAUNCHER - 3
+#define COUNTER_ROCKET		WP_ROCKET_LAUNCHER - 3
+#define COUNTER_LIGHTNING	WP_LIGHTNING - 3
+#define COUNTER_RAIL		WP_RAILGUN - 3
+#define COUNTER_PLASMA		WP_PLASMAGUN - 3
+#define COUNTER_BFG			WP_BFG - 3
+#define	MAX_COUNTERS		7
 
 // this structure is cleared on each ClientSpawn(),
 // except for 'client->pers' and 'client->sess'
@@ -323,14 +335,7 @@ struct gclient_s {
 	// UBER ARENA
 	// Uberweapon counters, one for each non-starter weapon; if a counter reaches 3, activate any uberweapon-related code
 	// Counters can be raised by picking up copies of the same weapon, using a tuning device, or using the /uber cmd
-	// Uberweapon names are given next to the counters
-	int			shotgunCounter; // Explosive Shotgun
-	int			grenadeCounter; // Multi-Grenade Launcher
-	int			rocketCounter; // Homing Rocket Launcher
-	int			lightningCounter; // Arc Lightning Gun
-	int			plasmaCounter; // Ion Plasma Gun
-	int			railCounter; // Toxic Railgun
-	int			bfgCounter; // BFG30K
+	int			weaponCounters[MAX_COUNTERS];
 
 	// UBER ARENA
 	// Toxic railgun-specific attributes

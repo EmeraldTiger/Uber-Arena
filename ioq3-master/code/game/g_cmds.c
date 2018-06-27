@@ -367,18 +367,15 @@ argv(0) uber
 void Cmd_Uber_f(gentity_t *ent)
 {
 	char	*msg;
+	int		i;
 
 	if (!CheatsOk(ent)) {
 		return;
 	}
 
-	ent->client->shotgunCounter = 3;
-	ent->client->grenadeCounter = 3;
-	ent->client->rocketCounter = 3;
-	ent->client->lightningCounter = 3;
-	ent->client->plasmaCounter = 3;
-	ent->client->railCounter = 3;
-	ent->client->bfgCounter = 3;
+	for (i = 0; i < MAX_COUNTERS; i++) {
+		ent->client->weaponCounters[i] = 3;
+	}
 
 	msg = "All weapons are now uberweapons.\n";
 

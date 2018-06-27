@@ -63,7 +63,7 @@ void G_BounceMissile( gentity_t *ent, trace_t *trace, int grenadeNumber, qboolea
 	// Everything past this point in this function is multi-grenade code
 
 	// Check for client, because otherwise grenade shooter entities will crash the game
-	if (ent->parent->client && ent->parent->client->grenadeCounter >= 3) {
+	if (ent->parent->client && ent->parent->client->weaponCounters[COUNTER_GRENADE] >= 3) {
 		// We need to preserve the original grenades's values, as they are passed by address and their
 		// values get modified in the grenade fire function. So we use a temporary entity to "hold"
 		// those values
@@ -336,7 +336,7 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace ) {
 	if ( !other->takedamage &&
 		( ent->s.eFlags & ( EF_BOUNCE | EF_BOUNCE_HALF ) ) ) {
 		G_BounceMissile( ent, trace, ent->grenadeNumber, ent->done );
-		if (ent->classname == "plasma" && ent->parent->client->plasmaCounter >= 3) {
+		if (ent->classname == "plasma" && ent->parent->client->weaponCounters[COUNTER_PLASMA] >= 3) {
 			G_AddEvent(ent, EV_ION_BOUNCE, 0);
 		}
 		else {
@@ -541,7 +541,7 @@ void G_RunMissile( gentity_t *ent ) {
 	// COME BACK LATER: Rocket code can act crazy at times, still determining fix
 	// Some code courtesy of Chris Hilton of Code3Arena
 	// https://www.quakewiki.net/archives/code3arena/tutorials/tutorial35.shtml
-	if (ent->parent->client->rocketCounter >= 3 && ent->classname == "rocket") {
+	if (ent->parent->client->weaponCounters[COUNTER_ROCKET] >= 3 && ent->classname == "rocket") {
 		VectorCopy(ent->s.pos.trDelta, forward);
 		VectorNormalize(forward);
 		// Homing rockets can "see" for 2048 units
@@ -619,7 +619,7 @@ void G_RunMissile( gentity_t *ent ) {
 	// UBER ARENA
 	// Ion plasma bolts don't collide against players, so use radius-based damage instead
 	if (ent->parent->client) {
-		if (ent->parent->client->plasmaCounter >= 3 && ent->classname == "plasma") {
+		if (ent->parent->client->weaponCounters[COUNTER_PLASMA] >= 3 && ent->classname == "plasma") {
 			G_RadiusDamage(ent->r.currentOrigin, ent->parent, 10, 50, ent->parent, MOD_PLASMA);
 		}
 	}
@@ -669,7 +669,7 @@ gentity_t *fire_plasma (gentity_t *self, vec3_t start, vec3_t dir) {
 
 	bolt = G_Spawn();
 	bolt->classname = "plasma";
-	if (self->client->plasmaCounter >= 3)
+	if (self->client->weaponCounters[COUNTER_PLASMA] >= 3)
 		// Reduce ion plasma bolt lifetime for balancing / networking reasons
 		bolt->nextthink = level.time + 3000;
 	else
@@ -685,14 +685,14 @@ gentity_t *fire_plasma (gentity_t *self, vec3_t start, vec3_t dir) {
 	bolt->splashRadius = 20;
 	bolt->methodOfDeath = MOD_PLASMA;
 	bolt->splashMethodOfDeath = MOD_PLASMA_SPLASH;
-	if (bolt->parent->client->plasmaCounter >= 3)
+	if (bolt->parent->client->weaponCounters[COUNTER_PLASMA] >= 3)
 		// Ion plasma bolts go through players instead of being removed from world
 		bolt->clipmask = MASK_SOLID;
 	else
 		bolt->clipmask = MASK_SHOT;
 	bolt->target_ent = NULL;
 
-	if (bolt->parent->client->plasmaCounter >= 3)
+	if (bolt->parent->client->weaponCounters[COUNTER_PLASMA] >= 3)
 		// Ion plasma bolts bounce
 		bolt->s.eFlags = EF_BOUNCE;
 

@@ -250,6 +250,12 @@ int Pickup_Ammo (gentity_t *ent, gentity_t *other)
 
 //======================================================================
 
+void Upgrade_Weapon(int counter, gentity_t *other) {
+	if (other->client->weaponCounters[counter] < 3) {
+		other->client->weaponCounters[counter] += 1;
+	}
+}
+
 
 int Pickup_Weapon (gentity_t *ent, gentity_t *other) {
 	int		quantity;
@@ -279,6 +285,9 @@ int Pickup_Weapon (gentity_t *ent, gentity_t *other) {
 	other->client->ps.stats[STAT_WEAPONS] |= ( 1 << ent->item->giTag );
 	// UBER ARENA: increment weapon count for weapon limits
 	other->client->ps.stats[STAT_WEAPONCOUNT]++;
+
+	// UBER ARENA: Increment uberweapon counters
+	Upgrade_Weapon(ent->item->giTag - 3, other);
 
 	Add_Ammo( other, ent->item->giTag, quantity );
 

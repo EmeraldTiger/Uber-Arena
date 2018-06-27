@@ -520,7 +520,7 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 			AddScore( attacker, self->r.currentOrigin, 1 );
 
 			// UBER ARENA: BFG30K gives 3 frags instead of 1
-			if ((meansOfDeath == MOD_BFG || meansOfDeath == MOD_BFG_SPLASH) && attacker->client->bfgCounter >= 3)
+			if ((meansOfDeath == MOD_BFG || meansOfDeath == MOD_BFG_SPLASH) && attacker->client->weaponCounters[COUNTER_BFG] >= 3)
 				AddScore(attacker, self->r.currentOrigin, 2); // player already gets 1 frag by default, so we just add 2 more
 
 			if( meansOfDeath == MOD_GAUNTLET ) {
