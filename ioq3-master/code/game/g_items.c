@@ -42,6 +42,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #define	RESPAWN_HOLDABLE	60
 #define	RESPAWN_MEGAHEALTH	35//120
 #define	RESPAWN_POWERUP		120
+#define RESPAWN_POUCH		15 // UBER ARENA
 
 
 //======================================================================
@@ -203,6 +204,24 @@ int Pickup_Holdable( gentity_t *ent, gentity_t *other ) {
 	return RESPAWN_HOLDABLE;
 }
 
+//======================================================================
+
+// UBER ARENA
+int Pickup_Pouch(gentity_t *ent, gentity_t *other) {
+	int quantity;
+
+	if (ent->count) {
+		quantity = ent->count;
+	}
+	else {
+		quantity = ent->item->quantity;
+	}
+
+	other->client->ps.stats[STAT_MAX_WEAPONS] += quantity;
+
+	return RESPAWN_POUCH;
+}
+
 
 //======================================================================
 
@@ -258,6 +277,8 @@ int Pickup_Weapon (gentity_t *ent, gentity_t *other) {
 
 	// add the weapon
 	other->client->ps.stats[STAT_WEAPONS] |= ( 1 << ent->item->giTag );
+	// UBER ARENA: increment weapon count for weapon limits
+	other->client->ps.stats[STAT_WEAPONCOUNT]++;
 
 	Add_Ammo( other, ent->item->giTag, quantity );
 
@@ -478,6 +499,9 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace) {
 		break;
 	case IT_HOLDABLE:
 		respawn = Pickup_Holdable(ent, other);
+		break;
+	case IT_POUCH:
+		respawn = Pickup_Pouch(ent, other);
 		break;
 	default:
 		return;

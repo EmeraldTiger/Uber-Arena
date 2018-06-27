@@ -525,6 +525,13 @@ static void CG_DrawStatusBar( void ) {
 	vec3_t		angles;
 	vec3_t		origin;
 
+	// UBER ARENA: Variables for weapon limit stats
+	char		*s;
+	int			w;
+	int			current, limit;
+	vec4_t		wlcolor;
+	int			wlx;
+
 	static float colors[4][4] = { 
 //		{ 0.2, 1.0, 0.2, 1.0 } , { 1.0, 0.2, 0.2, 1.0 }, {0.5, 0.5, 0.5, 1} };
 		{ 1.0f, 0.69f, 0.0f, 1.0f },    // normal
@@ -572,6 +579,17 @@ static void CG_DrawStatusBar( void ) {
 		CG_Draw3DModel( 370 + CHAR_WIDTH*3 + TEXT_ICON_SPACE, 432, ICON_SIZE, ICON_SIZE,
 					   cgs.media.armorModel, 0, origin, angles );
 	}
+
+	// UBER ARENA: Draw weapon pouch model to draw attention
+	if (ps->stats[STAT_MAX_WEAPONS]) {
+		origin[0] = 90;
+		origin[1] = 0;
+		origin[2] = -10;
+		angles[YAW] = (cg.time & 2047) * 360 / 2048.0;
+		CG_Draw3DModel(612, 379, 25, 25,
+			cgs.media.pouchModel, 0, origin, angles);
+	}
+
 	//
 	// ammo
 	//
@@ -626,6 +644,31 @@ static void CG_DrawStatusBar( void ) {
 	CG_ColorForHealth( hcolor );
 	trap_R_SetColor( hcolor );
 
+	// UBER ARENA
+	// weapon limits
+	current = ps->stats[STAT_WEAPONCOUNT] + 2;
+	limit = ps->stats[STAT_MAX_WEAPONS] + 2;
+	s = va("%i/%i", current, limit);
+	w = CG_DrawStrlen(s) * BIGCHAR_WIDTH;
+
+	// CG_DrawBigString(370, 400, s, 1.0F);
+	if (current >= limit) {
+		Vector4Copy(colors[1], wlcolor);
+	}
+	else {
+		Vector4Copy(colors[3], wlcolor);
+	}
+
+	if (current >= 10 && limit >= 10) {
+		wlx = 32;
+	}
+	else if (current >= 10 || limit >= 10) {
+		wlx = 15;
+	}
+	else {
+		wlx = 0;
+	}
+	CG_DrawBigStringColor(565 - wlx, 380, s, wlcolor);
 
 	//
 	// armor
@@ -1285,7 +1328,8 @@ static void CG_DrawLowerRight( void ) {
 	} 
 
 	y = CG_DrawScores( y );
-	CG_DrawPowerups( y );
+	// UBER ARENA: Nudge power-ups up a bit to leave room for weapon limit stats
+	CG_DrawPowerups( y - 25 );
 }
 #endif // MISSIONPACK
 

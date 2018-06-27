@@ -321,8 +321,10 @@ static void CG_Item( centity_t *cent ) {
 
 	// items without glow textures need to keep a minimum light value
 	// so they are always visible
-	if ( ( item->giType == IT_WEAPON ) ||
-		 ( item->giType == IT_ARMOR ) ) {
+	// UBER ARENA: Add pouches
+	if ((item->giType == IT_WEAPON) ||
+		(item->giType == IT_ARMOR) ||
+		(item->giType == IT_POUCH)) {
 		ent.renderfx |= RF_MINLIGHT;
 	}
 

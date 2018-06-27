@@ -916,6 +916,40 @@ Only in One Flag CTF games
 	},
 #endif
 
+// UBER ARENA: Weapon Pouches
+
+/*QUAKED item_pouch (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+		*/
+	{
+		"item_pouch",
+		"sound/items/pouch.wav",
+		{ "models/powerups/pouch/pouch.md3",
+		0, 0, 0 },
+		/* icon */		"icons/icon_pouch",
+		/* pickup */	"Weapon Pouch",
+		1,
+		IT_POUCH,
+		0,
+		/* precache */ "",
+		/* sounds */ ""
+	},
+
+/*QUAKED item_pouch_double (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+		*/
+	{
+		"item_pouch_double",
+		"sound/items/pouch.wav",
+		{ "models/powerups/pouch/pouch_double.md3",
+		0, 0, 0 },
+		/* icon */		"icons/icon_pouch_double",
+		/* pickup */	"Double Weapon Pouch",
+		2,
+		IT_POUCH,
+		0,
+		/* precache */ "",
+		/* sounds */ ""
+	},
+
 	// end of list marker
 	{NULL}
 };
@@ -1050,7 +1084,11 @@ qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const play
 
 	switch( item->giType ) {
 	case IT_WEAPON:
-		return qtrue;	// weapons are always picked up
+		// UBER ARENA: Weapons can't be picked up if the player exceeds their current weapon limit
+		if (ps->stats[STAT_WEAPONCOUNT] >= ps->stats[STAT_MAX_WEAPONS]) {
+			return qfalse;
+		}
+		return qtrue;
 
 	case IT_AMMO:
 		if ( ps->ammo[ item->giTag ] >= 200 ) {
@@ -1171,6 +1209,10 @@ qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const play
 			return qfalse;
 		}
 		return qtrue;
+
+		// UBER ARENA
+	case IT_POUCH:
+		return	qtrue; // pouches can always be picked up
 
         case IT_BAD:
             Com_Error( ERR_DROP, "BG_CanItemBeGrabbed: IT_BAD" );

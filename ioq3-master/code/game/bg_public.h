@@ -215,6 +215,10 @@ typedef enum {
 	// UBER ARENA: Arc lightning stats; based off of PainKeep Arena's methodology
 	STAT_CLG_SHAFTEE_NUM,			// index number for the direct lightning target
 	STAT_CLG_SHAFTEE_NUM2,			// index number for the indirect (arced) lightning target
+
+	// UBER ARENA: Stats concerning weapon limits
+	STAT_MAX_WEAPONS,				// maximum number of weapons player can carry
+	STAT_WEAPONCOUNT,				// current number of weapons a player is carrying
 } statIndex_t;
 
 
@@ -631,7 +635,10 @@ typedef enum {
 	IT_HOLDABLE,			// single use, holdable item
 							// EFX: rotate + bob
 	IT_PERSISTANT_POWERUP,
-	IT_TEAM
+	IT_TEAM,
+
+	// UBER ARENA: Weapon pouch type
+	IT_POUCH,				// EFX: rotate + minlight
 } itemType_t;
 
 #define MAX_ITEM_MODELS 4

@@ -692,6 +692,9 @@ typedef struct {
 	qhandle_t	armorModel;
 	qhandle_t	armorIcon;
 
+	// UBER ARENA
+	qhandle_t	pouchModel;
+
 	qhandle_t	teamStatusBar;
 
 	qhandle_t	deferShader;
