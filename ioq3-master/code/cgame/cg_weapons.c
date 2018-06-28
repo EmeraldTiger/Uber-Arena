@@ -1217,6 +1217,10 @@ static void CG_AddWeaponWithPowerups( refEntity_t *gun, int powerups ) {
 			gun->customShader = cgs.media.quadWeaponShader;
 			trap_R_AddRefEntityToScene( gun );
 		}
+		if (powerups & (1 << PW_CONSERVATION)) {
+			gun->customShader = cgs.media.conservationWeaponShader;
+			trap_R_AddRefEntityToScene(gun);
+		}
 	}
 }
 
@@ -1561,7 +1565,8 @@ CG_WeaponSelectable
 ===============
 */
 static qboolean CG_WeaponSelectable( int i ) {
-	if ( !cg.snap->ps.ammo[i] ) {
+	// UBER ARENA: If Conservation is active, out-of-ammo weapons are still selectable
+	if ( !cg.snap->ps.ammo[i] && !(cg.predictedPlayerState.powerups[PW_CONSERVATION]) ) {
 		return qfalse;
 	}
 	if ( ! (cg.snap->ps.stats[ STAT_WEAPONS ] & ( 1 << i ) ) ) {

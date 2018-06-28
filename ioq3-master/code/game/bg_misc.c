@@ -620,6 +620,23 @@ gitem_t	bg_itemlist[] =
 /* sounds */ "sound/items/flight.wav"
 	},
 
+/*QUAKED item_conservation (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+			*/
+	{
+		"item_conservation",
+		"sound/items/conservation.wav",
+		{ "models/powerups/instant/conservation.md3",
+		"models/powerups/instant/conservation_ring.md3",
+		0, 0 },
+		/* icon */		"icons/conservation",
+		/* pickup */	"Conservation",
+		30,
+		IT_POWERUP,
+		PW_CONSERVATION,
+		/* precache */ "",
+		/* sounds */ "sound/items/conservation.wav"
+	},
+
 /*QUAKED team_CTF_redflag (1 0 0) (-16 -16 -16) (16 16 16)
 Only in CTF games
 */
@@ -1085,7 +1102,8 @@ qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const play
 	switch( item->giType ) {
 	case IT_WEAPON:
 		// UBER ARENA: Weapons can't be picked up if the player exceeds their current weapon limit
-		if (ps->stats[STAT_WEAPONCOUNT] >= ps->stats[STAT_MAX_WEAPONS]) {
+		// If Conservation is active, weapons can always be picked up
+		if (ps->stats[STAT_WEAPONCOUNT] >= ps->stats[STAT_MAX_WEAPONS] && !(ps->powerups[PW_CONSERVATION])) {
 			return qfalse;
 		}
 		return qtrue;

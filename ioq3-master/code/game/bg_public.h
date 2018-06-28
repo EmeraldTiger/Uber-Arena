@@ -287,11 +287,15 @@ typedef enum {
 	PW_BLUEFLAG,
 	PW_NEUTRALFLAG,
 
-	PW_SCOUT,
+	// Remove TA power-up definitions, so as to not exceed 16 limit
+	/* PW_SCOUT,
 	PW_GUARD,
 	PW_DOUBLER,
-	PW_AMMOREGEN,
+	PW_AMMOREGEN, */
 	PW_INVULNERABILITY,
+
+	// UBER ARENA: New power-ups
+	PW_CONSERVATION,
 
 	PW_NUM_POWERUPS
 
@@ -441,6 +445,7 @@ typedef enum {
 	EV_POWERUP_QUAD,
 	EV_POWERUP_BATTLESUIT,
 	EV_POWERUP_REGEN,
+	EV_POWERUP_CONSERVATION, // UBER ARENA
 
 	EV_GIB_PLAYER,			// gib a previously living player
 	EV_SCOREPLUM,			// score plum

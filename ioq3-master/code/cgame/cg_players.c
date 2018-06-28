@@ -1852,6 +1852,11 @@ static void CG_PlayerPowerups( centity_t *cent, refEntity_t *torso ) {
 		trap_R_AddLightToScene( cent->lerpOrigin, 200 + (rand()&31), 0.2f, 0.2f, 1 );
 	}
 
+	// UBER ARENA: so does conservation!
+	if (powerups & (1 << PW_CONSERVATION)) {
+		trap_R_AddLightToScene(cent->lerpOrigin, 200 + (rand() & 31), 0.2f, 1, 0.2f);
+	}
+
 	// flight plays a looped sound
 	if ( powerups & ( 1 << PW_FLIGHT ) ) {
 		trap_S_AddLoopingSound( cent->currentState.number, cent->lerpOrigin, vec3_origin, cgs.media.flightSound );
@@ -2182,6 +2187,10 @@ void CG_AddRefEntityWithPowerups( refEntity_t *ent, entityState_t *state, int te
 		if ( state->powerups & ( 1 << PW_BATTLESUIT ) ) {
 			ent->customShader = cgs.media.battleSuitShader;
 			trap_R_AddRefEntityToScene( ent );
+		}
+		if (state->powerups & (1 << PW_CONSERVATION)) {
+			ent->customShader = cgs.media.conservationShader;
+			trap_R_AddRefEntityToScene(ent);
 		}
 	}
 }

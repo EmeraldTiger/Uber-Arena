@@ -1241,6 +1241,13 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		}
 		trap_S_StartSound (NULL, es->number, CHAN_ITEM, cgs.media.regenSound );
 		break;
+	case EV_POWERUP_CONSERVATION:
+		DEBUGNAME("EV_POWERUP_CONSERVATION");
+		if (es->number == cg.snap->ps.clientNum) {
+			cg.powerupActive = PW_CONSERVATION;
+			cg.powerupTime = cg.time;
+		}
+		break;
 
 	case EV_GIB_PLAYER:
 		DEBUGNAME("EV_GIB_PLAYER");

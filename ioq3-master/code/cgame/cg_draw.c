@@ -532,12 +532,13 @@ static void CG_DrawStatusBar( void ) {
 	vec4_t		wlcolor;
 	int			wlx;
 
-	static float colors[4][4] = { 
+	static float colors[5][4] = { 
 //		{ 0.2, 1.0, 0.2, 1.0 } , { 1.0, 0.2, 0.2, 1.0 }, {0.5, 0.5, 0.5, 1} };
 		{ 1.0f, 0.69f, 0.0f, 1.0f },    // normal
 		{ 1.0f, 0.2f, 0.2f, 1.0f },     // low health
 		{ 0.5f, 0.5f, 0.5f, 1.0f },     // weapon firing
-		{ 1.0f, 1.0f, 1.0f, 1.0f } };   // health > 100
+		{ 1.0f, 1.0f, 1.0f, 1.0f },     // health > 100
+		{ 0.0f, 1.0f, 0.0f, 1.0f } };   // conservation active
 
 	if ( cg_drawStatus.integer == 0 ) {
 		return;
@@ -596,7 +597,10 @@ static void CG_DrawStatusBar( void ) {
 	if ( cent->currentState.weapon ) {
 		value = ps->ammo[cent->currentState.weapon];
 		if ( value > -1 ) {
-			if ( cg.predictedPlayerState.weaponstate == WEAPON_FIRING
+			if (ps->powerups[PW_CONSERVATION]) {
+				color = 4; // bright green
+			}
+			else if ( cg.predictedPlayerState.weaponstate == WEAPON_FIRING
 				&& cg.predictedPlayerState.weaponTime > 100 ) {
 				// draw as dark grey when reloading
 				color = 2;	// dark grey
@@ -652,7 +656,10 @@ static void CG_DrawStatusBar( void ) {
 	w = CG_DrawStrlen(s) * BIGCHAR_WIDTH;
 
 	// CG_DrawBigString(370, 400, s, 1.0F);
-	if (current >= limit) {
+	if (ps->powerups[PW_CONSERVATION]) {
+		Vector4Copy(colors[4], wlcolor);
+	}
+	else if (current >= limit) {
 		Vector4Copy(colors[1], wlcolor);
 	}
 	else {

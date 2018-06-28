@@ -768,6 +768,8 @@ typedef struct {
 	qhandle_t	battleSuitShader;
 	qhandle_t	battleWeaponShader;
 	qhandle_t	hastePuffShader;
+	qhandle_t	conservationShader; // UBER ARENA
+	qhandle_t	conservationWeaponShader; // UBER ARENA
 #ifdef MISSIONPACK
 	qhandle_t	redKamikazeShader;
 	qhandle_t	blueKamikazeShader;

@@ -1657,14 +1657,16 @@ static void PM_Weapon( void ) {
 	pm->ps->weaponstate = WEAPON_FIRING;
 
 	// check for out of ammo
-	if ( ! pm->ps->ammo[ pm->ps->weapon ] ) {
+	// UBER ARENA: Conservation lets you use weapons even if they're out of ammo
+	if ( ! pm->ps->ammo[ pm->ps->weapon ] && !(pm->ps->powerups[PW_CONSERVATION]) ) {
 		PM_AddEvent( EV_NOAMMO );
 		pm->ps->weaponTime += 500;
 		return;
 	}
 
 	// take an ammo away if not infinite
-	if ( pm->ps->ammo[ pm->ps->weapon ] != -1 ) {
+	// UBER ARENA: Don't use up ammo if player has Conservation
+	if ( pm->ps->ammo[ pm->ps->weapon ] != -1 && !(pm->ps->powerups[PW_CONSERVATION]) ) {
 		pm->ps->ammo[ pm->ps->weapon ]--;
 	}
 
