@@ -1300,6 +1300,11 @@ static void PM_CheckDuck (void)
 	{
 		pm->maxs[2] = 16;
 		pm->ps->viewheight = CROUCH_VIEWHEIGHT;
+		// UBER ARENA: Crouching decleration
+		// Every frame, reduce the player's vertical velocity by 5% while crouch is held, but only if moving upwards
+		if (pm->ps->velocity[2] >= 0) {
+			pm->ps->velocity[2] *= 0.95;
+		}
 	}
 	else
 	{
