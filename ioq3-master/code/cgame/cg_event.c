@@ -299,6 +299,9 @@ static void CG_Obituary( entityState_t *ent ) {
 			message = "was an excellent conductor of";
 			message2 = "'s arc lightning gun";
 			break;
+		case MOD_RAMPAGE:
+			message = "got a little too close to";
+			break;
 #ifdef MISSIONPACK
 		case MOD_NAIL:
 			message = "was nailed by";

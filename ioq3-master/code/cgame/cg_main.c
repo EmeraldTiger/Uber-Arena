@@ -887,6 +887,7 @@ static void CG_RegisterGraphics( void ) {
 	cgs.media.hastePuffShader = trap_R_RegisterShader("hasteSmokePuff" );
 	cgs.media.conservationShader = trap_R_RegisterShader("powerups/conservation"); // UBER ARENA
 	cgs.media.conservationWeaponShader = trap_R_RegisterShader("powerups/conservationWeapon"); // UBER ARENA
+	cgs.media.inverseShader = trap_R_RegisterShader("powerups/inverse"); // UBER ARENA
 
 #ifdef MISSIONPACK
 	if ( cgs.gametype == GT_HARVESTER || cg_buildScript.integer ) {

@@ -637,6 +637,23 @@ gitem_t	bg_itemlist[] =
 		/* sounds */ "sound/items/conservation.wav"
 	},
 
+/*QUAKED item_rampage (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+			*/
+	{
+		"item_rampage",
+		"sound/items/rampage.wav",
+		{ "models/powerups/instant/rampage.md3",
+		"models/powerups/instant/rampage_ring.md3",
+		0, 0 },
+		/* icon */		"icons/rampage",
+		/* pickup */	"Rampage",
+		30,
+		IT_POWERUP,
+		PW_RAMPAGE,
+		/* precache */ "",
+		/* sounds */ "sound/items/rampage.wav"
+	},
+
 /*QUAKED team_CTF_redflag (1 0 0) (-16 -16 -16) (16 16 16)
 Only in CTF games
 */

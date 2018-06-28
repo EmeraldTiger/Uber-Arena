@@ -542,9 +542,20 @@ void G_KillBox (gentity_t *ent) {
 			continue;
 		}
 
+		// UBER ARENA: Don't kill teammates with Rampage, even with friendly fire on
+		if (OnSameTeam(ent, hit) && ent->client->ps.powerups[PW_RAMPAGE]) {
+			continue;
+		}
+
 		// nail it
-		G_Damage ( hit, ent, ent, NULL, NULL,
-			100000, DAMAGE_NO_PROTECTION, MOD_TELEFRAG);
+		if (ent->client->ps.powerups[PW_RAMPAGE]) {
+			G_Damage(hit, ent, ent, NULL, NULL,
+				100000, DAMAGE_NO_PROTECTION, MOD_RAMPAGE);
+		}
+		else {
+			G_Damage(hit, ent, ent, NULL, NULL,
+				100000, DAMAGE_NO_PROTECTION, MOD_TELEFRAG);
+		}
 	}
 
 }

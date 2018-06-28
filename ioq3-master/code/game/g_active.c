@@ -975,6 +975,13 @@ void ClientThink_real( gentity_t *ent ) {
 	ent->waterlevel = pm.waterlevel;
 	ent->watertype = pm.watertype;
 
+	// UBER ARENA: Frag any players that touch someone with Rampage
+	if (pm.ps->powerups[PW_RAMPAGE])
+	{
+		trap_UnlinkEntity(ent);
+		G_KillBox(ent);
+	}
+
 	// execute client events
 	ClientEvents( ent, oldEventSequence );
 
