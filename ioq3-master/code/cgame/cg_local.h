@@ -874,6 +874,8 @@ typedef struct {
 	sfxHandle_t fallSound;
 	sfxHandle_t jumpPadSound;
 
+	sfxHandle_t	bounceSound; // UBER ARENA
+
 	sfxHandle_t oneMinuteSound;
 	sfxHandle_t fiveMinuteSound;
 	sfxHandle_t suddenDeathSound;

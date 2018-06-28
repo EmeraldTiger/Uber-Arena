@@ -62,7 +62,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #define	SURF_NODAMAGE			0x1		// never give falling damage
 #define	SURF_SLICK				0x2		// effects game physics
 #define	SURF_SKY				0x4		// lighting from environment map
-#define	SURF_LADDER				0x8
+#define	SURF_LADDER				0x8		// UBER ARENA: Repurpose for trampolines
 #define	SURF_NOIMPACT			0x10	// don't make missile explosions
 #define	SURF_NOMARKS			0x20	// don't leave missile marks
 #define	SURF_FLESH				0x40	// make flesh sounds and effects

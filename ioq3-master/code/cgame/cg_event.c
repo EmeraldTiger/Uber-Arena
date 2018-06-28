@@ -600,6 +600,15 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 			cg.landTime = cg.time;
 		}
 		break;
+	case EV_BOUNCE:
+		DEBUGNAME("EV_BOUNCE");
+		trap_S_StartSound(NULL, es->number, CHAN_AUTO, cgs.media.bounceSound);
+		if (clientNum == cg.predictedPlayerState.clientNum) {
+			// smooth landing z changes
+			cg.landChange = -8;
+			cg.landTime = cg.time;
+		}
+		break;
 	case EV_FALL_MEDIUM:
 		DEBUGNAME("EV_FALL_MEDIUM");
 		// use normal pain sound

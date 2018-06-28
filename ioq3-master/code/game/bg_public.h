@@ -371,6 +371,8 @@ typedef enum {
 	EV_FALL_MEDIUM,
 	EV_FALL_FAR,
 
+	EV_BOUNCE, // UBER ARENA: Bounce on trampoline
+
 	EV_JUMP_PAD,			// boing sound at origin, jump sound on player
 
 	EV_JUMP,

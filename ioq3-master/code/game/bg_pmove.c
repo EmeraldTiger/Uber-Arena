@@ -926,6 +926,8 @@ static void PM_CrashLand( void ) {
 	float		vel, acc;
 	float		t;
 	float		a, b, c, den;
+	vec3_t		playervel, pvnorm;
+	float		dot;
 
 	// decide which landing animation to use
 	if ( pm->ps->pm_flags & PMF_BACKWARDS_JUMP ) {
@@ -977,6 +979,28 @@ static void PM_CrashLand( void ) {
 	}
 
 	// create a local entity event to play the sound
+
+	// UBER ARENA: Trampolines
+	// They reflect 80% of the player's velocity, while also adding 70% of the forward and lateral velocities to the vertical velocity
+	// This means a player gets a bigger upwards boost if they approach a trampoline while having accumulated some speed, regardless of direction
+	// A player can duck to avoid receiving a boost if desired
+	if (pml.groundTrace.surfaceFlags & SURF_LADDER && !(pm->ps->pm_flags & PMF_DUCKED)) {
+		delta = 0;
+		PM_AddEvent(EV_BOUNCE);
+		VectorCopy(pml.previous_velocity, pvnorm);
+		VectorNormalize(pvnorm);
+		dot = DotProduct(pml.groundTrace.plane.normal, pvnorm);
+		pm->ps->velocity[2] = abs(pm->ps->velocity[0] * 0.7) + abs(pm->ps->velocity[1] * 0.7) + abs(pm->ps->velocity[2]);
+		VectorCopy(pm->ps->velocity, playervel);
+		VectorMA(playervel, -2 * dot * VectorLength(pml.previous_velocity), pml.groundTrace.plane.normal, playervel);
+		VectorScale(playervel, 0.4, playervel);
+		VectorCopy(playervel, pm->ps->velocity);
+	}
+
+	// Don't inflict damage if ducking onto a trampoline
+	if (pml.groundTrace.surfaceFlags & SURF_LADDER && (pm->ps->pm_flags & PMF_DUCKED)) {
+		delta = 0;
+	}
 
 	// SURF_NODAMAGE is used for bounce pads where you don't ever
 	// want to take damage or play a crunch sound
