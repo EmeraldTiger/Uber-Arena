@@ -654,6 +654,23 @@ gitem_t	bg_itemlist[] =
 		/* sounds */ "sound/items/rampage.wav"
 	},
 
+/*QUAKED item_scavenger (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+			*/
+	{
+		"item_scavenger",
+		"sound/items/scavenger.wav",
+		{ "models/powerups/instant/scavenger.md3",
+		"models/powerups/instant/scavenger_ring.md3",
+		0, 0 },
+		/* icon */		"icons/scavenger",
+		/* pickup */	"Scavenger",
+		30,
+		IT_POWERUP,
+		PW_SCAVENGER,
+		/* precache */ "",
+		/* sounds */ "sound/items/scavenger.wav"
+	},
+
 /*QUAKED team_CTF_redflag (1 0 0) (-16 -16 -16) (16 16 16)
 Only in CTF games
 */

@@ -1182,6 +1182,7 @@ qboolean G_RadiusDamage ( vec3_t origin, gentity_t *attacker, float damage, floa
 	int			i, e;
 	qboolean	hitClient = qfalse;
 	vec3_t		angles;
+	trace_t		trace;
 
 	if ( radius < 1 ) {
 		radius = 1;
@@ -1220,6 +1221,13 @@ qboolean G_RadiusDamage ( vec3_t origin, gentity_t *attacker, float damage, floa
 		}
 
 		points = damage * ( 1.0 - dist / radius );
+
+		// UBER ARENA
+		// If the player has Scavenger active, items within splash damage range will be picked up
+		if (ent->item && !(ent->s.eFlags & EF_NODRAW) && attacker->client->ps.powerups[PW_SCAVENGER])
+		{
+			Touch_Item(ent, attacker, &trace);
+		}
 
 		// UBER ARENA: Item Knockback
 		if (ent->item && !(ent->s.eFlags & EF_NODRAW)) {

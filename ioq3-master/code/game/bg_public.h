@@ -297,6 +297,7 @@ typedef enum {
 	// UBER ARENA: New power-ups
 	PW_CONSERVATION,
 	PW_RAMPAGE,
+	PW_SCAVENGER,
 
 	PW_NUM_POWERUPS
 
@@ -695,6 +696,9 @@ qboolean	BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const play
 #define	MASK_WATER				(CONTENTS_WATER|CONTENTS_LAVA|CONTENTS_SLIME)
 #define	MASK_OPAQUE				(CONTENTS_SOLID|CONTENTS_SLIME|CONTENTS_LAVA)
 #define	MASK_SHOT				(CONTENTS_SOLID|CONTENTS_BODY|CONTENTS_CORPSE)
+// UBER ARENA
+// Define a mask for use only when Scavenger is active, which checks against triggers (content type used by items)
+#define MASK_SHOT_SCAVENGER		(CONTENTS_SOLID|CONTENTS_BODY|CONTENTS_CORPSE|CONTENTS_TRIGGER)
 
 
 //

@@ -33,6 +33,23 @@ static	vec3_t	muzzle;
 
 /*
 ================
+G_CheckMask
+UBER ARENA: Convenience function for checking if Scavenger is active to determine which mask to use
+================
+*/
+
+int G_CheckMask (gentity_t *ent) {
+	if (ent->client->ps.powerups[PW_SCAVENGER])
+	{
+		return MASK_SHOT_SCAVENGER;
+	}
+	else {
+		return MASK_SHOT;
+	}
+}
+
+/*
+================
 G_BounceProjectile
 ================
 */
@@ -185,7 +202,7 @@ void Bullet_Fire (gentity_t *ent, float spread, int damage, int mod ) {
 	passent = ent->s.number;
 	for (i = 0; i < 10; i++) {
 
-		trap_Trace (&tr, muzzle, NULL, NULL, end, passent, MASK_SHOT);
+		trap_Trace (&tr, muzzle, NULL, NULL, end, passent, G_CheckMask(ent));
 		if ( tr.surfaceFlags & SURF_NOIMPACT ) {
 			return;
 		}
@@ -207,6 +224,11 @@ void Bullet_Fire (gentity_t *ent, float spread, int damage, int mod ) {
 			tent->s.eventParm = DirToByte( tr.plane.normal );
 		}
 		tent->s.otherEntityNum = ent->s.number;
+
+		// UBER ARENA: Pick items up with bullets if Scavenger is active
+		if (traceEnt->s.eType == ET_ITEM && ent->client->ps.powerups[PW_SCAVENGER]) {
+			Touch_Item(traceEnt, ent, &tr);
+		}
 
 		if ( traceEnt->takedamage) {
 #ifdef MISSIONPACK
@@ -300,12 +322,17 @@ qboolean ShotgunPellet( vec3_t start, vec3_t end, gentity_t *ent ) {
 	VectorCopy( start, tr_start );
 	VectorCopy( end, tr_end );
 	for (i = 0; i < 10; i++) {
-		trap_Trace (&tr, tr_start, NULL, NULL, tr_end, passent, MASK_SHOT);
+		trap_Trace (&tr, tr_start, NULL, NULL, tr_end, passent, G_CheckMask(ent));
 		traceEnt = &g_entities[ tr.entityNum ];
 
 		// send bullet impact
 		if (  tr.surfaceFlags & SURF_NOIMPACT ) {
 			return qfalse;
+		}
+
+		// EMERALD: Touch items with shells
+		if (traceEnt->s.eType == ET_ITEM && ent->client->ps.powerups[PW_SCAVENGER]) {
+			Touch_Item(traceEnt, ent, &tr);
 		}
 
 		// UBER ARENA
@@ -489,11 +516,15 @@ void weapon_railgun_fire (gentity_t *ent) {
 	hits = 0;
 	passent = ent->s.number;
 	do {
-		trap_Trace (&trace, muzzle, NULL, NULL, end, passent, MASK_SHOT );
+		trap_Trace (&trace, muzzle, NULL, NULL, end, passent, G_CheckMask(ent) );
 		if ( trace.entityNum >= ENTITYNUM_MAX_NORMAL ) {
 			break;
 		}
 		traceEnt = &g_entities[ trace.entityNum ];
+		if (traceEnt->s.eType == ET_ITEM && ent->client->ps.powerups[PW_SCAVENGER])
+		{
+			Touch_Item(traceEnt, ent, &trace);
+		}
 		if ( traceEnt->takedamage ) {
 #ifdef MISSIONPACK
 			if ( traceEnt->client && traceEnt->client->invulnerabilityTime > level.time ) {
@@ -674,7 +705,7 @@ void Weapon_LightningFire( gentity_t *ent ) {
 	for (i = 0; i < 10; i++) {
 		VectorMA( muzzle, LIGHTNING_RANGE, forward, end );
 
-		trap_Trace( &tr, muzzle, NULL, NULL, end, passent, MASK_SHOT );
+		trap_Trace( &tr, muzzle, NULL, NULL, end, passent, G_CheckMask(ent) );
 
 #ifdef MISSIONPACK
 		// if not the first trace (the lightning bounced of an invulnerability sphere)
@@ -693,6 +724,12 @@ void Weapon_LightningFire( gentity_t *ent ) {
 		}
 
 		traceEnt = &g_entities[ tr.entityNum ];
+
+		// UBER ARENA: Pick items up with lightning if Scavenger is active
+		if (traceEnt->s.eType == ET_ITEM && ent->client->ps.powerups[PW_SCAVENGER])
+		{
+			Touch_Item(traceEnt, ent, &tr);
+		}
 
 		if ( traceEnt->takedamage) {
 #ifdef MISSIONPACK
