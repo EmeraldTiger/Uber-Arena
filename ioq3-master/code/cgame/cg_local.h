@@ -916,6 +916,8 @@ typedef struct {
 	sfxHandle_t flightSound;
 	sfxHandle_t medkitSound;
 
+	sfxHandle_t tunerSound; // UBER ARENA
+
 #ifdef MISSIONPACK
 	sfxHandle_t weaponHoverSound;
 #endif

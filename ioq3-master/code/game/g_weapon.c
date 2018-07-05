@@ -724,7 +724,7 @@ void Weapon_LightningFire( gentity_t *ent ) {
 		}
 
 		traceEnt = &g_entities[ tr.entityNum ];
-
+		
 		// UBER ARENA: Pick items up with lightning if Scavenger is active
 		if (traceEnt->s.eType == ET_ITEM && ent->client->ps.powerups[PW_SCAVENGER])
 		{

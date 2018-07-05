@@ -390,6 +390,10 @@ static void CG_UseItem( centity_t *cent ) {
 		trap_S_StartSound (NULL, es->number, CHAN_BODY, cgs.media.medkitSound );
 		break;
 
+	case HI_TUNER:
+		trap_S_StartSound(NULL, es->number, CHAN_BODY, cgs.media.tunerSound);
+		break;
+
 #ifdef MISSIONPACK
 	case HI_KAMIKAZE:
 		break;

@@ -1582,13 +1582,20 @@ static void PM_Weapon( void ) {
 		return;
 	}
 
+	// UBER ARENA:
+	// Move holdable code from bg_pmove to g_active to gain access to gclient_s structure
+	/*
 	// check for item using
 	if ( pm->cmd.buttons & BUTTON_USE_HOLDABLE ) {
 		if ( ! ( pm->ps->pm_flags & PMF_USE_ITEM_HELD ) ) {
-			if ( bg_itemlist[pm->ps->stats[STAT_HOLDABLE_ITEM]].giTag == HI_MEDKIT
-				&& pm->ps->stats[STAT_HEALTH] >= (pm->ps->stats[STAT_MAX_HEALTH] + 25) ) {
+			if (bg_itemlist[pm->ps->stats[STAT_HOLDABLE_ITEM]].giTag == HI_MEDKIT
+				&& pm->ps->stats[STAT_HEALTH] >= (pm->ps->stats[STAT_MAX_HEALTH] + 25)) {
 				// don't use medkit if at max health
-			} else {
+			}
+			else if (bg_itemlist[pm->ps->stats[STAT_HOLDABLE_ITEM]].giTag == HI_TUNER) {
+				1;
+			} 
+			else {
 				pm->ps->pm_flags |= PMF_USE_ITEM_HELD;
 				PM_AddEvent( EV_USE_ITEM0 + bg_itemlist[pm->ps->stats[STAT_HOLDABLE_ITEM]].giTag );
 				pm->ps->stats[STAT_HOLDABLE_ITEM] = 0;
@@ -1598,6 +1605,7 @@ static void PM_Weapon( void ) {
 	} else {
 		pm->ps->pm_flags &= ~PMF_USE_ITEM_HELD;
 	}
+	*/
 
 
 	// make weapon function

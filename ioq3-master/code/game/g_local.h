@@ -272,6 +272,7 @@ typedef struct {
 #define COUNTER_BFG			WP_BFG - 3
 #define	MAX_COUNTERS		7
 
+
 // this structure is cleared on each ClientSpawn(),
 // except for 'client->pers' and 'client->sess'
 struct gclient_s {

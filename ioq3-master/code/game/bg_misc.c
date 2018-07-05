@@ -515,6 +515,24 @@ gitem_t	bg_itemlist[] =
 /* sounds */ "sound/items/use_medkit.wav"
 	},
 
+/*QUAKED holdable_tuner (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+			*/
+	{
+		"holdable_tuner",
+		"sound/items/holdable.wav",
+		{
+			"models/powerups/holdable/tuner.md3",
+			"models/powerups/holdable/tuner_sphere.md3",
+			0, 0 },
+			/* icon */		"icons/tuner",
+			/* pickup */	"Tuning Device",
+			60,
+			IT_HOLDABLE,
+			HI_TUNER,
+			/* precache */ "",
+			/* sounds */ "sound/items/use_tuner.wav"
+	},
+
 	//
 	// POWERUP ITEMS
 	//

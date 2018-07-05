@@ -534,7 +534,7 @@ Events will be passed on to the clients for presentation,
 but any server game effects are handled here
 ================
 */
-void ClientEvents( gentity_t *ent, int oldEventSequence ) {
+void ClientEvents( gentity_t *ent, int oldEventSequence, pmove_t *pm ) {
 	int		i, j;
 	int		event;
 	gclient_t *client;
@@ -652,6 +652,9 @@ void ClientEvents( gentity_t *ent, int oldEventSequence ) {
 			ent->client->invulnerabilityTime = level.time + 10000;
 			break;
 #endif
+		case EV_USE_ITEM6: // tuning device
+			ent->client->weaponCounters[pm->ps->weapon - 3] = 3;
+			break;
 
 		default:
 			break;
@@ -982,8 +985,37 @@ void ClientThink_real( gentity_t *ent ) {
 		G_KillBox(ent);
 	}
 
+	// UBER ARENA:
+	// Moved holdable code from bg_pmove to g_active to gain access to gclient_s structure
+	// check for item using
+	if (pm.cmd.buttons & BUTTON_USE_HOLDABLE) {
+		if (!(pm.ps->pm_flags & PMF_USE_ITEM_HELD)) {
+			if (bg_itemlist[pm.ps->stats[STAT_HOLDABLE_ITEM]].giTag == HI_MEDKIT
+				&& pm.ps->stats[STAT_HEALTH] >= (pm.ps->stats[STAT_MAX_HEALTH] + 25)) {
+				// don't use medkit if at max health
+			}
+			else if ((bg_itemlist[pm.ps->stats[STAT_HOLDABLE_ITEM]].giTag == HI_TUNER) && 
+				(ent->client->weaponCounters[pm.ps->weapon - 3] >= 3) || 
+				(pm.ps->weapon == WP_MACHINEGUN || pm.ps->weapon == WP_GAUNTLET) ) {
+				// don't use tuning device if
+				// the player is currently holding either the Gauntlet or Machinegun, or
+				// if their current weapon is already an uberweapon
+			}
+			else {
+				pm.ps->pm_flags |= PMF_USE_ITEM_HELD;
+				PM_AddEvent(EV_USE_ITEM0 + bg_itemlist[pm.ps->stats[STAT_HOLDABLE_ITEM]].giTag);
+				ClientEvents(ent, oldEventSequence, &pm);
+				pm.ps->stats[STAT_HOLDABLE_ITEM] = 0;
+			}
+			return;
+		}
+	}
+	else {
+		pm.ps->pm_flags &= ~PMF_USE_ITEM_HELD;
+	}
+
 	// execute client events
-	ClientEvents( ent, oldEventSequence );
+	ClientEvents( ent, oldEventSequence, &pm );
 
 	// link entity now, after any personal teleporters have been used
 	trap_LinkEntity (ent);
