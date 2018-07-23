@@ -47,10 +47,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 //======================================================================
 
-int Pickup_Powerup( gentity_t *ent, gentity_t *other ) {
+int Pickup_Powerup( gentity_t *ent, gentity_t *other, qboolean captureMode ) {
 	int			quantity;
 	int			i;
 	gclient_t	*client;
+
+	if (captureMode) {
+		return RESPAWN_POWERUP; // don't pickup powerup, just store it in the capsule
+	}
 
 	if ( !other->client->ps.powerups[ent->item->giTag] ) {
 		// round timing to seconds to make multiple powerup timers
@@ -201,14 +205,22 @@ int Pickup_Holdable( gentity_t *ent, gentity_t *other ) {
 		other->client->ps.eFlags |= EF_KAMIKAZE;
 	}
 
+	if (ent->item->giTag == HI_RECEPTACLE) {
+		other->client->receptacleMode = REC_INACTIVE;
+	}
+
 	return RESPAWN_HOLDABLE;
 }
 
 //======================================================================
 
 // UBER ARENA
-int Pickup_Pouch(gentity_t *ent, gentity_t *other) {
+int Pickup_Pouch(gentity_t *ent, gentity_t *other, qboolean captureMode) {
 	int quantity;
+
+	if (captureMode) {
+		return RESPAWN_POUCH; // don't pickup pouch, just store it in the capsule
+	}
 
 	if (ent->count) {
 		quantity = ent->count;
@@ -233,9 +245,14 @@ void Add_Ammo (gentity_t *ent, int weapon, int count)
 	}
 }
 
-int Pickup_Ammo (gentity_t *ent, gentity_t *other)
+int Pickup_Ammo (gentity_t *ent, gentity_t *other, qboolean captureMode)
+
 {
 	int		quantity;
+
+	if (captureMode) {
+		return RESPAWN_AMMO; // don't pickup ammo, just store it in the capsule
+	}
 
 	if ( ent->count ) {
 		quantity = ent->count;
@@ -257,8 +274,12 @@ void Upgrade_Weapon(int counter, gentity_t *other) {
 }
 
 
-int Pickup_Weapon (gentity_t *ent, gentity_t *other) {
+int Pickup_Weapon (gentity_t *ent, gentity_t *other, qboolean captureMode) {
 	int		quantity;
+
+	if (captureMode) {
+		return g_weaponRespawn.integer; // don't pickup weapon, just store it in the capsule
+	}
 
 	if ( ent->count < 0 ) {
 		quantity = 0; // None for you, sir!
@@ -305,7 +326,7 @@ int Pickup_Weapon (gentity_t *ent, gentity_t *other) {
 
 //======================================================================
 
-int Pickup_Health (gentity_t *ent, gentity_t *other) {
+int Pickup_Health (gentity_t *ent, gentity_t *other, qboolean captureMode) {
 	int			max;
 	int			quantity;
 
@@ -316,6 +337,9 @@ int Pickup_Health (gentity_t *ent, gentity_t *other) {
 	}
 	else
 #endif
+	if (captureMode) {
+			return RESPAWN_HEALTH; // don't pickup health, just store it in the capsule
+	}
 	if ( ent->item->quantity != 5 && ent->item->quantity != 100 ) {
 		max = other->client->ps.stats[STAT_MAX_HEALTH];
 	} else {
@@ -344,7 +368,7 @@ int Pickup_Health (gentity_t *ent, gentity_t *other) {
 
 //======================================================================
 
-int Pickup_Armor( gentity_t *ent, gentity_t *other ) {
+int Pickup_Armor( gentity_t *ent, gentity_t *other, qboolean captureMode ) {
 #ifdef MISSIONPACK
 	int		upperBound;
 
@@ -361,6 +385,9 @@ int Pickup_Armor( gentity_t *ent, gentity_t *other ) {
 		other->client->ps.stats[STAT_ARMOR] = upperBound;
 	}
 #else
+	if (captureMode) {
+		return RESPAWN_ARMOR; // don't pickup the armor, just store in the capsule
+	}
 	other->client->ps.stats[STAT_ARMOR] += ent->item->quantity;
 	if ( other->client->ps.stats[STAT_ARMOR] > other->client->ps.stats[STAT_MAX_HEALTH] * 2 ) {
 		other->client->ps.stats[STAT_ARMOR] = other->client->ps.stats[STAT_MAX_HEALTH] * 2;
@@ -463,14 +490,24 @@ Touch_Item
 void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace) {
 	int			respawn;
 	qboolean	predict;
+	qboolean	captureMode;
 
 	if (!other->client)
 		return;
 	if (other->health < 1)
 		return;		// dead people can't pickup
 
+	// UBER ARENA
+	// If player has activated capture mode with the Storage Capsule holdable, next item picked up gets captured instead of applying its effects
+	if (other->client->receptacleMode == REC_CAPTURE) {
+		captureMode = qtrue;
+	}
+	else {
+		captureMode = qfalse;
+	}
+
 	// the same pickup rules are used for client side and server side
-	if ( !BG_CanItemBeGrabbed( g_gametype.integer, &ent->s, &other->client->ps ) ) {
+	if ( !BG_CanItemBeGrabbed( g_gametype.integer, &ent->s, &other->client->ps, captureMode ) ) {
 		return;
 	}
 
@@ -481,21 +518,21 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace) {
 	// call the item-specific pickup function
 	switch( ent->item->giType ) {
 	case IT_WEAPON:
-		respawn = Pickup_Weapon(ent, other);
+		respawn = Pickup_Weapon(ent, other, captureMode);
 //		predict = qfalse;
 		break;
 	case IT_AMMO:
-		respawn = Pickup_Ammo(ent, other);
+		respawn = Pickup_Ammo(ent, other, captureMode);
 //		predict = qfalse;
 		break;
 	case IT_ARMOR:
-		respawn = Pickup_Armor(ent, other);
+		respawn = Pickup_Armor(ent, other, captureMode);
 		break;
 	case IT_HEALTH:
-		respawn = Pickup_Health(ent, other);
+		respawn = Pickup_Health(ent, other, captureMode);
 		break;
 	case IT_POWERUP:
-		respawn = Pickup_Powerup(ent, other);
+		respawn = Pickup_Powerup(ent, other, captureMode);
 		predict = qfalse;
 		break;
 #ifdef MISSIONPACK
@@ -510,7 +547,7 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace) {
 		respawn = Pickup_Holdable(ent, other);
 		break;
 	case IT_POUCH:
-		respawn = Pickup_Pouch(ent, other);
+		respawn = Pickup_Pouch(ent, other, captureMode);
 		break;
 	default:
 		return;
@@ -518,6 +555,11 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace) {
 
 	if ( !respawn ) {
 		return;
+	}
+
+	if (captureMode) {
+		other->client->capturedItem = ent;
+		other->client->receptacleMode = REC_STANDBY;
 	}
 
 	// play the normal pickup sound

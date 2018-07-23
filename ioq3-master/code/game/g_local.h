@@ -206,6 +206,10 @@ typedef enum {
 	TEAM_ACTIVE		// Now actively playing
 } playerTeamStateState_t;
 
+#define REC_INACTIVE	1
+#define REC_CAPTURE		2
+#define REC_STANDBY		3
+
 typedef struct {
 	playerTeamStateState_t	state;
 
@@ -343,6 +347,11 @@ struct gclient_s {
 	gentity_t	*poisoner; // person that originally hit a player with the toxic railgun
 	int			poisonTime;	// amount of time it takes for poison tagging effect to wear off
 
+	// UBER ARENA
+	// Storage capsule-related attributes
+	int			receptacleMode; // Can switch between INACTIVE_MODE, CAPTURE_MODE, and STANDBY_MODE
+	gentity_t	*capturedItem; // the item the storage capsule is currently holding
+
 #ifdef MISSIONPACK
 	gentity_t	*persistantPowerup;
 	int			portalID;
@@ -470,6 +479,8 @@ void Cmd_FollowCycle_f( gentity_t *ent, int dir );
 void G_CheckTeamItems( void );
 void G_RunItem( gentity_t *ent );
 void RespawnItem( gentity_t *ent );
+// UBER ARENA
+gentity_t *Knock_Item(gentity_t *ent, gitem_t *item, vec3_t angles, float force);
 
 void UseHoldableItem( gentity_t *ent );
 void PrecacheItem (gitem_t *it);

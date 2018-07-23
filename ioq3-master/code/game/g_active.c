@@ -544,6 +544,8 @@ void ClientEvents( gentity_t *ent, int oldEventSequence, pmove_t *pm ) {
 	gitem_t *item;
 	gentity_t *drop;
 
+	trace_t	*trace;
+
 	client = ent->client;
 
 	if ( oldEventSequence < client->ps.eventSequence - MAX_PS_EVENTS ) {
@@ -655,6 +657,24 @@ void ClientEvents( gentity_t *ent, int oldEventSequence, pmove_t *pm ) {
 		case EV_USE_ITEM6: // tuning device
 			ent->client->weaponCounters[pm->ps->weapon - 3] = 3;
 			break;
+
+		case EV_USE_ITEM7: // storage capsule
+			switch (ent->client->receptacleMode) {
+			case REC_INACTIVE:
+				ent->client->receptacleMode = REC_CAPTURE;
+				Com_Printf("Capture mode on\n");
+				break;
+			case REC_CAPTURE:
+				Com_Printf("No item captured yet\n");
+				break;
+			case REC_STANDBY:
+				ent->client->receptacleMode = REC_INACTIVE;
+				memset(&trace, 0, sizeof(trace));
+				Touch_Item(ent->client->capturedItem, ent, &trace);
+				break;
+			default:
+				break;
+			}
 
 		default:
 			break;
@@ -1005,7 +1025,12 @@ void ClientThink_real( gentity_t *ent ) {
 				pm.ps->pm_flags |= PMF_USE_ITEM_HELD;
 				PM_AddEvent(EV_USE_ITEM0 + bg_itemlist[pm.ps->stats[STAT_HOLDABLE_ITEM]].giTag);
 				ClientEvents(ent, oldEventSequence, &pm);
-				pm.ps->stats[STAT_HOLDABLE_ITEM] = 0;
+				if (bg_itemlist[pm.ps->stats[STAT_HOLDABLE_ITEM]].giTag == HI_RECEPTACLE && ent->client->receptacleMode == REC_CAPTURE) {
+					return;
+				}
+				else {
+					pm.ps->stats[STAT_HOLDABLE_ITEM] = 0;
+				}
 			}
 			return;
 		}

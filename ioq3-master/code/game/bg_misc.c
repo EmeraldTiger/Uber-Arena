@@ -533,6 +533,24 @@ gitem_t	bg_itemlist[] =
 			/* sounds */ "sound/items/use_tuner.wav"
 	},
 
+/*QUAKED holdable_receptacle (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+			*/
+	{
+		"holdable_receptacle",
+		"sound/items/holdable.wav",
+		{
+			"models/powerups/holdable/receptacle.md3",
+			"models/powerups/holdable/receptacle_sphere.md3",
+			0, 0 },
+			/* icon */		"icons/receptacle",
+			/* pickup */	"Storage Capsule",
+			60,
+			IT_HOLDABLE,
+			HI_RECEPTACLE,
+			/* precache */ "",
+			/* sounds */ "sound/items/use_receptacle.wav"
+	},
+
 	//
 	// POWERUP ITEMS
 	//
@@ -1139,7 +1157,7 @@ Returns false if the item should not be picked up.
 This needs to be the same for client side prediction and server use.
 ================
 */
-qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const playerState_t *ps ) {
+qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const playerState_t *ps, qboolean captureMode ) {
 	gitem_t	*item;
 #ifdef MISSIONPACK
 	int		upperBound;
@@ -1232,6 +1250,9 @@ qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const play
 #endif
 
 	case IT_TEAM: // team items, such as flags
+		if (captureMode) {
+			return qfalse;
+		}
 #ifdef MISSIONPACK		
 		if( gametype == GT_1FCTF ) {
 			// neutral flag can always be picked up

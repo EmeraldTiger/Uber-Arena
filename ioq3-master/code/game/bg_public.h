@@ -196,6 +196,10 @@ typedef struct {
 void PM_UpdateViewAngles( playerState_t *ps, const usercmd_t *cmd );
 void Pmove (pmove_t *pmove);
 
+// UBER ARENA:
+// Move declaration of PM_AddEvent to here so makefile doesn't whine
+void PM_AddEvent(int newEvent);
+
 //===================================================================================
 
 
@@ -315,6 +319,7 @@ typedef enum {
 
 	// UBER ARENA: New holdables
 	HI_TUNER,
+	HI_RECEPTACLE,
 
 	HI_NUM_HOLDABLE
 } holdable_t;
@@ -684,7 +689,7 @@ gitem_t	*BG_FindItemForPowerup( powerup_t pw );
 gitem_t	*BG_FindItemForHoldable( holdable_t pw );
 #define	ITEM_INDEX(x) ((x)-bg_itemlist)
 
-qboolean	BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const playerState_t *ps );
+qboolean	BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const playerState_t *ps, qboolean captureMode );
 
 
 // g_dmflags->integer flags
