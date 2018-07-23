@@ -243,6 +243,24 @@ void Add_Ammo (gentity_t *ent, int weapon, int count)
 	if ( ent->client->ps.ammo[weapon] > 200 ) {
 		ent->client->ps.ammo[weapon] = 200;
 	}
+
+	// UBER ARENA
+	// Ammo crate acts as an ammo item that "gives" ammo for WP_NONE, because
+	// we can't simply give ammo to multiple weapons in one definition. So
+	// we do it through this conditional instead.
+	if (weapon == WP_NONE)
+	{
+		// Rapid-fire weapons get 150 ammo, delayed ones get 25
+		// Clan Arena conventions
+		ent->client->ps.ammo[WP_MACHINEGUN] = qmax(ent->client->ps.ammo[WP_MACHINEGUN], 150);
+		ent->client->ps.ammo[WP_SHOTGUN] = qmax(ent->client->ps.ammo[WP_SHOTGUN], 25);
+		ent->client->ps.ammo[WP_GRENADE_LAUNCHER] = qmax(ent->client->ps.ammo[WP_GRENADE_LAUNCHER], 25);
+		ent->client->ps.ammo[WP_ROCKET_LAUNCHER] = qmax(ent->client->ps.ammo[WP_ROCKET_LAUNCHER], 25);
+		ent->client->ps.ammo[WP_LIGHTNING] = qmax(ent->client->ps.ammo[WP_LIGHTNING], 150);
+		ent->client->ps.ammo[WP_RAILGUN] = qmax(ent->client->ps.ammo[WP_RAILGUN], 25);
+		ent->client->ps.ammo[WP_PLASMAGUN] = qmax(ent->client->ps.ammo[WP_PLASMAGUN], 150);
+		ent->client->ps.ammo[WP_BFG] = qmax(ent->client->ps.ammo[WP_BFG], 25);
+	}
 }
 
 int Pickup_Ammo (gentity_t *ent, gentity_t *other, qboolean captureMode)

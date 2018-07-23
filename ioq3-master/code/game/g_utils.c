@@ -314,6 +314,15 @@ char	*vtos( const vec3_t v ) {
 	return s;
 }
 
+// UBER ARENA
+// Can't use max function so quickly defined one here
+int qmax(int a, int b) {
+	if (a > b)
+		return a;
+	else
+		return b;
+}
+
 
 /*
 ===============

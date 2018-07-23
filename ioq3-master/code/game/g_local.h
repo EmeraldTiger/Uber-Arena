@@ -522,6 +522,8 @@ void	G_TouchTriggers (gentity_t *ent);
 float	*tv (float x, float y, float z);
 char	*vtos( const vec3_t v );
 
+int		qmax(int a, int b);
+
 float vectoyaw( const vec3_t vec );
 
 void G_AddPredictableEvent( gentity_t *ent, int event, int eventParm );

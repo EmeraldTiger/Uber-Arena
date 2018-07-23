@@ -479,6 +479,24 @@ gitem_t	bg_itemlist[] =
 /* sounds */ ""
 	},
 
+// UBER ARENA: This is a unique ammo item that needs specialized coding
+
+	/*QUAKED ammo_crate (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+	*/
+	{
+		"ammo_crate",
+		"sound/items/amc_pkup.wav",
+		{ "models/powerups/ammo/crate.md3",
+		0, 0, 0 },
+		/* icon */		"icons/icona_crate",
+		/* pickup */	"Super Ammo Crate",
+		0,
+		IT_AMMO,
+		WP_NONE, // use this as a placeholder, because the ammo crate is not assigned to a specific weapon
+		/* precache */ "",
+		/* sounds */ ""
+	},
+
 	//
 	// HOLDABLE ITEMS
 	//
