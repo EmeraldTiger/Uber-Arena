@@ -728,6 +728,7 @@ static void CG_RegisterSounds( void ) {
 
 	// FIXME: only needed with item
 	cgs.media.flightSound = trap_S_RegisterSound( "sound/items/flight.wav", qfalse );
+	cgs.media.rampageSound = trap_S_RegisterSound("sound/items/rampagefx.wav", qfalse);
 	cgs.media.medkitSound = trap_S_RegisterSound ("sound/items/use_medkit.wav", qfalse);
 	cgs.media.tunerSound = trap_S_RegisterSound("sound/items/use_tuner.wav", qfalse); // UBER ARENA
 	cgs.media.quadSound = trap_S_RegisterSound("sound/items/damage3.wav", qfalse);

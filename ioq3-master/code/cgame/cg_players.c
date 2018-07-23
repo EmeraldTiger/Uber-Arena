@@ -1862,6 +1862,11 @@ static void CG_PlayerPowerups( centity_t *cent, refEntity_t *torso ) {
 		trap_S_AddLoopingSound( cent->currentState.number, cent->lerpOrigin, vec3_origin, cgs.media.flightSound );
 	}
 
+	// UBER ARENA: so does rampage!
+	if (powerups & (1 << PW_RAMPAGE)) {
+		trap_S_AddLoopingSound(cent->currentState.number, cent->lerpOrigin, vec3_origin, cgs.media.rampageSound);
+	}
+
 	ci = &cgs.clientinfo[ cent->currentState.clientNum ];
 	// redflag
 	if ( powerups & ( 1 << PW_REDFLAG ) ) {
