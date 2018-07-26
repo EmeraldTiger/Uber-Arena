@@ -898,25 +898,25 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 	if ( dflags & DAMAGE_NO_KNOCKBACK ) {
 		knockback = 0;
 	}
-	
-	// UBER ARENA
-	// In duel only, arc lightning gun does 25x knockback
-	if ((attacker->client->ps.stats[STAT_WEAPONS] & WP_LIGHTNING)
-		&& (attacker->client->weaponCounters[COUNTER_LIGHTNING] >= 3)
-		&& (g_gametype.integer == GT_TOURNAMENT))
-	{
-		knockback = 200;
-	}
+
 
 	// figure momentum add, even if the damage won't be taken
 	if ( knockback && targ->client ) {
 		vec3_t	kvel;
 		float	mass;
 
+		// UBER ARENA
+		// In duel only, arc lightning gun does 25x knockback
+		if ((attacker->client->ps.stats[STAT_WEAPONS] & WP_LIGHTNING)
+			&& (attacker->client->weaponCounters[COUNTER_LIGHTNING] >= 3)
+			&& (g_gametype.integer == GT_TOURNAMENT))
+		{
+			knockback = 200;
+		}
+
 		mass = 200;
 
 		VectorScale (dir, g_knockback.value * (float)knockback / mass, kvel);
-
 		VectorAdd (targ->client->ps.velocity, kvel, targ->client->ps.velocity);
 
 		// set the timer so that the other client can't cancel
