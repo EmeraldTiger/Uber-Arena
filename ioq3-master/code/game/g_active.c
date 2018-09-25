@@ -656,6 +656,12 @@ void ClientEvents( gentity_t *ent, int oldEventSequence, pmove_t *pm ) {
 #endif
 		case EV_USE_ITEM6: // tuning device
 			ent->client->weaponCounters[pm->ps->weapon - 3] = 3;
+			ent->client->uberCount++;
+
+			if (ent->client->uberCount >= 2) {
+				AwardTyrant(ent);
+			}
+
 			break;
 
 		case EV_USE_ITEM7: // storage capsule
@@ -849,7 +855,7 @@ void ClientThink_real( gentity_t *ent ) {
 
 	// clear the rewards if time
 	if ( level.time > client->rewardTime ) {
-		client->ps.eFlags &= ~(EF_AWARD_IMPRESSIVE | EF_AWARD_EXCELLENT | EF_AWARD_GAUNTLET | EF_AWARD_ASSIST | EF_AWARD_DEFEND | EF_AWARD_CAP );
+		client->ps.eFlags &= ~(EF_AWARD_IMPRESSIVE | EF_AWARD_EXCELLENT | EF_AWARD_GAUNTLET | EF_AWARD_ASSIST | EF_AWARD_DEFEND | EF_AWARD_CAP | EF_AWARD_TYRANT );
 	}
 
 	if ( client->noclip ) {

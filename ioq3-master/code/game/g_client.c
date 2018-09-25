@@ -1176,6 +1176,9 @@ void ClientSpawn(gentity_t *ent) {
 	client->ps.stats[STAT_WEAPONCOUNT] = 0;
 	client->ps.stats[STAT_MAX_WEAPONS] = 1;
 
+	// UBER ARENA 0.3: Number of uberweapons collected starts at 0
+	client->uberCount = 0;
+
 	// health will count down towards max_health
 	ent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] + 25;
 

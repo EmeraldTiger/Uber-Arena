@@ -362,6 +362,16 @@ void CG_CheckLocalSounds( playerState_t *ps, playerState_t *ops ) {
 		reward = qtrue;
 		//Com_Printf("impressive\n");
 	}
+	if (ps->persistant[PERS_TYRANT_COUNT] != ops->persistant[PERS_TYRANT_COUNT]) {
+#ifdef MISSIONPACK
+		// doesn't matter
+#else
+		sfx = cgs.media.tyrantSound;
+#endif
+		pushReward(sfx, cgs.media.medalTyrant, ps->persistant[PERS_TYRANT_COUNT]);
+		reward = qtrue;
+		//Com_Printf("tyrant\n");
+	}
 	if (ps->persistant[PERS_EXCELLENT_COUNT] != ops->persistant[PERS_EXCELLENT_COUNT]) {
 #ifdef MISSIONPACK
 		if (ps->persistant[PERS_EXCELLENT_COUNT] == 1) {

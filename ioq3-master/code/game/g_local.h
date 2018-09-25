@@ -352,6 +352,10 @@ struct gclient_s {
 	int			receptacleMode; // Can switch between INACTIVE_MODE, CAPTURE_MODE, and STANDBY_MODE
 	gentity_t	*capturedItem; // the item the storage capsule is currently holding
 
+	// UBER ARENA 0.3
+	// Number of uberweapons player has obtained in a single life; used for the Tyrant reward
+	int			uberCount;
+
 #ifdef MISSIONPACK
 	gentity_t	*persistantPowerup;
 	int			portalID;

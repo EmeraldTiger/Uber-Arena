@@ -247,7 +247,8 @@ typedef enum {
 	PERS_DEFEND_COUNT,				// defend awards
 	PERS_ASSIST_COUNT,				// assist awards
 	PERS_GAUNTLET_FRAG_COUNT,		// kills with the guantlet
-	PERS_CAPTURES					// captures
+	PERS_CAPTURES,					// captures
+	PERS_TYRANT_COUNT,				// two uberweapons obtained in a single life, and every uberweapon obtained after this was first rewarded
 } persEnum_t;
 
 
@@ -273,7 +274,7 @@ typedef enum {
 #define	EF_AWARD_IMPRESSIVE	0x00008000		// draw an impressive sprite
 #define	EF_AWARD_DEFEND		0x00010000		// draw a defend sprite
 #define	EF_AWARD_ASSIST		0x00020000		// draw a assist sprite
-#define EF_AWARD_DENIED		0x00040000		// denied
+#define EF_AWARD_TYRANT		0x00040000		// UBER ARENA: replace unused denied medal; draw a tyrant sprite
 #define EF_TEAMVOTED		0x00080000		// already cast a team vote
 #define	EF_POISONED			0x00100000		// poisoned by toxic railgun
 

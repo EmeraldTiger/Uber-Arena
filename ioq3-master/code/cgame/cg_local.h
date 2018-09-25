@@ -824,6 +824,7 @@ typedef struct {
 	qhandle_t	medalDefend;
 	qhandle_t	medalAssist;
 	qhandle_t	medalCapture;
+	qhandle_t	medalTyrant; // UBER ARENA 0.3
 
 	// sounds
 	sfxHandle_t	quadSound;
@@ -900,6 +901,7 @@ typedef struct {
 	sfxHandle_t firstImpressiveSound;
 	sfxHandle_t firstExcellentSound;
 	sfxHandle_t firstHumiliationSound;
+	sfxHandle_t	tyrantSound; // UBER ARENA 0.3
 
 	sfxHandle_t takenLeadSound;
 	sfxHandle_t tiedLeadSound;

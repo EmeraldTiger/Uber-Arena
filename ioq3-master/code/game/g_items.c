@@ -283,11 +283,32 @@ int Pickup_Ammo (gentity_t *ent, gentity_t *other, qboolean captureMode)
 	return RESPAWN_AMMO;
 }
 
+// UBER ARENA 0.3
+// Give Tyrant medal for obtaining 2 uberweapons in one life, and for every uberweapon after that
+void AwardTyrant(gentity_t *other) {
+	other->client->ps.persistant[PERS_TYRANT_COUNT]++;
+
+	other->client->ps.eFlags &= ~(EF_AWARD_IMPRESSIVE | EF_AWARD_EXCELLENT | EF_AWARD_GAUNTLET | EF_AWARD_ASSIST | EF_AWARD_DEFEND | EF_AWARD_CAP | EF_AWARD_TYRANT);
+	other->client->ps.eFlags |= EF_AWARD_TYRANT;
+	other->client->rewardTime = level.time + REWARD_SPRITE_TIME;
+
+	// Set uberCount to 1 instead of 0, so every uberweapon obtained after the first Tyrant medal also generates a Tyrant medal, not just every two
+	other->client->uberCount = 1;
+}
+
 //======================================================================
 
 void Upgrade_Weapon(int counter, gentity_t *other) {
 	if (other->client->weaponCounters[counter] < 3) {
 		other->client->weaponCounters[counter] += 1;
+	}
+
+	if (other->client->weaponCounters[counter] >= 3) {
+		other->client->uberCount++;
+	}
+
+	if (other->client->uberCount >= 2) {
+		AwardTyrant(other);
 	}
 }
 
@@ -326,10 +347,12 @@ int Pickup_Weapon (gentity_t *ent, gentity_t *other, qboolean captureMode) {
 	// 0.3: But don't do this if the player has 3+ of the same weapon
 	if (!(other->client->weaponCounters[ent->item->giTag - 3] >= 3)) {
 		other->client->ps.stats[STAT_WEAPONCOUNT]++;
+		Upgrade_Weapon(ent->item->giTag - 3, other);
 	}
 
 	// UBER ARENA: Increment uberweapon counters
-	Upgrade_Weapon(ent->item->giTag - 3, other);
+	// 0.3: Moved below call inside if statement above for Tyrant-related code
+	// Upgrade_Weapon(ent->item->giTag - 3, other);
 
 	Add_Ammo( other, ent->item->giTag, quantity );
 
