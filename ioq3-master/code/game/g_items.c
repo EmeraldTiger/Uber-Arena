@@ -323,7 +323,10 @@ int Pickup_Weapon (gentity_t *ent, gentity_t *other, qboolean captureMode) {
 	// add the weapon
 	other->client->ps.stats[STAT_WEAPONS] |= ( 1 << ent->item->giTag );
 	// UBER ARENA: increment weapon count for weapon limits
-	other->client->ps.stats[STAT_WEAPONCOUNT]++;
+	// 0.3: But don't do this if the player has 3+ of the same weapon
+	if (!(other->client->weaponCounters[ent->item->giTag - 3] >= 3)) {
+		other->client->ps.stats[STAT_WEAPONCOUNT]++;
+	}
 
 	// UBER ARENA: Increment uberweapon counters
 	Upgrade_Weapon(ent->item->giTag - 3, other);
@@ -509,6 +512,7 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace) {
 	int			respawn;
 	qboolean	predict;
 	qboolean	captureMode;
+	qboolean	alreadyUber;
 
 	if (!other->client)
 		return;
@@ -524,8 +528,17 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace) {
 		captureMode = qfalse;
 	}
 
+	// UBER ARENA 0.3
+	// If the player has 3+ of a weapon (thus an uberweapon), they can still pickup more copies even if they reach their weapon limit
+	if ((ent->item->giType == IT_WEAPON) && (other->client->weaponCounters[ent->item->giTag - 3] >= 3)) {
+		alreadyUber = qtrue;
+	}
+	else {
+		alreadyUber = qfalse;
+	}
+
 	// the same pickup rules are used for client side and server side
-	if ( !BG_CanItemBeGrabbed( g_gametype.integer, &ent->s, &other->client->ps, captureMode ) ) {
+	if ( !BG_CanItemBeGrabbed( g_gametype.integer, &ent->s, &other->client->ps, captureMode, alreadyUber ) ) {
 		return;
 	}
 

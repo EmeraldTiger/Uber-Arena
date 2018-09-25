@@ -1191,7 +1191,7 @@ Returns false if the item should not be picked up.
 This needs to be the same for client side prediction and server use.
 ================
 */
-qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const playerState_t *ps, qboolean captureMode ) {
+qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const playerState_t *ps, qboolean captureMode, qboolean alreadyUber ) {
 	gitem_t	*item;
 #ifdef MISSIONPACK
 	int		upperBound;
@@ -1207,7 +1207,7 @@ qboolean BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const play
 	case IT_WEAPON:
 		// UBER ARENA: Weapons can't be picked up if the player exceeds their current weapon limit
 		// If Conservation is active, weapons can always be picked up
-		if (ps->stats[STAT_WEAPONCOUNT] >= ps->stats[STAT_MAX_WEAPONS] && !(ps->powerups[PW_CONSERVATION])) {
+		if (ps->stats[STAT_WEAPONCOUNT] >= ps->stats[STAT_MAX_WEAPONS] && !(ps->powerups[PW_CONSERVATION]) && !alreadyUber) {
 			return qfalse;
 		}
 		return qtrue;
