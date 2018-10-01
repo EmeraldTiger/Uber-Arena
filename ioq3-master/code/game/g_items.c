@@ -803,7 +803,15 @@ gentity_t *Knock_Item(gentity_t *ent, gitem_t *item, vec3_t angles, float force)
 		ent->nextthink = level.time + 30000;
 		Team_CheckDroppedItem(ent);
 	}
-	ent->think = RespawnItem;
+	// 0.3 BUGFIX
+	// Dropped items that receive knocbkack no longer have their think function changed to respawnitem
+	// fixes a bug where moved dropped items would respawn at the map's origin (0, 0, 0)
+	if (ent->flags & FL_DROPPED_ITEM) {
+		ent->think = G_FreeEntity;
+	}
+	else {
+		ent->think = RespawnItem;
+	}
 	// Bounced items respawn back in original locations after 10 seconds
 	ent->nextthink = level.time + 10000;
 }
