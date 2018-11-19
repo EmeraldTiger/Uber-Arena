@@ -298,6 +298,17 @@ void AwardTyrant(gentity_t *other) {
 
 //======================================================================
 
+qboolean isUber(gentity_t *ent, int counter) {
+	if (ent->client->weaponCounters[counter] >= 3)
+	{
+		return qtrue;
+	}
+	else
+	{
+		return qfalse;
+	}
+}
+
 void Upgrade_Weapon(int counter, gentity_t *other) {
 	if (other->client->weaponCounters[counter] < 3) {
 		other->client->weaponCounters[counter] += 1;

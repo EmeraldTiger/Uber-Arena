@@ -336,7 +336,7 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace ) {
 	if ( !other->takedamage &&
 		( ent->s.eFlags & ( EF_BOUNCE | EF_BOUNCE_HALF ) ) ) {
 		G_BounceMissile( ent, trace, ent->grenadeNumber, ent->done );
-		if (ent->classname == "plasma" && ent->parent->client->weaponCounters[COUNTER_PLASMA] >= 3) {
+		if (ent->classname == "plasma" && isUber(ent->parent, COUNTER_PLASMA)) {
 			G_AddEvent(ent, EV_ION_BOUNCE, 0);
 		}
 		else {
@@ -541,7 +541,7 @@ void G_RunMissile( gentity_t *ent ) {
 	// COME BACK LATER: Rocket code can act crazy at times, still determining fix
 	// Some code courtesy of Chris Hilton of Code3Arena
 	// https://www.quakewiki.net/archives/code3arena/tutorials/tutorial35.shtml
-	if (ent->parent->client->weaponCounters[COUNTER_ROCKET] >= 3 && ent->classname == "rocket") {
+	if (isUber(ent->parent, COUNTER_ROCKET) && ent->classname == "rocket") {
 		VectorCopy(ent->s.pos.trDelta, forward);
 		VectorNormalize(forward);
 		// Homing rockets can "see" for 2048 units
@@ -619,7 +619,7 @@ void G_RunMissile( gentity_t *ent ) {
 	// UBER ARENA
 	// Ion plasma bolts don't collide against players, so use radius-based damage instead
 	if (ent->parent->client) {
-		if (ent->parent->client->weaponCounters[COUNTER_PLASMA] >= 3 && ent->classname == "plasma") {
+		if (isUber(ent->parent, COUNTER_PLASMA) && ent->classname == "plasma") {
 			G_RadiusDamage(ent->r.currentOrigin, ent->parent, 10, 50, ent->parent, MOD_PLASMA);
 		}
 	}
@@ -669,11 +669,13 @@ gentity_t *fire_plasma (gentity_t *self, vec3_t start, vec3_t dir) {
 
 	bolt = G_Spawn();
 	bolt->classname = "plasma";
-	if (self->client->weaponCounters[COUNTER_PLASMA] >= 3)
+	if (isUber(self, COUNTER_PLASMA)) {
 		// Reduce ion plasma bolt lifetime for balancing / networking reasons
 		bolt->nextthink = level.time + 3000;
-	else
+	}
+	else {
 		bolt->nextthink = level.time + 10000;
+	}
 	bolt->think = G_ExplodeMissile;
 	bolt->s.eType = ET_MISSILE;
 	bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN;
@@ -685,16 +687,22 @@ gentity_t *fire_plasma (gentity_t *self, vec3_t start, vec3_t dir) {
 	bolt->splashRadius = 20;
 	bolt->methodOfDeath = MOD_PLASMA;
 	bolt->splashMethodOfDeath = MOD_PLASMA_SPLASH;
-	if (bolt->parent->client->weaponCounters[COUNTER_PLASMA] >= 3)
+	if (isUber(bolt->parent, COUNTER_PLASMA))
+	{
 		// Ion plasma bolts go through players instead of being removed from world
 		bolt->clipmask = MASK_SOLID;
+	}
 	else
+	{
 		bolt->clipmask = MASK_SHOT;
+	}
 	bolt->target_ent = NULL;
 
-	if (bolt->parent->client->weaponCounters[COUNTER_PLASMA] >= 3)
+	if (isUber(bolt->parent, COUNTER_PLASMA)) 
+	{
 		// Ion plasma bolts bounce
 		bolt->s.eFlags = EF_BOUNCE;
+	}
 
 	bolt->s.pos.trType = TR_LINEAR;
 	bolt->s.pos.trTime = level.time - MISSILE_PRESTEP_TIME;		// move a bit on the very first frame

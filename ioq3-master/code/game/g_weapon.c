@@ -276,7 +276,7 @@ void BFG_Fire ( gentity_t *ent ) {
 
 	// UBER ARENA: BFG30K code
 	// Fire two additional BFG bolts at 30-degree angle offsets from the central bolt
-	if (ent->client->weaponCounters[COUNTER_BFG] >= 3) {
+	if (isUber(ent, COUNTER_BFG)) {
 		AngleVectors(ent->client->ps.viewangles, forward, right, 0);
 		// arcsin[0.5] = 30 degrees
 		VectorMA(forward, 0.5, right, dir1);
@@ -337,7 +337,7 @@ qboolean ShotgunPellet( vec3_t start, vec3_t end, gentity_t *ent ) {
 
 		// UBER ARENA
 		// Explosive Shotgun creates explosions for each pellet
-		if (ent->client->weaponCounters[COUNTER_SHOTGUN] >= 3)
+		if (isUber(ent, COUNTER_SHOTGUN))
 		{
 			G_RadiusDamage(tr.endpos, ent, 11, 120, 0, MOD_SHOTGUN);
 		}
@@ -405,7 +405,7 @@ void weapon_supershotgun_fire (gentity_t *ent) {
 	// send shotgun blast
 	// UBER ARENA
 	// send different event for the explosive shotgun, to generate the visual explosion effect
-	if (ent->client->weaponCounters[COUNTER_SHOTGUN] >= 3)
+	if (isUber(ent, COUNTER_SHOTGUN))
 		tent = G_TempEntity( muzzle, EV_EXPSHOTGUN );
 	else
 		tent = G_TempEntity(muzzle, EV_SHOTGUN);
@@ -560,7 +560,7 @@ void weapon_railgun_fire (gentity_t *ent) {
 				G_Damage (traceEnt, ent, ent, forward, trace.endpos, damage, 0, MOD_RAILGUN);
 				// UBER ARENA: Toxic railgun code
 				if (traceEnt->client) {
-					if (ent->client->weaponCounters[COUNTER_RAIL] >= 3 && (traceEnt->client->ps.pm_type != PM_DEAD)) {
+					if (isUber(ent, COUNTER_RAIL) && (traceEnt->client->ps.pm_type != PM_DEAD)) {
 						// Check to make sure they're not already dead, or you'll have zombies
 						if (traceEnt->health > 0) {
 							traceEnt->client->ps.eFlags |= EF_POISONED;
@@ -752,7 +752,7 @@ void Weapon_LightningFire( gentity_t *ent ) {
 
 			// UBER ARENA
 			// Arc lightning logic
-			if (ent->client->weaponCounters[COUNTER_LIGHTNING] >= 3) {
+			if (isUber(ent, COUNTER_LIGHTNING)) {
 				VectorSubtract(traceEnt->r.currentOrigin, range, mins);
 				VectorAdd(traceEnt->r.currentOrigin, range, maxs);
 

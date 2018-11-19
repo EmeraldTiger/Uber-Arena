@@ -509,9 +509,11 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 			AddScore( attacker, self->r.currentOrigin, -1 );
 		} else {
 			// UBER ARENA: Toxic railgun-specific code
-			if ((self->client->poisoner != NULL) && (self->client->ps.eFlags & EF_POISONED)) {
-				// if victim is currently poisoned, they lose a frag when they die
+			if (meansOfDeath == MOD_RAILGUN && isUber(attacker, COUNTER_RAIL)) {
+				// Players fragged by the Toxic Railgun also lose a frag
 				AddScore(self, self->r.currentOrigin, -1);
+			}
+			if ((self->client->poisoner != NULL) && (self->client->ps.eFlags & EF_POISONED)) {
 				if (attacker != self->client->poisoner) {
 					// the person who originally inflicted damage with the toxic railgun gets a frag as well. not just the actual fragger
 					AddScore(self->client->poisoner, self->r.currentOrigin, 1);
@@ -520,7 +522,7 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 			AddScore( attacker, self->r.currentOrigin, 1 );
 
 			// UBER ARENA: BFG30K gives 3 frags instead of 1
-			if ((meansOfDeath == MOD_BFG || meansOfDeath == MOD_BFG_SPLASH) && attacker->client->weaponCounters[COUNTER_BFG] >= 3)
+			if ((meansOfDeath == MOD_BFG || meansOfDeath == MOD_BFG_SPLASH) && isUber(attacker, COUNTER_BFG))
 				AddScore(attacker, self->r.currentOrigin, 2); // player already gets 1 frag by default, so we just add 2 more
 
 			if( meansOfDeath == MOD_GAUNTLET ) {
@@ -908,7 +910,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 		// UBER ARENA
 		// In duel only, arc lightning gun does 25x knockback
 		if ((attacker->client->ps.stats[STAT_WEAPONS] & WP_LIGHTNING)
-			&& (attacker->client->weaponCounters[COUNTER_LIGHTNING] >= 3)
+			&& (isUber(attacker, COUNTER_LIGHTNING))
 			&& (g_gametype.integer == GT_TOURNAMENT))
 		{
 			knockback = 200;
