@@ -189,12 +189,24 @@ void Bullet_Fire (gentity_t *ent, float spread, int damage, int mod ) {
 	gentity_t	*tent;
 	gentity_t	*traceEnt;
 	int			i, passent;
+	int			dflags;
+	int			spreadFactor;
 
 	damage *= s_quadFactor;
 
+	// UBER ARENA 0.3: Piercing machinegun
+	if (isUber(ent, COUNTER_MACHINEGUN)) {
+		dflags |= DAMAGE_PIERCING;
+		spreadFactor = 1;
+	}
+	else {
+		dflags = 0;
+		spreadFactor = 16;
+	}
+
 	r = random() * M_PI * 2.0f;
-	u = sin(r) * crandom() * spread * 16;
-	r = cos(r) * crandom() * spread * 16;
+	u = sin(r) * crandom() * spread * spreadFactor;
+	r = cos(r) * crandom() * spread * spreadFactor;
 	VectorMA (muzzle, 8192*16, forward, end);
 	VectorMA (end, r, right, end);
 	VectorMA (end, u, up, end);
@@ -248,7 +260,7 @@ void Bullet_Fire (gentity_t *ent, float spread, int damage, int mod ) {
 			else {
 #endif
 				G_Damage( traceEnt, ent, ent, forward, tr.endpos,
-					damage, 0, mod);
+					damage, dflags, mod);
 #ifdef MISSIONPACK
 			}
 #endif

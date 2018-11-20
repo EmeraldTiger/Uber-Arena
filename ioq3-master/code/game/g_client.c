@@ -1168,6 +1168,10 @@ void ClientSpawn(gentity_t *ent) {
 	// UBER ARENA: Machinegun starting ammo is now 50 across all gametypes
 	client->ps.ammo[WP_MACHINEGUN] = 50;
 
+	// UBER ARENA 0.3: Gauntlet and machinegun counters start at 1
+	client->weaponCounters[COUNTER_GAUNTLET] = 1;
+	client->weaponCounters[COUNTER_MACHINEGUN] = 1;
+
 	client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_GAUNTLET );
 	client->ps.ammo[WP_GAUNTLET] = -1;
 	client->ps.ammo[WP_GRAPPLING_HOOK] = -1;

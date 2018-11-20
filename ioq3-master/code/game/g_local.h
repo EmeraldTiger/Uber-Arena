@@ -557,6 +557,8 @@ void TossClientCubes( gentity_t *self );
 #define DAMAGE_NO_ARMOR				0x00000002	// armour does not protect from this damage
 #define DAMAGE_NO_KNOCKBACK			0x00000004	// do not affect velocity, just view angles
 #define DAMAGE_NO_PROTECTION		0x00000008  // armor, shields, invulnerability, and godmode have no effect
+// UBER ARENA 0.3
+#define DAMAGE_PIERCING				0x00000010  // same as DAMAGE_NO_ARMOR, but armor gets damaged too
 #ifdef MISSIONPACK
 #define DAMAGE_NO_TEAM_PROTECTION	0x00000010  // armor, shields, invulnerability, and godmode have no effect
 #endif

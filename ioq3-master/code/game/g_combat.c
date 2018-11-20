@@ -712,6 +712,13 @@ int CheckArmor (gentity_t *ent, int damage, int dflags)
 
 	client->ps.stats[STAT_ARMOR] -= save;
 
+	// UBER ARENA 0.3
+	// Piercing damage, like no armor damage, does full damage regardless of armor
+	// It also, however, still damages armor whereas no armor damage leaves armor unaffected
+	// Hence why it is placed after the STAT_ARMOR deduction, while no armor damage is placed before
+	if (dflags & DAMAGE_PIERCING)
+		return 0;
+
 	return save;
 }
 
