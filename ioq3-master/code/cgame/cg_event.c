@@ -295,9 +295,57 @@ static void CG_Obituary( entityState_t *ent ) {
 			message2 = "'s BFG";
 			break;
 		// UBER ARENA MODS
+		case MOD_PIERCING_MACHINEGUN:
+			message = "got several holes put in them by";
+			message2 = "'s piercing machinegun";
+			break;
+		case MOD_EXP_SHOTGUN:
+			message = "was blown to bits by";
+			message2 = "'s explosive shotgun";
+			break;
+		case MOD_EXP_SHOTGUN_SPLASH:
+			message = "was caught in the wake of";
+			message2 = "'s explosive shotgun";
+			break;
+		case MOD_MULTI_GRENADE:
+			message = "ate";
+			message2 = "'s multi-grenade";
+			break;
+		case MOD_MULTI_GRENADE_SPLASH:
+			message = "was shredded by";
+			message2 = "'s multi-grenade shrapnel";
+			break;
+		case MOD_HOMING_ROCKET:
+			message = "couldn't escape from";
+			message2 = "'s homing rocket";
+			break;
+		case MOD_HOMING_ROCKET_SPLASH:
+			message = "was so close to fleeing from";
+			message2 = "'s homing rocket";
+			break;
+		case MOD_ARC_LIGHTNING:
+			message = "received a generous donation of electrons from";
+			message2 = "'s arc lightning gun";
+			break;
 		case MOD_ARC_LIGHTNING_INDIRECT:
 			message = "was an excellent conductor of";
 			message2 = "'s arc lightning gun";
+			break;
+		case MOD_ION_PLASMA:
+			message = "was ionized by";
+			message2 = "'s ion plasma gun";
+			break;
+		case MOD_ION_PLASMA_BOUNCE:
+			message = "thought they were safe from";
+			message2 = "'s ion plasma gun";
+			break;
+		case MOD_TOXIC_RAILGUN:
+			message = "was railed by";
+			message2 = "'s toxic railgun";
+			break;
+		case MOD_BFG30K:
+			message = "was utterly obliterated by";
+			message2 = "'s BFG30K";
 			break;
 		case MOD_RAMPAGE:
 			message = "got a little too close to";
