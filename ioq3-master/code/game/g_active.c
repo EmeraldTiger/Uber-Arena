@@ -655,7 +655,7 @@ void ClientEvents( gentity_t *ent, int oldEventSequence, pmove_t *pm ) {
 			break;
 #endif
 		case EV_USE_ITEM6: // tuning device
-			ent->client->weaponCounters[pm->ps->weapon - 3] = 3;
+			ent->client->weaponCounters[pm->ps->weapon - 1] = 3;
 			ent->client->uberCount++;
 
 			if (ent->client->uberCount >= 2) {
@@ -1021,7 +1021,7 @@ void ClientThink_real( gentity_t *ent ) {
 				// don't use medkit if at max health
 			}
 			else if ((bg_itemlist[pm.ps->stats[STAT_HOLDABLE_ITEM]].giTag == HI_TUNER) && 
-				((ent->client->weaponCounters[pm.ps->weapon - 3] >= 3) || 
+				((ent->client->weaponCounters[pm.ps->weapon - 1] >= 3) || 
 				(pm.ps->weapon == WP_MACHINEGUN || pm.ps->weapon == WP_GAUNTLET) )) {
 				// don't use tuning device if
 				// the player is currently holding either the Gauntlet or Machinegun, or

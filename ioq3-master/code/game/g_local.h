@@ -266,15 +266,17 @@ typedef struct {
 // UBER ARENA
 // Uberweapon counter defines
 // Definitions are based on weapon_t defines, to make uberweapon-related code more modular
-// That way we can simply just get the weapon id, subtract 3, and manipulate the counter, avoiding long switch statements
-#define COUNTER_SHOTGUN		WP_SHOTGUN - 3
-#define COUNTER_GRENADE		WP_GRENADE_LAUNCHER - 3
-#define COUNTER_ROCKET		WP_ROCKET_LAUNCHER - 3
-#define COUNTER_LIGHTNING	WP_LIGHTNING - 3
-#define COUNTER_RAIL		WP_RAILGUN - 3
-#define COUNTER_PLASMA		WP_PLASMAGUN - 3
-#define COUNTER_BFG			WP_BFG - 3
-#define	MAX_COUNTERS		7
+// That way we can simply just get the weapon id, subtract 1, and manipulate the counter, avoiding long switch statements
+#define COUNTER_GAUNTLET	WP_GAUNTLET - 1
+#define COUNTER_MACHINEGUN	WP_MACHINEGUN - 1
+#define COUNTER_SHOTGUN		WP_SHOTGUN - 1
+#define COUNTER_GRENADE		WP_GRENADE_LAUNCHER - 1
+#define COUNTER_ROCKET		WP_ROCKET_LAUNCHER - 1
+#define COUNTER_LIGHTNING	WP_LIGHTNING - 1
+#define COUNTER_RAIL		WP_RAILGUN - 1
+#define COUNTER_PLASMA		WP_PLASMAGUN - 1
+#define COUNTER_BFG			WP_BFG - 1
+#define	MAX_COUNTERS		10
 
 
 // this structure is cleared on each ClientSpawn(),
