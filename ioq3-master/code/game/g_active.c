@@ -877,7 +877,17 @@ void ClientThink_real( gentity_t *ent ) {
 	}
 	else
 #endif
-	if ( client->ps.powerups[PW_HASTE] ) {
+
+	if (client->ps.powerups[PW_HASTE])
+	{
+		client->ps.speed *= 1.3;
+	}
+
+	// UBER ARENA 0.3
+	// Speed boost for vampire gauntlet (while held only)
+	// Same boost as haste, put as a separate condition so that they can stack if the player has both
+	if (client->ps.weapon == WP_GAUNTLET && isUber(ent, COUNTER_GAUNTLET)) 
+	{
 		client->ps.speed *= 1.3;
 	}
 

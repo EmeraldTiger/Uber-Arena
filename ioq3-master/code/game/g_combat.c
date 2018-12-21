@@ -986,6 +986,14 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 		damage *= 0.5;
 	}
 
+	// UBER ARENA 0.3
+	// WRRRRYYYYYYY
+	// 25% damage reduction if wielding the Vampire Gauntlet
+	if ((targ->s.weapon == WP_GAUNTLET) && (isUber(targ, COUNTER_GAUNTLET)))
+	{
+		damage *= 0.75;
+	}
+
 	// add to the attacker's hit counter (if the target isn't a general entity like a prox mine)
 	if ( attacker->client && client
 			&& targ != attacker && targ->health > 0
@@ -1053,6 +1061,23 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 		// set the last client who damaged the target
 		targ->client->lasthurt_client = attacker->s.number;
 		targ->client->lasthurt_mod = mod;
+	}
+
+	// UBER ARENA 0.3
+	// Any health and armor damage inflicted by the vampire gauntlet is returned to the player
+	// Check to ensure they're alive too so you can't get health / armor from corpses
+	if ((attacker->s.weapon == WP_GAUNTLET) && (isUber(attacker, COUNTER_GAUNTLET)) && targ->health > 0)
+	{
+		attacker->health += take;
+		if (attacker->health > 999) 
+		{
+			attacker->health = 999;
+		}
+		attacker->client->ps.stats[STAT_HEALTH] += attacker->health;
+		attacker->client->ps.stats[STAT_ARMOR] += asave;
+		if (attacker->client->ps.stats[STAT_ARMOR] > 999) {
+			attacker->client->ps.stats[STAT_ARMOR] = 999;
+		}
 	}
 
 	// do the damage

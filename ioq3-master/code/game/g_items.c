@@ -365,7 +365,13 @@ int Pickup_Weapon (gentity_t *ent, gentity_t *other, qboolean captureMode) {
 	// 0.3: Moved below call inside if statement above for Tyrant-related code
 	// Upgrade_Weapon(ent->item->giTag - 3, other);
 
-	Add_Ammo( other, ent->item->giTag, quantity );
+	// UBER ARENA 0.3
+	// Because the gauntlet can now be picked up like other weapons, we need to make sure
+	// not to call the add ammo function, otherwise the gauntlet will start using up "invisible
+	// ammo" every time it hits a player.
+	if (ent->item->giTag != WP_GAUNTLET) {
+		Add_Ammo(other, ent->item->giTag, quantity);
+	}
 
 	if (ent->item->giTag == WP_GRAPPLING_HOOK)
 		other->client->ps.ammo[ent->item->giTag] = -1; // unlimited ammo
