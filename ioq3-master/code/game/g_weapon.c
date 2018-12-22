@@ -991,6 +991,17 @@ void FireWeapon( gentity_t *ent ) {
 
 	CalcMuzzlePointOrigin ( ent, ent->client->oldOrigin, forward, right, up, muzzle );
 
+	// UBER ARENA 0.3
+	// Use up ubered ammo
+	if (ent->client->uberAmmo[ent->s.weapon - 1]) 
+	{
+		ent->client->uberAmmo[ent->s.weapon - 1]--;
+		if (ent->client->uberAmmo[ent->s.weapon - 1] <= 0)
+		{
+			ent->client->weaponCounters[ent->s.weapon - 1] = 0;
+		}
+	}
+
 	// fire the specific weapon
 	switch( ent->s.weapon ) {
 	case WP_GAUNTLET:

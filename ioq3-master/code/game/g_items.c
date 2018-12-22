@@ -298,6 +298,7 @@ void AwardTyrant(gentity_t *other) {
 
 //======================================================================
 
+// Note: if passing a weapon id to the counter argument, subtract 1 from it first
 qboolean isUber(gentity_t *ent, int counter) {
 	if (ent->client->weaponCounters[counter] >= 3)
 	{
@@ -310,12 +311,37 @@ qboolean isUber(gentity_t *ent, int counter) {
 }
 
 void Upgrade_Weapon(int counter, gentity_t *other) {
+
 	if (other->client->weaponCounters[counter] < 3) {
 		other->client->weaponCounters[counter] += 1;
 	}
 
 	if (other->client->weaponCounters[counter] >= 3) {
 		other->client->uberCount++;
+		// UBER ARENA 0.3
+
+		if (g_gametype.integer == GT_TOURNAMENT) 
+		{
+			switch (counter) 
+			{
+				// Delayed-fire weapons get 5 shots
+				case COUNTER_GAUNTLET:
+				case COUNTER_SHOTGUN:
+				case COUNTER_GRENADE:
+				case COUNTER_ROCKET:
+				case COUNTER_RAIL:
+				case COUNTER_BFG:
+					other->client->uberAmmo[counter] += 6;
+					break;
+				// Rapid-fire weapons get 25 shots
+				case COUNTER_MACHINEGUN:
+				case COUNTER_LIGHTNING:
+				case COUNTER_PLASMA:
+					other->client->uberAmmo[counter] += 26;
+					break;
+			}
+			other->client->ps.stats[STAT_CURRENT_UBER_AMMO] = other->client->uberAmmo[counter];
+		}
 	}
 
 	if (other->client->uberCount >= 2) {

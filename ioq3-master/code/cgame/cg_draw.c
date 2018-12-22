@@ -258,6 +258,62 @@ static void CG_DrawField (int x, int y, int width, int value) {
 }
 #endif // MISSIONPACK
 
+// UBER ARENA 0.3
+// For use with the uber ammo counter
+static void CG_DrawFieldSmall(int x, int y, int width, int value) {
+	char	num[16], *ptr;
+	int		l;
+	int		frame;
+
+	if (width < 1) {
+		return;
+	}
+
+	// draw number string
+	if (width > 5) {
+		width = 5;
+	}
+
+	switch (width) {
+	case 1:
+		value = value > 9 ? 9 : value;
+		value = value < 0 ? 0 : value;
+		break;
+	case 2:
+		value = value > 99 ? 99 : value;
+		value = value < -9 ? -9 : value;
+		break;
+	case 3:
+		value = value > 999 ? 999 : value;
+		value = value < -99 ? -99 : value;
+		break;
+	case 4:
+		value = value > 9999 ? 9999 : value;
+		value = value < -999 ? -999 : value;
+		break;
+	}
+
+	Com_sprintf(num, sizeof(num), "%i", value);
+	l = strlen(num);
+	if (l > width)
+		l = width;
+	x += 2 + 16*(width - l);
+
+	ptr = num;
+	while (*ptr && l)
+	{
+		if (*ptr == '-')
+			frame = STAT_MINUS;
+		else
+			frame = *ptr - '0';
+
+		CG_DrawPic(x, y, 16, 16, cgs.media.numberShaders[frame]);
+		x += 16;
+		ptr++;
+		l--;
+	}
+}
+
 /*
 ================
 CG_Draw3DModel
@@ -532,13 +588,16 @@ static void CG_DrawStatusBar( void ) {
 	vec4_t		wlcolor;
 	int			wlx;
 
-	static float colors[5][4] = { 
-//		{ 0.2, 1.0, 0.2, 1.0 } , { 1.0, 0.2, 0.2, 1.0 }, {0.5, 0.5, 0.5, 1} };
-		{ 1.0f, 0.69f, 0.0f, 1.0f },    // normal
-		{ 1.0f, 0.2f, 0.2f, 1.0f },     // low health
-		{ 0.5f, 0.5f, 0.5f, 1.0f },     // weapon firing
-		{ 1.0f, 1.0f, 1.0f, 1.0f },     // health > 100
-		{ 0.0f, 1.0f, 0.0f, 1.0f } };   // conservation active
+	static float colors[5][4] = {
+		//		{ 0.2, 1.0, 0.2, 1.0 } , { 1.0, 0.2, 0.2, 1.0 }, {0.5, 0.5, 0.5, 1} };
+				{ 1.0f, 0.69f, 0.0f, 1.0f },    // normal
+				{ 1.0f, 0.2f, 0.2f, 1.0f },     // low health
+				{ 0.5f, 0.5f, 0.5f, 1.0f },     // weapon firing
+				{ 1.0f, 1.0f, 1.0f, 1.0f },     // health > 100
+				{ 0.0f, 1.0f, 0.0f, 1.0f }, };		// conservation active 
+
+	// UBER ARENA 0.3: Uber ammo counter pulses from cyan to white while there is uber ammo
+	float ubercolor[4] = { fabs(sin(cg.time / 500.0f)), 1.f, 1.f, 1.f };
 
 	if ( cg_drawStatus.integer == 0 ) {
 		return;
@@ -654,6 +713,20 @@ static void CG_DrawStatusBar( void ) {
 	limit = ps->stats[STAT_MAX_WEAPONS] + 2;
 	s = va("%i/%i", current, limit);
 	w = CG_DrawStrlen(s) * BIGCHAR_WIDTH;
+
+	// UBER ARENA 0.3
+	// ubered ammo
+	value = ps->stats[STAT_CURRENT_UBER_AMMO] - 1;
+	if (value > 0) {
+		trap_R_SetColor(ubercolor);
+	}
+	else {
+		trap_R_SetColor(colors[3]);
+	}
+	if (value < 0) {
+		value = 0;
+	}
+	CG_DrawFieldSmall(100, 462, 3, value);
 
 	// CG_DrawBigString(370, 400, s, 1.0F);
 	if (ps->powerups[PW_CONSERVATION]) {

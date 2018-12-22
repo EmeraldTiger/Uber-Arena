@@ -1078,6 +1078,12 @@ void ClientThink_real( gentity_t *ent ) {
 		ent->eventTime = level.time;
 	}
 
+	// UBER ARENA 0.3
+	// reflect ubered ammo to player stats, for client game communication / drawing on stats
+	if (g_gametype.integer == GT_TOURNAMENT) {
+		client->ps.stats[STAT_CURRENT_UBER_AMMO] = client->uberAmmo[client->ps.weapon - 1];
+	}
+
 	// swap and latch button actions
 	client->oldbuttons = client->buttons;
 	client->buttons = ucmd->buttons;

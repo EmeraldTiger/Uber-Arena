@@ -358,6 +358,10 @@ struct gclient_s {
 	// Number of uberweapons player has obtained in a single life; used for the Tyrant reward
 	int			uberCount;
 
+	// UBER ARENA 0.3
+	// In duel mode only, players get a limited amount of "ubered" ammo before reverting to a standard weapon
+	int			uberAmmo[MAX_COUNTERS];
+
 #ifdef MISSIONPACK
 	gentity_t	*persistantPowerup;
 	int			portalID;

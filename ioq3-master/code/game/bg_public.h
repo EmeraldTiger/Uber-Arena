@@ -224,6 +224,9 @@ typedef enum {
 	// UBER ARENA: Stats concerning weapon limits
 	STAT_MAX_WEAPONS,				// maximum number of weapons player can carry
 	STAT_WEAPONCOUNT,				// current number of weapons a player is carrying
+
+	// UBER ARENA 0.3: Display the amount of ubered ammo for the player's currently held weapon, in duel only
+	STAT_CURRENT_UBER_AMMO,
 } statIndex_t;
 
 
