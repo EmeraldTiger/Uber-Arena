@@ -655,12 +655,7 @@ void ClientEvents( gentity_t *ent, int oldEventSequence, pmove_t *pm ) {
 			break;
 #endif
 		case EV_USE_ITEM6: // tuning device
-			ent->client->weaponCounters[pm->ps->weapon - 1] = 3;
-			ent->client->uberCount++;
-
-			if (ent->client->uberCount >= 2) {
-				AwardTyrant(ent);
-			}
+			Upgrade_Weapon(pm->ps->weapon - 1, ent, 3);
 
 			break;
 

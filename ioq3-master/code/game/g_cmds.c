@@ -374,7 +374,7 @@ void Cmd_Uber_f(gentity_t *ent)
 	}
 
 	for (i = 0; i < MAX_COUNTERS; i++) {
-		ent->client->weaponCounters[i] = 3;
+		Upgrade_Weapon(i, ent, 3);
 	}
 
 	msg = "All weapons are now uberweapons.\n";

@@ -310,10 +310,10 @@ qboolean isUber(gentity_t *ent, int counter) {
 	}
 }
 
-void Upgrade_Weapon(int counter, gentity_t *other) {
+void Upgrade_Weapon(int counter, gentity_t *other, int steps) {
 
 	if (other->client->weaponCounters[counter] < 3) {
-		other->client->weaponCounters[counter] += 1;
+		other->client->weaponCounters[counter] += steps;
 	}
 
 	if (other->client->weaponCounters[counter] >= 3) {
@@ -384,7 +384,7 @@ int Pickup_Weapon (gentity_t *ent, gentity_t *other, qboolean captureMode) {
 	// 0.3: But don't do this if the player has 3+ of the same weapon
 	if (!(other->client->weaponCounters[ent->item->giTag - 1] >= 3)) {
 		other->client->ps.stats[STAT_WEAPONCOUNT]++;
-		Upgrade_Weapon(ent->item->giTag - 1, other);
+		Upgrade_Weapon(ent->item->giTag - 1, other, 1);
 	}
 
 	// UBER ARENA: Increment uberweapon counters
