@@ -1533,9 +1533,16 @@ void CG_DrawWeaponSelect( void ) {
 		// draw weapon icon
 		CG_DrawPic(x, y, 32, 32, cg_weapons[i].weaponIcon);
 
+		mask = (1 << i);
+
+		// UBER ARENA 0.3
+		// Draw an indicator for weapons that the player has 2 copies of
+		if (cg.snap->ps.stats[STAT_DOUBLE_MASK] & mask) {
+			CG_DrawPic(x, y, 32, 32, cgs.media.doubleIdShader);
+		}
+
 		// UBER ARENA 0.3
 		// Draw an indicator for all uberweapons
-		mask = (1 << i);
 		if (cg.snap->ps.stats[STAT_UBERS_MASK] & mask) {
 			CG_DrawPic(x, y, 32, 32, cgs.media.uberIdShader);
 		}

@@ -880,7 +880,8 @@ static void CG_RegisterGraphics( void ) {
 	cgs.media.backTileShader = trap_R_RegisterShader( "gfx/2d/backtile" );
 	cgs.media.noammoShader = trap_R_RegisterShader( "icons/noammo" );
 
-	cgs.media.uberIdShader = trap_R_RegisterShader("icons/uber_id");
+	cgs.media.uberIdShader = trap_R_RegisterShader("icons/uber_id"); // UBER ARENA 0.3
+	cgs.media.doubleIdShader = trap_R_RegisterShader("icons/double_id"); // UBER ARENA 0.3
 
 	// powerup shaders
 	cgs.media.quadShader = trap_R_RegisterShader("powerups/quad" );
