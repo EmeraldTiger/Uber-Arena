@@ -311,6 +311,7 @@ qboolean isUber(gentity_t *ent, int counter) {
 }
 
 void Upgrade_Weapon(int counter, gentity_t *other, int steps) {
+	int mask;
 
 	if (other->client->weaponCounters[counter] < 3) {
 		other->client->weaponCounters[counter] += steps;
@@ -318,6 +319,12 @@ void Upgrade_Weapon(int counter, gentity_t *other, int steps) {
 
 	if (other->client->weaponCounters[counter] >= 3) {
 		other->client->uberCount++;
+
+		// Convert weapon id into a bitmask value by raising 2 to the power of the id
+		mask = (1 << (counter + 1));
+
+		other->client->ps.stats[STAT_UBERS_MASK] |= mask;
+
 		// UBER ARENA 0.3
 
 		if (g_gametype.integer == GT_TOURNAMENT) 

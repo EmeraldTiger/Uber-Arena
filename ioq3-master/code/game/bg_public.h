@@ -202,7 +202,6 @@ void PM_AddEvent(int newEvent);
 
 //===================================================================================
 
-
 // player_state->stats[] indexes
 // NOTE: may not have more than 16
 typedef enum {
@@ -227,6 +226,10 @@ typedef enum {
 
 	// UBER ARENA 0.3: Display the amount of ubered ammo for the player's currently held weapon, in duel only
 	STAT_CURRENT_UBER_AMMO,
+
+	// UBER ARENA 0.3: Bitmasks for 2x weapons and uberweapons
+	STAT_DOUBLE_MASK,
+	STAT_UBERS_MASK,
 } statIndex_t;
 
 

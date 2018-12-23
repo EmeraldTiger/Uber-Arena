@@ -962,6 +962,8 @@ FireWeapon
 ===============
 */
 void FireWeapon( gentity_t *ent ) {
+	int mask;
+
 	if (ent->client->ps.powerups[PW_QUAD] ) {
 		s_quadFactor = g_quadfactor.value;
 	} else {
@@ -999,6 +1001,10 @@ void FireWeapon( gentity_t *ent ) {
 		if (ent->client->uberAmmo[ent->s.weapon - 1] <= 0)
 		{
 			ent->client->weaponCounters[ent->s.weapon - 1] = 0;
+
+			mask = (1 << ent->s.weapon);
+
+			ent->client->ps.stats[STAT_UBERS_MASK] &= ~mask;
 		}
 	}
 

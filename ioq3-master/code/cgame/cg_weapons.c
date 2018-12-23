@@ -1495,6 +1495,7 @@ void CG_DrawWeaponSelect( void ) {
 	int		x, y, w;
 	char	*name;
 	float	*color;
+	int		mask;
 
 	// don't display if dead
 	if ( cg.predictedPlayerState.stats[STAT_HEALTH] <= 0 ) {
@@ -1522,24 +1523,31 @@ void CG_DrawWeaponSelect( void ) {
 	x = 320 - count * 20;
 	y = 380;
 
-	for ( i = 1 ; i < MAX_WEAPONS ; i++ ) {
-		if ( !( bits & ( 1 << i ) ) ) {
+	for (i = 1; i < MAX_WEAPONS; i++) {
+		if (!(bits & (1 << i))) {
 			continue;
 		}
 
-		CG_RegisterWeapon( i );
+		CG_RegisterWeapon(i);
 
 		// draw weapon icon
-		CG_DrawPic( x, y, 32, 32, cg_weapons[i].weaponIcon );
+		CG_DrawPic(x, y, 32, 32, cg_weapons[i].weaponIcon);
+
+		// UBER ARENA 0.3
+		// Draw an indicator for all uberweapons
+		mask = (1 << i);
+		if (cg.snap->ps.stats[STAT_UBERS_MASK] & mask) {
+			CG_DrawPic(x, y, 32, 32, cgs.media.uberIdShader);
+		}
 
 		// draw selection marker
-		if ( i == cg.weaponSelect ) {
-			CG_DrawPic( x-4, y-4, 40, 40, cgs.media.selectShader );
+		if (i == cg.weaponSelect) {
+			CG_DrawPic(x - 4, y - 4, 40, 40, cgs.media.selectShader);
 		}
 
 		// no ammo cross on top
-		if ( !cg.snap->ps.ammo[ i ] ) {
-			CG_DrawPic( x, y, 32, 32, cgs.media.noammoShader );
+		if (!cg.snap->ps.ammo[i]) {
+			CG_DrawPic(x, y, 32, 32, cgs.media.noammoShader);
 		}
 
 		x += 40;
