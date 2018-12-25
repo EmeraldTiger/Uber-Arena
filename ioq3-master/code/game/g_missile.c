@@ -541,7 +541,7 @@ void G_RunMissile( gentity_t *ent ) {
 	// COME BACK LATER: Rocket code can act crazy at times, still determining fix
 	// Some code courtesy of Chris Hilton of Code3Arena
 	// https://www.quakewiki.net/archives/code3arena/tutorials/tutorial35.shtml
-	if (isUber(ent->parent, COUNTER_ROCKET) && ent->classname == "rocket") {
+	if (isUber(ent->parent, COUNTER_ROCKET) && ent->classname == "rocket" && level.numPlayingClients > 1) {
 		VectorCopy(ent->s.pos.trDelta, forward);
 		VectorNormalize(forward);
 		// Homing rockets can "see" for 2048 units
