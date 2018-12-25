@@ -1026,11 +1026,9 @@ void ClientThink_real( gentity_t *ent ) {
 				// don't use medkit if at max health
 			}
 			else if ((bg_itemlist[pm.ps->stats[STAT_HOLDABLE_ITEM]].giTag == HI_TUNER) && 
-				((ent->client->weaponCounters[pm.ps->weapon - 1] >= 3) || 
-				(pm.ps->weapon == WP_MACHINEGUN || pm.ps->weapon == WP_GAUNTLET) )) {
+				((ent->client->weaponCounters[pm.ps->weapon - 1] >= 3) )) {
 				// don't use tuning device if
-				// the player is currently holding either the Gauntlet or Machinegun, or
-				// if their current weapon is already an uberweapon
+				// their current weapon is already an uberweapon
 			}
 			else {
 				pm.ps->pm_flags |= PMF_USE_ITEM_HELD;
