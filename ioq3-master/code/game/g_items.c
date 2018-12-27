@@ -1008,7 +1008,8 @@ void FinishSpawningItem( gentity_t *ent ) {
 	if ( ent->item->giType == IT_POWERUP ) {
 		float	respawn;
 
-		respawn = 45 + crandom() * 15;
+		// UBER ARENA 0.3: No more random initial power-up spawns
+		respawn = 45;
 		ent->s.eFlags |= EF_NODRAW;
 		ent->r.contents = 0;
 		ent->nextthink = level.time + respawn * 1000;
