@@ -531,7 +531,7 @@ gentity_t *Team_ResetFlag( int team ) {
 		else {
 			// UBER ARENA: Move bounced flags back
 			if (ent->flags & FL_BOUNCED_ITEM) {
-				RespawnItem(ent);
+				ReturnItem(ent);
 			}
 			rent = ent;
 			RespawnItem(ent);

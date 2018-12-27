@@ -580,6 +580,65 @@ void RespawnItem( gentity_t *ent ) {
 	ent->nextthink = 0;
 }
 
+// UBER ARENA 0.3
+// Separate function for respawns resulting from item knockback
+// Removed teamed item related code, to fix some problems related to team items being knocked around
+/*
+===============
+ReturnItem
+===============
+*/
+void ReturnItem(gentity_t *ent) {
+
+	if (!ent) {
+		return;
+	}
+
+	ent->flags &= ~FL_BOUNCED_ITEM;
+	ent->s.pos.trType = TR_STATIONARY;
+	G_SetOrigin(ent, ent->init_origin);
+
+	ent->r.contents = CONTENTS_TRIGGER;
+	ent->s.eFlags &= ~EF_NODRAW;
+	ent->r.svFlags &= ~SVF_NOCLIENT;
+	trap_LinkEntity(ent);
+
+	if (ent->item->giType == IT_POWERUP) {
+		// play powerup spawn sound to all clients
+		gentity_t	*te;
+
+		// if the powerup respawn sound should Not be global
+		if (ent->speed) {
+			te = G_TempEntity(ent->s.pos.trBase, EV_GENERAL_SOUND);
+		}
+		else {
+			te = G_TempEntity(ent->s.pos.trBase, EV_GLOBAL_SOUND);
+		}
+		te->s.eventParm = G_SoundIndex("sound/items/poweruprespawn.wav");
+		te->r.svFlags |= SVF_BROADCAST;
+	}
+
+	if (ent->item->giType == IT_HOLDABLE && ent->item->giTag == HI_KAMIKAZE) {
+		// play powerup spawn sound to all clients
+		gentity_t	*te;
+
+		// if the powerup respawn sound should Not be global
+		if (ent->speed) {
+			te = G_TempEntity(ent->s.pos.trBase, EV_GENERAL_SOUND);
+		}
+		else {
+			te = G_TempEntity(ent->s.pos.trBase, EV_GLOBAL_SOUND);
+		}
+		te->s.eventParm = G_SoundIndex("sound/items/kamikazerespawn.wav");
+		te->r.svFlags |= SVF_BROADCAST;
+	}
+
+	// play the normal respawn sound only to nearby clients
+	G_AddEvent(ent, EV_ITEM_RESPAWN, 0);
+
+	ent->nextthink = 0;
+}
+
 
 /*
 ===============
@@ -865,7 +924,7 @@ gentity_t *Knock_Item(gentity_t *ent, gitem_t *item, vec3_t angles, float force)
 		ent->think = G_FreeEntity;
 	}
 	else {
-		ent->think = RespawnItem;
+		ent->think = ReturnItem;
 	}
 	// Bounced items respawn back in original locations after 10 seconds
 	ent->nextthink = level.time + 10000;
@@ -1259,7 +1318,7 @@ void G_RunItem( gentity_t *ent ) {
 				Team_FreeEntity(ent);
 				return;
 			}
-			RespawnItem(ent);
+			ReturnItem(ent);
 			return;
 		}
 		if (ent->item && ent->item->giType == IT_TEAM) {
