@@ -59,6 +59,12 @@ void G_BounceMissile( gentity_t *ent, trace_t *trace, int grenadeNumber, qboolea
 	VectorCopy( ent->r.currentOrigin, ent->s.pos.trBase );
 	ent->s.pos.trTime = level.time;
 
+	// UBER ARENA 0.3
+	// Reuse the "done" check for ion plasma mod determination
+	if (ent->parent->client && ent->classname == "plasma") {
+		ent->done = qtrue;
+	}
+
 	// UBER ARENA
 	// Everything past this point in this function is multi-grenade code
 
@@ -515,6 +521,7 @@ void G_RunMissile( gentity_t *ent ) {
 	gentity_t	*spotted, *candidate;
 	int			i, rocketlength;
 	trace_t		vtr;
+	int			mod;
 
 	// get current position
 	BG_EvaluateTrajectory( &ent->s.pos, level.time, origin );
@@ -620,7 +627,13 @@ void G_RunMissile( gentity_t *ent ) {
 	// Ion plasma bolts don't collide against players, so use radius-based damage instead
 	if (ent->parent->client) {
 		if (isUber(ent->parent, COUNTER_PLASMA) && ent->classname == "plasma") {
-			G_RadiusDamage(ent->r.currentOrigin, ent->parent, 10, 50, ent->parent, MOD_PLASMA);
+			if (ent->done) {
+				mod = MOD_ION_PLASMA_BOUNCE;
+			}
+			else {
+				mod = MOD_ION_PLASMA;
+			}
+			G_RadiusDamage(ent->r.currentOrigin, ent->parent, 10, 50, ent->parent, mod);
 		}
 	}
 
@@ -664,6 +677,7 @@ fire_plasma
 */
 gentity_t *fire_plasma (gentity_t *self, vec3_t start, vec3_t dir) {
 	gentity_t	*bolt;
+	int			smod;
 
 	VectorNormalize (dir);
 
@@ -685,16 +699,16 @@ gentity_t *fire_plasma (gentity_t *self, vec3_t start, vec3_t dir) {
 	bolt->damage = 20;
 	bolt->splashDamage = 15;
 	bolt->splashRadius = 20;
-	bolt->methodOfDeath = MOD_PLASMA;
-	bolt->splashMethodOfDeath = MOD_PLASMA_SPLASH;
 	if (isUber(bolt->parent, COUNTER_PLASMA))
 	{
 		// Ion plasma bolts go through players instead of being removed from world
 		bolt->clipmask = MASK_SOLID;
+		smod = MOD_ION_PLASMA;
 	}
 	else
 	{
 		bolt->clipmask = MASK_SHOT;
+		smod = MOD_PLASMA_SPLASH;
 	}
 	bolt->target_ent = NULL;
 
@@ -703,6 +717,8 @@ gentity_t *fire_plasma (gentity_t *self, vec3_t start, vec3_t dir) {
 		// Ion plasma bolts bounce
 		bolt->s.eFlags = EF_BOUNCE;
 	}
+	bolt->methodOfDeath = MOD_PLASMA;
+	bolt->splashMethodOfDeath = smod;
 
 	bolt->s.pos.trType = TR_LINEAR;
 	bolt->s.pos.trTime = level.time - MISSILE_PRESTEP_TIME;		// move a bit on the very first frame
@@ -725,6 +741,7 @@ fire_grenade
 */
 gentity_t *fire_grenade (gentity_t *self, vec3_t start, vec3_t dir, int grenadeNumber) {
 	gentity_t	*bolt;
+	int			mod, smod;
 
 	VectorNormalize (dir);
 
@@ -741,8 +758,10 @@ gentity_t *fire_grenade (gentity_t *self, vec3_t start, vec3_t dir, int grenadeN
 	bolt->damage = 100;
 	bolt->splashDamage = 100;
 	bolt->splashRadius = 150;
-	bolt->methodOfDeath = MOD_GRENADE;
-	bolt->splashMethodOfDeath = MOD_GRENADE_SPLASH;
+	mod = GetMOD(self, COUNTER_GRENADE, MOD_GRENADE, MOD_MULTI_GRENADE);
+	bolt->methodOfDeath = mod;
+	smod = GetMOD(self, COUNTER_GRENADE, MOD_GRENADE_SPLASH, MOD_MULTI_GRENADE_SPLASH);
+	bolt->splashMethodOfDeath = smod;
 	bolt->clipmask = MASK_SHOT;
 	bolt->target_ent = NULL;
 
@@ -771,6 +790,7 @@ fire_bfg
 */
 gentity_t *fire_bfg (gentity_t *self, vec3_t start, vec3_t dir) {
 	gentity_t	*bolt;
+	int			mod, smod;
 
 	VectorNormalize (dir);
 
@@ -786,8 +806,10 @@ gentity_t *fire_bfg (gentity_t *self, vec3_t start, vec3_t dir) {
 	bolt->damage = 100;
 	bolt->splashDamage = 100;
 	bolt->splashRadius = 120;
-	bolt->methodOfDeath = MOD_BFG;
-	bolt->splashMethodOfDeath = MOD_BFG_SPLASH;
+	mod = GetMOD(self, COUNTER_BFG, MOD_BFG, MOD_BFG30K);
+	bolt->methodOfDeath = mod;
+	smod = GetMOD(self, COUNTER_BFG, MOD_BFG_SPLASH, MOD_BFG30K);
+	bolt->splashMethodOfDeath = smod;
 	bolt->clipmask = MASK_SHOT;
 	bolt->target_ent = NULL;
 
@@ -811,6 +833,7 @@ fire_rocket
 */
 gentity_t *fire_rocket (gentity_t *self, vec3_t start, vec3_t dir) {
 	gentity_t	*bolt;
+	int			mod, smod;
 
 	VectorNormalize (dir);
 
@@ -826,8 +849,10 @@ gentity_t *fire_rocket (gentity_t *self, vec3_t start, vec3_t dir) {
 	bolt->damage = 100;
 	bolt->splashDamage = 100;
 	bolt->splashRadius = 120;
-	bolt->methodOfDeath = MOD_ROCKET;
-	bolt->splashMethodOfDeath = MOD_ROCKET_SPLASH;
+	mod = GetMOD(self, COUNTER_ROCKET, MOD_ROCKET, MOD_HOMING_ROCKET);
+	bolt->methodOfDeath = mod;
+	smod = GetMOD(self, COUNTER_ROCKET, MOD_ROCKET_SPLASH, MOD_HOMING_ROCKET_SPLASH);
+	bolt->splashMethodOfDeath = smod;
 	bolt->clipmask = MASK_SHOT;
 	bolt->target_ent = NULL;
 

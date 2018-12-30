@@ -509,7 +509,7 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 			AddScore( attacker, self->r.currentOrigin, -1 );
 		} else {
 			// UBER ARENA: Toxic railgun-specific code
-			if (meansOfDeath == MOD_RAILGUN && isUber(attacker, COUNTER_RAIL)) {
+			if (meansOfDeath == MOD_TOXIC_RAILGUN && isUber(attacker, COUNTER_RAIL)) {
 				// Players fragged by the Toxic Railgun also lose a frag
 				AddScore(self, self->r.currentOrigin, -1);
 			}
@@ -522,10 +522,10 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 			AddScore( attacker, self->r.currentOrigin, 1 );
 
 			// UBER ARENA: BFG30K gives 3 frags instead of 1
-			if ((meansOfDeath == MOD_BFG || meansOfDeath == MOD_BFG_SPLASH) && isUber(attacker, COUNTER_BFG))
+			if ((meansOfDeath == MOD_BFG30K) && isUber(attacker, COUNTER_BFG))
 				AddScore(attacker, self->r.currentOrigin, 2); // player already gets 1 frag by default, so we just add 2 more
 
-			if( meansOfDeath == MOD_GAUNTLET ) {
+			if( meansOfDeath == MOD_GAUNTLET || meansOfDeath == MOD_VAMPIRE_GAUNTLET ) {
 				
 				// play humiliation on player
 				attacker->client->ps.persistant[PERS_GAUNTLET_FRAG_COUNT]++;

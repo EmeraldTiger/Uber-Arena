@@ -89,6 +89,7 @@ qboolean CheckGauntletAttack( gentity_t *ent ) {
 	gentity_t	*tent;
 	gentity_t	*traceEnt;
 	int			damage;
+	int			mod;
 
 	// set aiming directions
 	AngleVectors (ent->client->ps.viewangles, forward, right, up);
@@ -132,9 +133,11 @@ qboolean CheckGauntletAttack( gentity_t *ent ) {
 	}
 #endif
 
+	mod = GetMOD(ent, COUNTER_GAUNTLET, MOD_GAUNTLET, MOD_VAMPIRE_GAUNTLET);
+
 	damage = 50 * s_quadFactor;
 	G_Damage( traceEnt, ent, ent, forward, tr.endpos,
-		damage, 0, MOD_GAUNTLET );
+		damage, 0, mod );
 
 	return qtrue;
 }
@@ -324,6 +327,7 @@ qboolean ShotgunPellet( vec3_t start, vec3_t end, gentity_t *ent ) {
 	trace_t		tr;
 	int			damage, i, passent;
 	gentity_t	*traceEnt;
+	int			mod;
 #ifdef MISSIONPACK
 	vec3_t		impactpoint, bouncedir;
 #endif
@@ -351,7 +355,7 @@ qboolean ShotgunPellet( vec3_t start, vec3_t end, gentity_t *ent ) {
 		// Explosive Shotgun creates explosions for each pellet
 		if (isUber(ent, COUNTER_SHOTGUN))
 		{
-			G_RadiusDamage(tr.endpos, ent, 11, 120, 0, MOD_SHOTGUN);
+			G_RadiusDamage(tr.endpos, ent, 11, 120, 0, MOD_EXP_SHOTGUN_SPLASH);
 		}
 
 		if ( traceEnt->takedamage) {
@@ -374,7 +378,8 @@ qboolean ShotgunPellet( vec3_t start, vec3_t end, gentity_t *ent ) {
 			if( LogAccuracyHit( traceEnt, ent ) ) {
 				hitClient = qtrue;
 			}
-			G_Damage( traceEnt, ent, ent, forward, tr.endpos, damage, 0, MOD_SHOTGUN);
+			mod = GetMOD(ent, COUNTER_SHOTGUN, MOD_SHOTGUN, MOD_EXP_SHOTGUN);
+			G_Damage( traceEnt, ent, ent, forward, tr.endpos, damage, 0, mod);
 			return hitClient;
 		}
 		return qfalse;
@@ -518,6 +523,7 @@ void weapon_railgun_fire (gentity_t *ent) {
 	int			unlinked;
 	int			passent;
 	gentity_t	*unlinkedEntities[MAX_RAIL_HITS];
+	int			mod;
 
 	damage = 100 * s_quadFactor;
 
@@ -569,14 +575,15 @@ void weapon_railgun_fire (gentity_t *ent) {
 				if( LogAccuracyHit( traceEnt, ent ) ) {
 					hits++;
 				}
-				G_Damage (traceEnt, ent, ent, forward, trace.endpos, damage, 0, MOD_RAILGUN);
+				mod = GetMOD(ent, COUNTER_RAIL, MOD_RAILGUN, MOD_TOXIC_RAILGUN);
+				G_Damage (traceEnt, ent, ent, forward, trace.endpos, damage, 0, mod);
 				// UBER ARENA: Toxic railgun code
 				if (traceEnt->client) {
 					if (isUber(ent, COUNTER_RAIL) && (traceEnt->client->ps.pm_type != PM_DEAD)) {
 						// Check to make sure they're not already dead, or you'll have zombies
 						if (traceEnt->health > 0) {
 							traceEnt->client->ps.eFlags |= EF_POISONED;
-							G_Damage(traceEnt, ent, ent, forward, trace.endpos, (traceEnt->client->ps.stats[STAT_HEALTH] - 1), 0, MOD_RAILGUN);
+							G_Damage(traceEnt, ent, ent, forward, trace.endpos, (traceEnt->client->ps.stats[STAT_HEALTH] - 1), 0, mod);
 							traceEnt->client->poisoner = ent;
 							traceEnt->client->poisonTime = level.time + 10000;
 						}
@@ -710,6 +717,7 @@ void Weapon_LightningFire( gentity_t *ent ) {
 	vec3_t		hitdir;
 	trace_t		los;
 	int j;
+	int			mod;
 
 	damage = 8 * s_quadFactor;
 
@@ -823,7 +831,8 @@ void Weapon_LightningFire( gentity_t *ent ) {
 			if( LogAccuracyHit( traceEnt, ent ) ) {
 				ent->client->accuracy_hits++;
 			}
-			G_Damage( traceEnt, ent, ent, forward, tr.endpos, damage, 0, MOD_LIGHTNING);
+			mod = GetMOD(ent, COUNTER_LIGHTNING, MOD_LIGHTNING, MOD_ARC_LIGHTNING);
+			G_Damage( traceEnt, ent, ent, forward, tr.endpos, damage, 0, mod);
 		}
 
 		if ( traceEnt->takedamage && traceEnt->client ) {
@@ -954,6 +963,20 @@ void CalcMuzzlePointOrigin ( gentity_t *ent, vec3_t origin, vec3_t forward, vec3
 	SnapVector( muzzlePoint );
 }
 
+/*
+===============
+GetMOD
+===============
+*/
+int GetMOD(gentity_t *ent, int counter, int normal, int uber) {
+	if (isUber(ent, counter)) {
+		return uber;
+	}
+	else {
+		return normal;
+	}
+}
+
 
 
 /*
@@ -963,6 +986,7 @@ FireWeapon
 */
 void FireWeapon( gentity_t *ent ) {
 	int mask;
+	int	mod;
 
 	if (ent->client->ps.powerups[PW_QUAD] ) {
 		s_quadFactor = g_quadfactor.value;
@@ -1008,6 +1032,8 @@ void FireWeapon( gentity_t *ent ) {
 		}
 	}
 
+	mod = GetMOD(ent, COUNTER_MACHINEGUN, MOD_MACHINEGUN, MOD_PIERCING_MACHINEGUN);
+
 	// fire the specific weapon
 	switch( ent->s.weapon ) {
 	case WP_GAUNTLET:
@@ -1021,9 +1047,9 @@ void FireWeapon( gentity_t *ent ) {
 		break;
 	case WP_MACHINEGUN:
 		if ( g_gametype.integer != GT_TEAM ) {
-			Bullet_Fire( ent, MACHINEGUN_SPREAD, MACHINEGUN_DAMAGE, MOD_MACHINEGUN );
+			Bullet_Fire( ent, MACHINEGUN_SPREAD, MACHINEGUN_DAMAGE, mod );
 		} else {
-			Bullet_Fire( ent, MACHINEGUN_SPREAD, MACHINEGUN_TEAM_DAMAGE, MOD_MACHINEGUN );
+			Bullet_Fire( ent, MACHINEGUN_SPREAD, MACHINEGUN_TEAM_DAMAGE, mod );
 		}
 		break;
 	case WP_GRENADE_LAUNCHER:

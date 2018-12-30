@@ -295,6 +295,10 @@ static void CG_Obituary( entityState_t *ent ) {
 			message2 = "'s BFG";
 			break;
 		// UBER ARENA MODS
+		case MOD_VAMPIRE_GAUNTLET:
+			message = "had their life force taken by";
+			message2 = "'s vampire gauntlet";
+			break;
 		case MOD_PIERCING_MACHINEGUN:
 			message = "got several holes put in them by";
 			message2 = "'s piercing machinegun";
