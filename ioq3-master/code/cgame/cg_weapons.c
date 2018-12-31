@@ -1485,6 +1485,48 @@ WEAPON SELECTION
 
 /*
 ===================
+CG_DrawUberNames
+===================
+*/
+char* CG_DrawUberNames(void) {
+
+	switch (cg.weaponSelect) {
+		case WP_GAUNTLET:
+			return "Vampire Gauntlet";
+			break;
+		case WP_MACHINEGUN:
+			return "Piercing Machinegun";
+			break;
+		case WP_SHOTGUN:
+			return "Explosive Shotgun";
+			break;
+		case WP_GRENADE_LAUNCHER:
+			return "Multi-Grenade Launcher";
+			break;
+		case WP_ROCKET_LAUNCHER:
+			return "Homing Rocket Launcher";
+			break;
+		case WP_LIGHTNING:
+			return "Arc Lightning Gun";
+			break;
+		case WP_PLASMAGUN:
+			return "Ion Plasma Gun";
+			break;
+		case WP_RAILGUN:
+			return "Toxic Railgun";
+			break;
+		case WP_BFG:
+			return "BFG30K";
+			break;
+		default:
+			return "invalid";
+			break;
+	}
+
+}
+
+/*
+===================
 CG_DrawWeaponSelect
 ===================
 */
@@ -1563,6 +1605,10 @@ void CG_DrawWeaponSelect( void ) {
 	// draw the selected name
 	if ( cg_weapons[ cg.weaponSelect ].item ) {
 		name = cg_weapons[ cg.weaponSelect ].item->pickup_name;
+		mask = (1 << cg.weaponSelect);
+		if (cg.snap->ps.stats[STAT_UBERS_MASK] & mask) {
+			name = CG_DrawUberNames();
+		}
 		if ( name ) {
 			w = CG_DrawStrlen( name ) * BIGCHAR_WIDTH;
 			x = ( SCREEN_WIDTH - w ) / 2;

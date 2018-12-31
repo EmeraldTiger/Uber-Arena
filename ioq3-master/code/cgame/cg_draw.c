@@ -716,17 +716,19 @@ static void CG_DrawStatusBar( void ) {
 
 	// UBER ARENA 0.3
 	// ubered ammo
-	value = ps->stats[STAT_CURRENT_UBER_AMMO] - 1;
-	if (value > 0) {
-		trap_R_SetColor(ubercolor);
+	if (cgs.gametype == GT_TOURNAMENT) {
+		value = ps->stats[STAT_CURRENT_UBER_AMMO] - 1;
+		if (value > 0) {
+			trap_R_SetColor(ubercolor);
+		}
+		else {
+			trap_R_SetColor(colors[3]);
+		}
+		if (value < 0) {
+			value = 0;
+		}
+		CG_DrawFieldSmall(100, 462, 3, value);
 	}
-	else {
-		trap_R_SetColor(colors[3]);
-	}
-	if (value < 0) {
-		value = 0;
-	}
-	CG_DrawFieldSmall(100, 462, 3, value);
 
 	// CG_DrawBigString(370, 400, s, 1.0F);
 	if (ps->powerups[PW_CONSERVATION]) {
