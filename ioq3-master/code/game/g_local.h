@@ -488,9 +488,12 @@ void Cmd_FollowCycle_f( gentity_t *ent, int dir );
 //
 void G_CheckTeamItems( void );
 void G_RunItem( gentity_t *ent );
+void ReturnItem(gentity_t *ent);
 void RespawnItem( gentity_t *ent );
 // UBER ARENA
 gentity_t *Knock_Item(gentity_t *ent, gitem_t *item, vec3_t angles, float force);
+void Upgrade_Weapon(int counter, gentity_t *other, int steps);
+qboolean isUber(gentity_t *ent, int counter);
 
 void UseHoldableItem( gentity_t *ent );
 void PrecacheItem (gitem_t *it);
@@ -614,6 +617,7 @@ void SnapVectorTowards( vec3_t v, vec3_t to );
 qboolean CheckGauntletAttack( gentity_t *ent );
 void Weapon_HookFree (gentity_t *ent);
 void Weapon_HookThink (gentity_t *ent);
+int GetMOD(gentity_t *ent, int counter, int normal, int uber);
 
 
 //

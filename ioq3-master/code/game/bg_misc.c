@@ -878,7 +878,7 @@ Only in CTF games
 /*QUAKED item_scout (.3 .3 1) (-16 -16 -16) (16 16 16) suspended redTeam blueTeam
 */
 	{
-		"item_scout",
+		"item_scout",m
 		"sound/items/scout.wav",
         { "models/powerups/scout.md3", 
 		NULL, NULL, NULL },
