@@ -984,7 +984,7 @@ static void PM_CrashLand( void ) {
 	// They reflect 80% of the player's velocity, while also adding 70% of the forward and lateral velocities to the vertical velocity
 	// This means a player gets a bigger upwards boost if they approach a trampoline while having accumulated some speed, regardless of direction
 	// A player can duck to avoid receiving a boost if desired
-	if (pml.groundTrace.surfaceFlags & SURF_LADDER && !(pm->ps->pm_flags & PMF_DUCKED)) {
+	if ((pml.groundTrace.surfaceFlags & SURF_LADDER || pm->ps->pm_flags & PMF_BOUNCY) && !(pm->ps->pm_flags & PMF_DUCKED)) {
 		delta = 0;
 		PM_AddEvent(EV_BOUNCE);
 		VectorCopy(pml.previous_velocity, pvnorm);

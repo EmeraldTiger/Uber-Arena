@@ -83,8 +83,6 @@ static void MainMenu_ExitAction( qboolean result ) {
 	UI_CreditMenu();
 }
 
-
-
 /*
 =================
 Main_MenuEvent

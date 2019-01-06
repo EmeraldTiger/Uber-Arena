@@ -598,6 +598,7 @@ static void CG_DrawStatusBar( void ) {
 
 	// UBER ARENA 0.3: Uber ammo counter pulses from cyan to white while there is uber ammo
 	float ubercolor[4] = { 0.0f, 1.f, 1.f, 1.f };
+	// vm compliance
 	ubercolor[0] = fabs(sin(cg.time / 500.0f));
 
 	if ( cg_drawStatus.integer == 0 ) {

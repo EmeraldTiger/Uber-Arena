@@ -582,7 +582,7 @@ void RespawnItem( gentity_t *ent ) {
 
 // UBER ARENA 0.3
 // Separate function for respawns resulting from item knockback
-// Removed teamed item related code, to fix some problems related to team items being knocked around
+// Removed teamed item related code, to fix problems related to team items being knocked around
 /*
 ===============
 ReturnItem
