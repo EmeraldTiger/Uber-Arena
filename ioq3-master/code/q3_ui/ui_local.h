@@ -94,6 +94,9 @@ extern vmCvar_t	ui_cdkey;
 extern vmCvar_t	ui_cdkeychecked;
 extern vmCvar_t	ui_ioq3;
 
+// UBER ARENA 0.4
+extern vmCvar_t	ui_uberIntro;
+
 
 //
 // ui_qmenu.c

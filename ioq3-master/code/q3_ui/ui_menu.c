@@ -41,7 +41,7 @@ MAIN MENU
 #define ID_MODS					16
 #define ID_EXIT					17
 
-#define MAIN_BANNER_MODEL				"models/mapobjects/banner/banner5.md3"
+#define MAIN_BANNER_MODEL				"models/mapobjects/banner/ua_banner.md3"
 #define MAIN_MENU_VERTICAL_SPACING		34
 
 
@@ -58,6 +58,8 @@ typedef struct {
 	menutext_s		exit;
 
 	qhandle_t		bannerModel;
+
+	sfxHandle_t		uberIntroSound;
 } mainmenu_t;
 
 
@@ -95,7 +97,8 @@ void Main_MenuEvent (void* ptr, int event) {
 
 	switch( ((menucommon_s*)ptr)->id ) {
 	case ID_SINGLEPLAYER:
-		UI_SPLevelMenu();
+		// UBER ARENA 0.4: Go directly to the Skirmish menu
+		UI_StartServerMenu(qfalse);
 		break;
 
 	case ID_MULTIPLAYER:
@@ -137,6 +140,7 @@ MainMenu_Cache
 */
 void MainMenu_Cache( void ) {
 	s_main.bannerModel = trap_R_RegisterModel( MAIN_BANNER_MODEL );
+	s_main.uberIntroSound = trap_S_RegisterSound("sound/misc/uberintro.wav", qfalse);
 }
 
 sfxHandle_t ErrorMessage_Key(int key)
@@ -173,7 +177,7 @@ static void Main_MenuDraw( void ) {
 	x = 0;
 	y = 0;
 	w = 640;
-	h = 120;
+	h = 480;
 	UI_AdjustFrom640( &x, &y, &w, &h );
 	refdef.x = x;
 	refdef.y = y;
@@ -188,7 +192,7 @@ static void Main_MenuDraw( void ) {
 
 	origin[0] = 300;
 	origin[1] = 0;
-	origin[2] = -32;
+	origin[2] = 16;
 
 	trap_R_ClearScene();
 
@@ -196,7 +200,7 @@ static void Main_MenuDraw( void ) {
 
 	memset( &ent, 0, sizeof(ent) );
 
-	adjust = 5.0 * sin( (float)uis.realtime / 5000 );
+	adjust = 25.0 * sin( (float)uis.realtime / 500 );
 	VectorSet( angles, 0, 180 + adjust, 0 );
 	AnglesToAxis( angles, ent.axis );
 	ent.hModel = s_main.bannerModel;
@@ -223,6 +227,7 @@ static void Main_MenuDraw( void ) {
 		UI_DrawProportionalString( 320, 372, "DEMO      FOR MATURE AUDIENCES      DEMO", UI_CENTER|UI_SMALLFONT, color );
 		UI_DrawString( 320, 400, "Quake III Arena(c) 1999-2000, Id Software, Inc.  All Rights Reserved", UI_CENTER|UI_SMALLFONT, color );
 	} else {
+		UI_DrawString( 320, 420, "Uber Arena(c) 2018-2019 by EmeraldTiger. All Rights Reserved", UI_CENTER | UI_SMALLFONT, color);
 		UI_DrawString( 320, 450, "Quake III Arena(c) 1999-2000, Id Software, Inc.  All Rights Reserved", UI_CENTER|UI_SMALLFONT, color );
 	}
 }
@@ -267,7 +272,7 @@ and that local cinematics are killed
 void UI_MainMenu( void ) {
 	int		y;
 	qboolean teamArena = qfalse;
-	int		style = UI_CENTER | UI_DROPSHADOW;
+	int		style = UI_CENTER | UI_DROPSHADOW | UI_SMALLFONT;
 
 	trap_Cvar_Set( "sv_killserver", "1" );
 
@@ -303,59 +308,65 @@ void UI_MainMenu( void ) {
 		return;
 	}
 
+	// UBER ARENA 0.4: "Welcome to Uber Arena"
+	if (ui_uberIntro.integer) {
+		trap_S_StartLocalSound(s_main.uberIntroSound, CHAN_ANNOUNCER);
+		ui_uberIntro.integer = 0;
+	}
+
 	s_main.menu.draw = Main_MenuDraw;
 	s_main.menu.fullscreen = qtrue;
 	s_main.menu.wrapAround = qtrue;
-	s_main.menu.showlogo = qtrue;
+	s_main.menu.showlogo = qfalse;
 
 	y = 134;
 	s_main.singleplayer.generic.type		= MTYPE_PTEXT;
 	s_main.singleplayer.generic.flags		= QMF_CENTER_JUSTIFY|QMF_PULSEIFFOCUS;
-	s_main.singleplayer.generic.x			= 320;
-	s_main.singleplayer.generic.y			= y;
+	s_main.singleplayer.generic.x			= 128;
+	s_main.singleplayer.generic.y			= 320;
 	s_main.singleplayer.generic.id			= ID_SINGLEPLAYER;
 	s_main.singleplayer.generic.callback	= Main_MenuEvent; 
-	s_main.singleplayer.string				= "SINGLE PLAYER";
-	s_main.singleplayer.color				= color_red;
+	s_main.singleplayer.string				= "PRACTICE";
+	s_main.singleplayer.color				= color_orange;
 	s_main.singleplayer.style				= style;
 
 	y += MAIN_MENU_VERTICAL_SPACING;
 	s_main.multiplayer.generic.type			= MTYPE_PTEXT;
 	s_main.multiplayer.generic.flags		= QMF_CENTER_JUSTIFY|QMF_PULSEIFFOCUS;
-	s_main.multiplayer.generic.x			= 320;
-	s_main.multiplayer.generic.y			= y;
+	s_main.multiplayer.generic.x			= 300;
+	s_main.multiplayer.generic.y			= 320;
 	s_main.multiplayer.generic.id			= ID_MULTIPLAYER;
 	s_main.multiplayer.generic.callback		= Main_MenuEvent; 
 	s_main.multiplayer.string				= "MULTIPLAYER";
-	s_main.multiplayer.color				= color_red;
+	s_main.multiplayer.color				= color_orange;
 	s_main.multiplayer.style				= style;
 
 	y += MAIN_MENU_VERTICAL_SPACING;
 	s_main.setup.generic.type				= MTYPE_PTEXT;
 	s_main.setup.generic.flags				= QMF_CENTER_JUSTIFY|QMF_PULSEIFFOCUS;
-	s_main.setup.generic.x					= 320;
-	s_main.setup.generic.y					= y;
+	s_main.setup.generic.x					= 472;
+	s_main.setup.generic.y					= 320;
 	s_main.setup.generic.id					= ID_SETUP;
 	s_main.setup.generic.callback			= Main_MenuEvent; 
-	s_main.setup.string						= "SETUP";
-	s_main.setup.color						= color_red;
+	s_main.setup.string						= "SETTINGS";
+	s_main.setup.color						= color_orange;
 	s_main.setup.style						= style;
 
 	y += MAIN_MENU_VERTICAL_SPACING;
 	s_main.demos.generic.type				= MTYPE_PTEXT;
 	s_main.demos.generic.flags				= QMF_CENTER_JUSTIFY|QMF_PULSEIFFOCUS;
-	s_main.demos.generic.x					= 320;
-	s_main.demos.generic.y					= y;
+	s_main.demos.generic.x					= 128;
+	s_main.demos.generic.y					= 370;
 	s_main.demos.generic.id					= ID_DEMOS;
 	s_main.demos.generic.callback			= Main_MenuEvent; 
 	s_main.demos.string						= "DEMOS";
-	s_main.demos.color						= color_red;
+	s_main.demos.color						= color_orange;
 	s_main.demos.style						= style;
 
 	y += MAIN_MENU_VERTICAL_SPACING;
 	s_main.cinematics.generic.type			= MTYPE_PTEXT;
 	s_main.cinematics.generic.flags			= QMF_CENTER_JUSTIFY|QMF_PULSEIFFOCUS;
-	s_main.cinematics.generic.x				= 320;
+	s_main.cinematics.generic.x				= y;
 	s_main.cinematics.generic.y				= y;
 	s_main.cinematics.generic.id			= ID_CINEMATICS;
 	s_main.cinematics.generic.callback		= Main_MenuEvent; 
@@ -368,7 +379,7 @@ void UI_MainMenu( void ) {
 		y += MAIN_MENU_VERTICAL_SPACING;
 		s_main.teamArena.generic.type			= MTYPE_PTEXT;
 		s_main.teamArena.generic.flags			= QMF_CENTER_JUSTIFY|QMF_PULSEIFFOCUS;
-		s_main.teamArena.generic.x				= 320;
+		s_main.teamArena.generic.x				= y;
 		s_main.teamArena.generic.y				= y;
 		s_main.teamArena.generic.id				= ID_TEAMARENA;
 		s_main.teamArena.generic.callback		= Main_MenuEvent; 
@@ -381,33 +392,33 @@ void UI_MainMenu( void ) {
 		y += MAIN_MENU_VERTICAL_SPACING;
 		s_main.mods.generic.type			= MTYPE_PTEXT;
 		s_main.mods.generic.flags			= QMF_CENTER_JUSTIFY|QMF_PULSEIFFOCUS;
-		s_main.mods.generic.x				= 320;
-		s_main.mods.generic.y				= y;
+		s_main.mods.generic.x				= 300;
+		s_main.mods.generic.y				= 370;
 		s_main.mods.generic.id				= ID_MODS;
 		s_main.mods.generic.callback		= Main_MenuEvent; 
-		s_main.mods.string					= "MODS";
-		s_main.mods.color					= color_red;
+		s_main.mods.string					= "OTHER MODS";
+		s_main.mods.color					= color_orange;
 		s_main.mods.style					= style;
 	}
 
 	y += MAIN_MENU_VERTICAL_SPACING;
 	s_main.exit.generic.type				= MTYPE_PTEXT;
 	s_main.exit.generic.flags				= QMF_CENTER_JUSTIFY|QMF_PULSEIFFOCUS;
-	s_main.exit.generic.x					= 320;
-	s_main.exit.generic.y					= y;
+	s_main.exit.generic.x					= 472;
+	s_main.exit.generic.y					= 370;
 	s_main.exit.generic.id					= ID_EXIT;
 	s_main.exit.generic.callback			= Main_MenuEvent; 
 	s_main.exit.string						= "EXIT";
-	s_main.exit.color						= color_red;
+	s_main.exit.color						= color_orange;
 	s_main.exit.style						= style;
 
 	Menu_AddItem( &s_main.menu,	&s_main.singleplayer );
 	Menu_AddItem( &s_main.menu,	&s_main.multiplayer );
 	Menu_AddItem( &s_main.menu,	&s_main.setup );
 	Menu_AddItem( &s_main.menu,	&s_main.demos );
-	Menu_AddItem( &s_main.menu,	&s_main.cinematics );
+	//Menu_AddItem( &s_main.menu,	&s_main.cinematics );
 	if (teamArena) {
-		Menu_AddItem( &s_main.menu,	&s_main.teamArena );
+		//Menu_AddItem( &s_main.menu,	&s_main.teamArena );
 	}
 	if ( !uis.demoversion ) {
 		Menu_AddItem( &s_main.menu,	&s_main.mods );

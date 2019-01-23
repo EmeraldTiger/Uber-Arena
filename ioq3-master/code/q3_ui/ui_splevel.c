@@ -525,7 +525,7 @@ static void UI_SPLevelMenu_BackEvent( void* ptr, int notification ) {
 UI_SPLevelMenu_CustomEvent
 =================
 */
-static void UI_SPLevelMenu_CustomEvent( void* ptr, int notification ) {
+void UI_SPLevelMenu_CustomEvent( void* ptr, int notification ) {
 	if (notification != QM_ACTIVATED) {
 		return;
 	}

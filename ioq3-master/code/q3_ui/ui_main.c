@@ -157,6 +157,9 @@ vmCvar_t	ui_server16;
 vmCvar_t	ui_cdkeychecked;
 vmCvar_t	ui_ioq3;
 
+// UBER ARENA 0.4
+vmCvar_t	ui_uberIntro;
+
 static cvarTable_t		cvarTable[] = {
 	{ &ui_ffa_fraglimit, "ui_ffa_fraglimit", "20", CVAR_ARCHIVE },
 	{ &ui_ffa_timelimit, "ui_ffa_timelimit", "0", CVAR_ARCHIVE },
@@ -215,7 +218,10 @@ static cvarTable_t		cvarTable[] = {
 
 	{ &ui_cdkeychecked, "ui_cdkeychecked", "0", CVAR_ROM },
 	{ &ui_ioq3, "ui_ioq3", "1", CVAR_ROM },
-	{ NULL, "g_localTeamPref", "", 0 }
+	{ NULL, "g_localTeamPref", "", 0 },
+
+	// UBER ARENA 0.4
+	{ &ui_uberIntro, "ui_uberIntro", "1", CVAR_ROM },
 };
 
 static int cvarTableSize = ARRAY_LEN( cvarTable );
