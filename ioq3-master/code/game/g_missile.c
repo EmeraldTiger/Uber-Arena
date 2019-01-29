@@ -856,6 +856,13 @@ gentity_t *fire_rocket (gentity_t *self, vec3_t start, vec3_t dir) {
 	bolt->clipmask = MASK_SHOT;
 	bolt->target_ent = NULL;
 
+	if (isUber(bolt->parent, COUNTER_ROCKET)) {
+		bolt->s.eFlags |= EF_UBER;
+	}
+	else {
+		bolt->s.eFlags &= ~EF_UBER;
+	}
+
 	bolt->s.pos.trType = TR_LINEAR;
 	bolt->s.pos.trTime = level.time - MISSILE_PRESTEP_TIME;		// move a bit on the very first frame
 	VectorCopy( start, bolt->s.pos.trBase );

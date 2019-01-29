@@ -411,6 +411,9 @@ typedef struct weaponInfo_s {
 
 	sfxHandle_t		readySound;
 	sfxHandle_t		firingSound;
+
+	// UBER ARENA 0.4
+	sfxHandle_t		trackingSound;		// beeping noise made by homing rockets
 } weaponInfo_t;
 
 

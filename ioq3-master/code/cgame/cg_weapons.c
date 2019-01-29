@@ -671,6 +671,9 @@ void CG_RegisterWeapon( int weaponNum ) {
 		weaponInfo->handsModel = trap_R_RegisterModel( "models/weapons2/shotgun/shotgun_hand.md3" );
 	}
 
+	// UBER ARENA 0.4
+	weaponInfo->trackingSound = trap_S_RegisterSound("sound/weapons/rocket/homing_beep.wav", qfalse);
+
 	switch ( weaponNum ) {
 	case WP_GAUNTLET:
 		MAKERGB( weaponInfo->flashDlightColor, 0.6f, 0.6f, 1.0f );

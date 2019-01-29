@@ -465,6 +465,15 @@ static void CG_Missile( centity_t *cent ) {
 		trap_S_AddLoopingSound( cent->currentState.number, cent->lerpOrigin, velocity, weapon->missileSound );
 	}
 
+	// UBER ARENA 0.4: Homing rocket tracking sound
+	if (cent->currentState.eFlags & EF_UBER && cent->currentState.weapon == WP_ROCKET_LAUNCHER) {
+		vec3_t	velocity;
+
+		BG_EvaluateTrajectoryDelta(&cent->currentState.pos, cg.time, velocity);
+
+		trap_S_AddLoopingSound(cent->currentState.number, cent->lerpOrigin, velocity, weapon->trackingSound);
+	}
+
 	// create the render entity
 	memset (&ent, 0, sizeof(ent));
 	VectorCopy( cent->lerpOrigin, ent.origin);
