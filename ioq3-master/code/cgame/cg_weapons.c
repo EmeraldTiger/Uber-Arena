@@ -810,7 +810,9 @@ void CG_RegisterWeapon( int weaponNum ) {
 		MAKERGB( weaponInfo->flashDlightColor, 1, 0.7f, 1 );
 		weaponInfo->flashSound[0] = trap_S_RegisterSound( "sound/weapons/bfg/bfg_fire.wav", qfalse );
 		cgs.media.bfgExplosionShader = trap_R_RegisterShader( "bfgExplosion" );
+		cgs.media.uberbfgExplosionShader = trap_R_RegisterShader("uberbfgExplosion");
 		weaponInfo->missileModel = trap_R_RegisterModel( "models/weaphits/bfg.md3" );
+		weaponInfo->uberMissileModel = trap_R_RegisterModel("models/weaphits/uberbfg.md3");
 		weaponInfo->missileSound = trap_S_RegisterSound( "sound/weapons/rocket/rockfly.wav", qfalse );
 		break;
 
@@ -1960,7 +1962,12 @@ void CG_MissileHitWall( int weapon, int clientNum, vec3_t origin, vec3_t dir, im
 		break;
 	case WP_BFG:
 		mod = cgs.media.dishFlashModel;
-		shader = cgs.media.bfgExplosionShader;
+		if (uber) {
+			shader = cgs.media.uberbfgExplosionShader;
+		}
+		else {
+			shader = cgs.media.bfgExplosionShader;
+		}
 		sfx = cgs.media.sfx_rockexp;
 		mark = cgs.media.burnMarkShader;
 		radius = 32;

@@ -404,6 +404,8 @@ typedef struct weaponInfo_s {
 	vec3_t			missileDlightColor;
 	int				missileRenderfx;
 
+	qhandle_t		uberMissileModel; // UBER ARENA 0.4
+
 	void			(*ejectBrassFunc)( centity_t * );
 
 	float			trailRadius;
@@ -801,6 +803,7 @@ typedef struct {
 	qhandle_t	bloodExplosionShader;
 
 	qhandle_t	ionPlasmaExplosionShader; // UBER ARENA 0.4
+	qhandle_t	uberbfgExplosionShader; // UBER ARENA 0.4
 
 	// special effects models
 	qhandle_t	teleportEffectModel;

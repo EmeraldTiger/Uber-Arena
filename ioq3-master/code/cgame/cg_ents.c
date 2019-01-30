@@ -495,7 +495,12 @@ static void CG_Missile( centity_t *cent ) {
 
 	// flicker between two skins
 	ent.skinNum = cg.clientFrame & 1;
-	ent.hModel = weapon->missileModel;
+	if (cent->currentState.eFlags & EF_UBER && cent->currentState.weapon == WP_BFG) {
+		ent.hModel = weapon->uberMissileModel;
+	}
+	else {
+		ent.hModel = weapon->missileModel;
+	}
 	ent.renderfx = weapon->missileRenderfx | RF_NOSHADOW;
 
 #ifdef MISSIONPACK
