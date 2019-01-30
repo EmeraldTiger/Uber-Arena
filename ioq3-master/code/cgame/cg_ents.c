@@ -484,9 +484,14 @@ static void CG_Missile( centity_t *cent ) {
 		ent.radius = 16;
 		ent.rotation = 0;
 		ent.customShader = cgs.media.plasmaBallShader;
+		// UBER ARENA 0.4: Magenta bolts for the ion plasma gun (throwback to the Q3Test)
+		if (cent->currentState.eFlags & EF_UBER) {
+			ent.customShader = cgs.media.ionPlasmaBallShader;
+		}
 		trap_R_AddRefEntityToScene( &ent );
 		return;
 	}
+
 
 	// flicker between two skins
 	ent.skinNum = cg.clientFrame & 1;

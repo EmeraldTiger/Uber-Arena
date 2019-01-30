@@ -883,6 +883,8 @@ static void CG_RegisterGraphics( void ) {
 	cgs.media.uberIdShader = trap_R_RegisterShader("icons/uber_id"); // UBER ARENA 0.3
 	cgs.media.doubleIdShader = trap_R_RegisterShader("icons/double_id"); // UBER ARENA 0.3
 
+	cgs.media.ionPlasmaBallShader = trap_R_RegisterShader("sprites/ionplasma1"); // UBER ARENA 0.4
+
 	// powerup shaders
 	cgs.media.quadShader = trap_R_RegisterShader("powerups/quad" );
 	cgs.media.quadWeaponShader = trap_R_RegisterShader("powerups/quadWeapon" );

@@ -792,6 +792,7 @@ void CG_RegisterWeapon( int weaponNum ) {
 		MAKERGB( weaponInfo->flashDlightColor, 0.6f, 0.6f, 1.0f );
 		weaponInfo->flashSound[0] = trap_S_RegisterSound( "sound/weapons/plasma/hyprbf1a.wav", qfalse );
 		cgs.media.plasmaExplosionShader = trap_R_RegisterShader( "plasmaExplosion" );
+		cgs.media.ionPlasmaExplosionShader = trap_R_RegisterShader("ionPlasmaExplosion");
 		cgs.media.railRingsShader = trap_R_RegisterShader( "railDisc" );
 		break;
 
@@ -1947,7 +1948,12 @@ void CG_MissileHitWall( int weapon, int clientNum, vec3_t origin, vec3_t dir, im
 		break;
 	case WP_PLASMAGUN:
 		mod = cgs.media.ringFlashModel;
-		shader = cgs.media.plasmaExplosionShader;
+		if (uber) {
+			shader = cgs.media.ionPlasmaExplosionShader;
+		}
+		else {
+			shader = cgs.media.plasmaExplosionShader;
+		}
 		sfx = cgs.media.sfx_plasmaexp;
 		mark = cgs.media.energyMarkShader;
 		radius = 16;

@@ -746,6 +746,9 @@ typedef struct {
 	qhandle_t	plasmaBallShader;
 	qhandle_t	waterBubbleShader;
 	qhandle_t	bloodTrailShader;
+
+	qhandle_t	ionPlasmaBallShader; // UBER ARENA 0.4
+
 #ifdef MISSIONPACK
 	qhandle_t	nailPuffShader;
 	qhandle_t	blueProxMine;
@@ -796,6 +799,8 @@ typedef struct {
 	qhandle_t	grenadeExplosionShader;
 	qhandle_t	bfgExplosionShader;
 	qhandle_t	bloodExplosionShader;
+
+	qhandle_t	ionPlasmaExplosionShader; // UBER ARENA 0.4
 
 	// special effects models
 	qhandle_t	teleportEffectModel;

@@ -712,10 +712,17 @@ gentity_t *fire_plasma (gentity_t *self, vec3_t start, vec3_t dir) {
 	}
 	bolt->target_ent = NULL;
 
+	if (isUber(bolt->parent, COUNTER_PLASMA)) {
+		bolt->s.eFlags |= EF_UBER;
+	}
+	else {
+		bolt->s.eFlags &= ~EF_UBER;
+	}
+
 	if (isUber(bolt->parent, COUNTER_PLASMA)) 
 	{
 		// Ion plasma bolts bounce
-		bolt->s.eFlags = EF_BOUNCE;
+		bolt->s.eFlags |= EF_BOUNCE;
 	}
 	bolt->methodOfDeath = MOD_PLASMA;
 	bolt->splashMethodOfDeath = smod;
