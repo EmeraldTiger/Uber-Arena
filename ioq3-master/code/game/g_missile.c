@@ -772,6 +772,13 @@ gentity_t *fire_grenade (gentity_t *self, vec3_t start, vec3_t dir, int grenadeN
 	bolt->clipmask = MASK_SHOT;
 	bolt->target_ent = NULL;
 
+	if (isUber(bolt->parent, COUNTER_GRENADE)) {
+		bolt->s.eFlags |= EF_UBER;
+	}
+	else {
+		bolt->s.eFlags &= ~EF_UBER;
+	}
+
 	bolt->grenadeNumber = grenadeNumber;
 
 	bolt->done = qfalse;

@@ -495,7 +495,7 @@ static void CG_Missile( centity_t *cent ) {
 
 	// flicker between two skins
 	ent.skinNum = cg.clientFrame & 1;
-	if (cent->currentState.eFlags & EF_UBER && cent->currentState.weapon == WP_BFG) {
+	if (cent->currentState.eFlags & EF_UBER && (cent->currentState.weapon == WP_BFG || cent->currentState.weapon == WP_GRENADE_LAUNCHER)) {
 		ent.hModel = weapon->uberMissileModel;
 	}
 	else {

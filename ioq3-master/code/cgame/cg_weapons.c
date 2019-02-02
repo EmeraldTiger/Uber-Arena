@@ -764,6 +764,7 @@ void CG_RegisterWeapon( int weaponNum ) {
 
 	case WP_GRENADE_LAUNCHER:
 		weaponInfo->missileModel = trap_R_RegisterModel( "models/ammo/grenade1.md3" );
+		weaponInfo->uberMissileModel = trap_R_RegisterModel("models/ammo/ubergrenade1.md3");
 		weaponInfo->missileTrailFunc = CG_GrenadeTrail;
 		weaponInfo->wiTrailTime = 700;
 		weaponInfo->trailRadius = 32;
