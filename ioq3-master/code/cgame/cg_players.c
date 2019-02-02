@@ -2259,6 +2259,38 @@ int CG_LightVerts( vec3_t normal, int numVerts, polyVert_t *verts )
 
 /*
 ===============
+CG_UberEffect
+Display a rotating orb of light corresponding to the player's currently held uberweapon
+===============
+*/
+
+qhandle_t CG_UberEffect(centity_t *cent) {
+	switch (cent->currentState.weapon) {
+		case WP_GAUNTLET:
+			return cgs.media.uberGauntletModel;
+		case WP_MACHINEGUN:
+			return cgs.media.uberMachinegunModel;
+		case WP_SHOTGUN:
+			return cgs.media.uberShotgunModel;
+		case WP_ROCKET_LAUNCHER:
+			return cgs.media.uberRocketModel;
+		case WP_LIGHTNING:
+			return cgs.media.uberLightningModel;
+		case WP_GRENADE_LAUNCHER:
+			return cgs.media.uberGrenadeModel;
+		case WP_PLASMAGUN:
+			return cgs.media.uberPlasmaModel;
+		case WP_RAILGUN:
+			return cgs.media.uberRailgunModel;
+		case WP_BFG:
+			return cgs.media.uberBFGModel;
+		default:
+			break;
+	}
+}
+
+/*
+===============
 CG_Player
 ===============
 */
@@ -2279,6 +2311,7 @@ void CG_Player( centity_t *cent ) {
 	float			angle;
 	vec3_t			dir, angles;
 #endif
+	refEntity_t		uberRing;
 
 	// the client number is stored in clientNum.  It can't be derived
 	// from the entity number, because a single client may have
@@ -2375,6 +2408,17 @@ void CG_Player( centity_t *cent ) {
 	torso.renderfx = renderfx;
 
 	CG_AddRefEntityWithPowerups( &torso, &cent->currentState, ci->team );
+
+	// UBER ARENA 0.4
+	if (cent->currentState.eFlags & EF_UBER) {
+		memcpy(&uberRing, &torso, sizeof(torso));
+		uberRing.hModel = CG_UberEffect(cent);
+		VectorCopy(torso.origin, uberRing.origin);
+		uberRing.frame = 0;
+		uberRing.oldframe = 0;
+		uberRing.customSkin = 0;
+		trap_R_AddRefEntityToScene(&uberRing);
+	}
 
 #ifdef MISSIONPACK
 	if ( cent->currentState.eFlags & EF_KAMIKAZE ) {

@@ -974,6 +974,18 @@ static void CG_RegisterGraphics( void ) {
 	// UBER ARENA
 	cgs.media.pouchModel = trap_R_RegisterModel("models/powerups/pouch/pouch.md3");
 
+	// UBER ARENA 0.4: Uberweapon id models
+
+	cgs.media.uberGauntletModel = trap_R_RegisterModel("models/uber/ubergauntlet.md3"); // UBER ARENA 0.4
+	cgs.media.uberMachinegunModel = trap_R_RegisterModel("models/uber/ubermachinegun.md3"); // UBER ARENA 0.4
+	cgs.media.uberShotgunModel = trap_R_RegisterModel("models/uber/ubershotgun.md3"); // UBER ARENA 0.4
+	cgs.media.uberRocketModel = trap_R_RegisterModel("models/uber/uberrocket.md3"); // UBER ARENA 0.4
+	cgs.media.uberLightningModel = trap_R_RegisterModel("models/uber/uberlightning.md3"); // UBER ARENA 0.4
+	cgs.media.uberGrenadeModel = trap_R_RegisterModel("models/uber/ubergrenade.md3"); // UBER ARENA 0.4
+	cgs.media.uberPlasmaModel = trap_R_RegisterModel("models/uber/uberplasma.md3"); // UBER ARENA 0.4
+	cgs.media.uberRailgunModel = trap_R_RegisterModel("models/uber/uberrailgun.md3"); // UBER ARENA 0.4
+	cgs.media.uberBFGModel = trap_R_RegisterModel("models/uber/uberbfg.md3"); // UBER ARENA 0.4
+
 	cgs.media.machinegunBrassModel = trap_R_RegisterModel( "models/weapons2/shells/m_shell.md3" );
 	cgs.media.shotgunBrassModel = trap_R_RegisterModel( "models/weapons2/shells/s_shell.md3" );
 

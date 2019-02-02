@@ -909,6 +909,16 @@ void ClientThink_real( gentity_t *ent ) {
 		ent->client->pers.cmd.buttons |= BUTTON_GESTURE;
 	}
 
+	// UBER ARENA 0.4
+	// Check if current weapon is uber (for uber orb effect)
+	// May move out of ClientThink_real for optimization later
+	if (isUber(ent, ent->client->ps.weapon - 1)) {
+		ent->client->ps.eFlags |= EF_UBER;
+	}
+	else {
+		ent->client->ps.eFlags &= ~EF_UBER;
+	}
+
 #ifdef MISSIONPACK
 	// check for invulnerability expansion before doing the Pmove
 	if (client->ps.powerups[PW_INVULNERABILITY] ) {

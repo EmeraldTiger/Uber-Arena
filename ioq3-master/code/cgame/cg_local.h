@@ -751,6 +751,18 @@ typedef struct {
 
 	qhandle_t	ionPlasmaBallShader; // UBER ARENA 0.4
 
+	// UBER ARENA 0.4: Uberweapon id shaders
+
+	qhandle_t	uberGauntletModel;
+	qhandle_t	uberMachinegunModel;
+	qhandle_t	uberShotgunModel;
+	qhandle_t	uberGrenadeModel;
+	qhandle_t	uberRocketModel;
+	qhandle_t	uberLightningModel;
+	qhandle_t	uberRailgunModel;
+	qhandle_t	uberPlasmaModel;
+	qhandle_t	uberBFGModel;
+
 #ifdef MISSIONPACK
 	qhandle_t	nailPuffShader;
 	qhandle_t	blueProxMine;
