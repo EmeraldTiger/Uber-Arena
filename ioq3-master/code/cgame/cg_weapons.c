@@ -727,6 +727,7 @@ void CG_RegisterWeapon( int weaponNum ) {
 		weaponInfo->flashSound[1] = trap_S_RegisterSound( "sound/weapons/machinegun/machgf2b.wav", qfalse );
 		weaponInfo->flashSound[2] = trap_S_RegisterSound( "sound/weapons/machinegun/machgf3b.wav", qfalse );
 		weaponInfo->flashSound[3] = trap_S_RegisterSound( "sound/weapons/machinegun/machgf4b.wav", qfalse );
+		weaponInfo->pierceSound = trap_S_RegisterSound("sound/weapons/machinegun/piercer.wav", qfalse);
 		weaponInfo->ejectBrassFunc = CG_MachineGunEjectBrass;
 		cgs.media.bulletExplosionShader = trap_R_RegisterShader( "bulletExplosion" );
 		break;
@@ -1847,6 +1848,11 @@ void CG_FireWeapon( centity_t *cent ) {
 		{
 			trap_S_StartSound( NULL, ent->number, CHAN_WEAPON, weap->flashSound[c] );
 		}
+	}
+
+	// UBER ARENA 0.4: Piercing machinegun noise
+	if (cent->currentState.eFlags & EF_UBER && cent->currentState.weapon == WP_MACHINEGUN) {
+		trap_S_StartSound(NULL, ent->number, CHAN_WEAPON, weap->pierceSound);
 	}
 
 	// do brass ejection

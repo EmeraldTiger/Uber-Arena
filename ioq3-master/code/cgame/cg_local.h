@@ -392,6 +392,8 @@ typedef struct weaponInfo_s {
 	vec3_t			flashDlightColor;
 	sfxHandle_t		flashSound[4];		// fast firing weapons randomly choose
 
+	sfxHandle_t		pierceSound;		// UBER ARENA 0.4
+
 	qhandle_t		weaponIcon;
 	qhandle_t		ammoIcon;
 
