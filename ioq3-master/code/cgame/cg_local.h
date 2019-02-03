@@ -726,6 +726,8 @@ typedef struct {
 
 	qhandle_t	lightningShader;
 
+	qhandle_t	arcLightningShader;
+
 	qhandle_t	friendShader;
 
 	qhandle_t	balloonShader;
@@ -804,6 +806,8 @@ typedef struct {
 	qhandle_t	ringFlashModel;
 	qhandle_t	dishFlashModel;
 	qhandle_t	lightningExplosionModel;
+
+	qhandle_t	arcLightningExplosionModel; // UBER ARENA 0.4
 
 	// weapon effect shaders
 	qhandle_t	railExplosionShader;

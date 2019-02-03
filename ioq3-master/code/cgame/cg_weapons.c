@@ -688,7 +688,9 @@ void CG_RegisterWeapon( int weaponNum ) {
 
 		weaponInfo->flashSound[0] = trap_S_RegisterSound( "sound/weapons/lightning/lg_fire.wav", qfalse );
 		cgs.media.lightningShader = trap_R_RegisterShader( "lightningBoltNew");
+		cgs.media.arcLightningShader = trap_R_RegisterShader("arcLightningBoltNew");
 		cgs.media.lightningExplosionModel = trap_R_RegisterModel( "models/weaphits/crackle.md3" );
+		cgs.media.arcLightningExplosionModel = trap_R_RegisterModel("models/weaphits/arccrackle.md3");
 		cgs.media.sfx_lghit1 = trap_S_RegisterSound( "sound/weapons/lightning/lg_hit.wav", qfalse );
 		cgs.media.sfx_lghit2 = trap_S_RegisterSound( "sound/weapons/lightning/lg_hit2.wav", qfalse );
 		cgs.media.sfx_lghit3 = trap_S_RegisterSound( "sound/weapons/lightning/lg_hit3.wav", qfalse );
@@ -1013,7 +1015,12 @@ static void CG_LightningBolt( centity_t *cent, vec3_t origin ) {
 			if (!(trace.contents & CONTENTS_SOLID)) {
 
 				beam.reType = RT_LIGHTNING;
-				beam.customShader = cgs.media.lightningShader;
+				if (cent->currentState.eFlags & EF_UBER) {
+					beam.customShader = cgs.media.arcLightningShader;
+				}
+				else {
+					beam.customShader = cgs.media.lightningShader;
+				}
 				trap_R_AddRefEntityToScene(&beam);
 			}
 		}
@@ -1075,7 +1082,12 @@ static void CG_LightningBolt( centity_t *cent, vec3_t origin ) {
 	VectorCopy( origin, beam.origin );
 
 	beam.reType = RT_LIGHTNING;
-	beam.customShader = cgs.media.lightningShader;
+	if (cent->currentState.eFlags & EF_UBER) {
+		beam.customShader = cgs.media.arcLightningShader;
+	}
+	else {
+		beam.customShader = cgs.media.lightningShader;
+	}
 	trap_R_AddRefEntityToScene( &beam );
 
 	// add the impact flare if it hit something
@@ -1087,7 +1099,12 @@ static void CG_LightningBolt( centity_t *cent, vec3_t origin ) {
 		VectorNormalize( dir );
 
 		memset( &beam, 0, sizeof( beam ) );
-		beam.hModel = cgs.media.lightningExplosionModel;
+		if (cent->currentState.eFlags & EF_UBER) {
+			beam.hModel = cgs.media.arcLightningExplosionModel;
+		}
+		else {
+			beam.hModel = cgs.media.lightningExplosionModel;
+		}
 
 		VectorMA( trace.endpos, -16, dir, beam.origin );
 
