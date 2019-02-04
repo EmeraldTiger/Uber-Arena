@@ -273,7 +273,12 @@ static void CG_TouchItem( centity_t *cent ) {
 		return;
 	}
 
-	if ( !BG_CanItemBeGrabbed( cgs.gametype, &cent->currentState, &cg.predictedPlayerState, qfalse, qfalse ) ) {
+	// UBER ARENA 0.4:
+	// Assume capturemode is always on from the client side
+	// Otherwise if the player has a capture-mode storage capsule it will look like they are grabbing
+	// the flag when they really aren't
+	// Flag pickups will still work as expected in all other cases, as the server will correct it anyway
+	if ( !BG_CanItemBeGrabbed( cgs.gametype, &cent->currentState, &cg.predictedPlayerState, qtrue, qfalse ) ) {
 		return;		// can't hold it
 	}
 
