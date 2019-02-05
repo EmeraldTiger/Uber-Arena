@@ -1019,7 +1019,7 @@ void FireWeapon( gentity_t *ent ) {
 
 	// UBER ARENA 0.3
 	// Use up ubered ammo
-	if (ent->client->uberAmmo[ent->s.weapon - 1]) 
+	if (ent->client->uberAmmo[ent->s.weapon - 1] && !ent->client->ps.powerups[PW_CONSERVATION]) 
 	{
 		ent->client->uberAmmo[ent->s.weapon - 1]--;
 		if (ent->client->uberAmmo[ent->s.weapon - 1] <= 0)
