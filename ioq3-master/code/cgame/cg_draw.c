@@ -587,6 +587,7 @@ static void CG_DrawStatusBar( void ) {
 	int			current, limit;
 	vec4_t		wlcolor;
 	int			wlx;
+	int			wly;
 
 	static float colors[5][4] = {
 		//		{ 0.2, 1.0, 0.2, 1.0 } , { 1.0, 0.2, 0.2, 1.0 }, {0.5, 0.5, 0.5, 1} };
@@ -642,13 +643,21 @@ static void CG_DrawStatusBar( void ) {
 					   cgs.media.armorModel, 0, origin, angles );
 	}
 
+	// UBER ARENA 0.4: Move up weapon limit stats upward in CTF due to flag indicators
+	if (cgs.gametype == GT_CTF) {
+		wly = 22;
+	}
+	else {
+		wly = 0;
+	}
+
 	// UBER ARENA: Draw weapon pouch model to draw attention
 	if (ps->stats[STAT_MAX_WEAPONS]) {
 		origin[0] = 90;
 		origin[1] = 0;
 		origin[2] = -10;
 		angles[YAW] = (cg.time & 2047) * 360 / 2048.0;
-		CG_Draw3DModel(612, 379, 25, 25,
+		CG_Draw3DModel(612, 379 - wly, 25, 25,
 			cgs.media.pouchModel, 0, origin, angles);
 	}
 
@@ -752,7 +761,7 @@ static void CG_DrawStatusBar( void ) {
 	else {
 		wlx = 0;
 	}
-	CG_DrawBigStringColor(565 - wlx, 380, s, wlcolor);
+	CG_DrawBigStringColor(565 - wlx, 380 - wly, s, wlcolor);
 
 	//
 	// armor
