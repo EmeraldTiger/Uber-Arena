@@ -77,24 +77,25 @@ void TossClientItems( gentity_t *self ) {
 	gitem_t		*item;
 	int			weapon;
 	float		angle;
-	int			i;
+	int			i, j;
 	gentity_t	*drop;
 
-	// drop the weapon if not a gauntlet or machinegun
+	// drop the weapon
 	weapon = self->s.weapon;
 
+	// UBER ARENA 0.4: THIS ISN'T NEEDED ANYMORE: see below...
 	// make a special check to see if they are changing to a new
 	// weapon that isn't the mg or gauntlet.  Without this, a client
 	// can pick up a weapon, be killed, and not drop the weapon because
 	// their weapon change hasn't completed yet and they are still holding the MG.
-	if ( weapon == WP_MACHINEGUN || weapon == WP_GRAPPLING_HOOK ) {
+	/* if ( weapon == WP_MACHINEGUN || weapon == WP_GRAPPLING_HOOK ) {
 		if ( self->client->ps.weaponstate == WEAPON_DROPPING ) {
 			weapon = self->client->pers.cmd.weapon;
 		}
 		if ( !( self->client->ps.stats[STAT_WEAPONS] & ( 1 << weapon ) ) ) {
 			weapon = WP_NONE;
 		}
-	}
+	} */
 
 	// UBER ARENA 0.4
 	// Gauntlet and machinegun can now be dropped, since they are now collectible weapons
@@ -125,6 +126,13 @@ void TossClientItems( gentity_t *self ) {
 				angle += 45;
 			}
 		}
+	}
+	
+	// UBER ARENA 0.4: Holdable items can now be dropped
+	// Storage capsule will reset to standby mode if dropped
+	if (self->client->ps.stats[STAT_HOLDABLE_ITEM]) {
+		item = BG_FindItemForHoldable(bg_itemlist[self->client->ps.stats[STAT_HOLDABLE_ITEM]].giTag);
+		drop = Drop_Item(self, item, angle);
 	}
 }
 
