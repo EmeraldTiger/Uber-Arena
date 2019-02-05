@@ -133,6 +133,11 @@ void TossClientItems( gentity_t *self ) {
 	if (self->client->ps.stats[STAT_HOLDABLE_ITEM]) {
 		item = BG_FindItemForHoldable(bg_itemlist[self->client->ps.stats[STAT_HOLDABLE_ITEM]].giTag);
 		drop = Drop_Item(self, item, angle);
+		if (bg_itemlist[self->client->ps.stats[STAT_HOLDABLE_ITEM]].giTag == HI_RECEPTACLE && self->client->capturedItem) {
+			// if storage capsule had an item stored at the time of death, drop that too
+			angle += 22;
+			drop = Drop_Item(self, self->client->capturedItem->item, angle);
+		}
 	}
 }
 
