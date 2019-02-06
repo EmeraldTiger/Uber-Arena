@@ -1836,6 +1836,11 @@ void CG_FireWeapon( centity_t *cent ) {
 		trap_S_StartSound (NULL, cent->currentState.number, CHAN_ITEM, cgs.media.quadSound );
 	}
 
+	// UBER ARENA 0.4: play conservation sound if needed
+	if (cent->currentState.powerups & (1 << PW_CONSERVATION)) {
+		trap_S_StartSound(NULL, cent->currentState.number, CHAN_ITEM, cgs.media.conserveSound);
+	}
+
 	// play a sound
 	for ( c = 0 ; c < 4 ; c++ ) {
 		if ( !weap->flashSound[c] ) {

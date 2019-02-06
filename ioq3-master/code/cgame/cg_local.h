@@ -1019,6 +1019,7 @@ typedef struct {
 
 	sfxHandle_t	regenSound;
 	sfxHandle_t	protectSound;
+	sfxHandle_t	conserveSound; // UBER ARENA 0.4
 	sfxHandle_t	n_healthSound;
 	sfxHandle_t	hgrenb1aSound;
 	sfxHandle_t	hgrenb2aSound;

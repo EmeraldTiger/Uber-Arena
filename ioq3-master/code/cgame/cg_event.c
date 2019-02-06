@@ -1316,6 +1316,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 			cg.powerupActive = PW_CONSERVATION;
 			cg.powerupTime = cg.time;
 		}
+		trap_S_StartSound(NULL, es->number, CHAN_ITEM, cgs.media.conserveSound);
 		break;
 
 	case EV_GIB_PLAYER:
