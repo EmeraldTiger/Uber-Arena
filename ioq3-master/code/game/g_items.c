@@ -597,6 +597,10 @@ void ReturnItem(gentity_t *ent) {
 	ent->flags &= ~FL_BOUNCED_ITEM;
 	ent->s.pos.trType = TR_STATIONARY;
 	G_SetOrigin(ent, ent->init_origin);
+	// UBER ARENA 0.4: Fix for items knocked onto movers
+	ent->s.groundEntityNum = ENTITYNUM_WORLD;
+	VectorClear(ent->s.pos.trDelta);
+	ent->s.pos.trTime = 0;
 
 	ent->r.contents = CONTENTS_TRIGGER;
 	ent->s.eFlags &= ~EF_NODRAW;
