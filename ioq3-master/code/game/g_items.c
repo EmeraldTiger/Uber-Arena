@@ -908,6 +908,7 @@ gentity_t *Knock_Item(gentity_t *ent, gitem_t *item, vec3_t angles, float force)
 		velocity[2] = 0;
 	VectorScale(velocity, 400, velocity);
 	VectorMA(velocity, -2 * dot, up, ent->s.pos.trDelta);
+	ent->s.modelindex2 = 1; // UBER ARENA 0.4: Set this because dropped items do it too
 
 	G_SetOrigin(ent, ent->s.pos.trBase);
 	ent->s.pos.trType = TR_GRAVITY;
