@@ -1857,6 +1857,11 @@ static void CG_PlayerPowerups( centity_t *cent, refEntity_t *torso ) {
 		trap_R_AddLightToScene(cent->lerpOrigin, 200 + (rand() & 31), 0.2f, 1, 0.2f);
 	}
 
+	// UBER ARENA 0.4: and Scavenger too
+	if (powerups & (1 << PW_SCAVENGER)) {
+		trap_R_AddLightToScene(cent->lerpOrigin, 200 + (rand() & 31), 0.44f, 0.99f, 0.82f);
+	}
+
 	// flight plays a looped sound
 	if ( powerups & ( 1 << PW_FLIGHT ) ) {
 		trap_S_AddLoopingSound( cent->currentState.number, cent->lerpOrigin, vec3_origin, cgs.media.flightSound );
