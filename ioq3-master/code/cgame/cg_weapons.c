@@ -807,6 +807,7 @@ void CG_RegisterWeapon( int weaponNum ) {
 		cgs.media.railExplosionShader = trap_R_RegisterShader( "railExplosion" );
 		cgs.media.railRingsShader = trap_R_RegisterShader( "railDisc" );
 		cgs.media.railCoreShader = trap_R_RegisterShader( "railCore" );
+		weaponInfo->toxicSound = trap_S_RegisterSound("sound/weapons/railgun/toxicshot.wav", qfalse);
 		break;
 
 	case WP_BFG:
@@ -1858,6 +1859,11 @@ void CG_FireWeapon( centity_t *cent ) {
 	// UBER ARENA 0.4: Piercing machinegun noise
 	if (cent->currentState.eFlags & EF_UBER && cent->currentState.weapon == WP_MACHINEGUN) {
 		trap_S_StartSound(NULL, ent->number, CHAN_WEAPON, weap->pierceSound);
+	}
+
+	// UBER ARENA 0.4: Toxic railgun noise
+	if (cent->currentState.eFlags & EF_UBER && cent->currentState.weapon == WP_RAILGUN) {
+		trap_S_StartSound(NULL, ent->number, CHAN_WEAPON, weap->toxicSound);
 	}
 
 	// do brass ejection

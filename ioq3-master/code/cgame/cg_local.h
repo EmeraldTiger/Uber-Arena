@@ -393,6 +393,7 @@ typedef struct weaponInfo_s {
 	sfxHandle_t		flashSound[4];		// fast firing weapons randomly choose
 
 	sfxHandle_t		pierceSound;		// UBER ARENA 0.4
+	sfxHandle_t		toxicSound;			// UBER ARENA 0.4
 
 	qhandle_t		weaponIcon;
 	qhandle_t		ammoIcon;
