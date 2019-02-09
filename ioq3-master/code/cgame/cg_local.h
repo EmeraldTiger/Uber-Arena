@@ -767,6 +767,8 @@ typedef struct {
 	qhandle_t	uberPlasmaModel;
 	qhandle_t	uberBFGModel;
 
+	qhandle_t	scavengerAuraModel; // UBER ARENA 0.4
+
 #ifdef MISSIONPACK
 	qhandle_t	nailPuffShader;
 	qhandle_t	blueProxMine;

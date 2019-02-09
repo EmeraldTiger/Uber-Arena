@@ -2312,6 +2312,7 @@ void CG_Player( centity_t *cent ) {
 	vec3_t			dir, angles;
 #endif
 	refEntity_t		uberRing;
+	refEntity_t		scavengerAura;
 
 	// the client number is stored in clientNum.  It can't be derived
 	// from the entity number, because a single client may have
@@ -2408,6 +2409,17 @@ void CG_Player( centity_t *cent ) {
 	torso.renderfx = renderfx;
 
 	CG_AddRefEntityWithPowerups( &torso, &cent->currentState, ci->team );
+
+	if (cent->currentState.powerups & (1 << PW_SCAVENGER)) {
+		memcpy(&scavengerAura, &torso, sizeof(torso));
+		scavengerAura.hModel = cgs.media.scavengerAuraModel;
+		VectorCopy(torso.origin, scavengerAura.origin);
+		scavengerAura.frame = 0;
+		scavengerAura.oldframe = 0;
+		scavengerAura.customSkin = 0;
+		trap_R_AddRefEntityToScene(&scavengerAura);
+
+	}
 
 	// UBER ARENA 0.4
 	if (cent->currentState.eFlags & EF_UBER) {

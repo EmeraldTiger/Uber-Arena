@@ -987,6 +987,8 @@ static void CG_RegisterGraphics( void ) {
 	cgs.media.uberRailgunModel = trap_R_RegisterModel("models/uber/uberrailgun.md3"); // UBER ARENA 0.4
 	cgs.media.uberBFGModel = trap_R_RegisterModel("models/uber/uberbfg.md3"); // UBER ARENA 0.4
 
+	cgs.media.scavengerAuraModel = trap_R_RegisterModel("models/powerups/scavengerAura.md3"); // UBER ARENA 0.4
+
 	cgs.media.machinegunBrassModel = trap_R_RegisterModel( "models/weapons2/shells/m_shell.md3" );
 	cgs.media.shotgunBrassModel = trap_R_RegisterModel( "models/weapons2/shells/s_shell.md3" );
 
