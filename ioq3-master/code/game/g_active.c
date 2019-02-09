@@ -672,6 +672,7 @@ void ClientEvents( gentity_t *ent, int oldEventSequence, pmove_t *pm ) {
 				ent->client->receptacleMode = REC_INACTIVE;
 				memset(&trace, 0, sizeof(trace));
 				Touch_Item(ent->client->capturedItem, ent, trace);
+				ent->client->ps.stats[STAT_STORED_ITEM_ID] = 0;
 				break;
 			default:
 				break;

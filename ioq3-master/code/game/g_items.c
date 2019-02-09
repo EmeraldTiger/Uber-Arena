@@ -731,6 +731,7 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace) {
 
 	if (captureMode) {
 		other->client->capturedItem = ent;
+		other->client->ps.stats[STAT_STORED_ITEM_ID] = ent->item - bg_itemlist;
 		other->client->receptacleMode = REC_STANDBY;
 	}
 

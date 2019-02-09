@@ -213,7 +213,7 @@ typedef enum {
 	STAT_PERSISTANT_POWERUP,
 #endif
 	STAT_WEAPONS,					// 16 bit fields
-	STAT_ARMOR,				
+	STAT_ARMOR,
 	STAT_DEAD_YAW,					// look this direction when dead (FIXME: get rid of?)
 	STAT_CLIENTS_READY,				// bit mask of clients wishing to exit the intermission (FIXME: configstring?)
 	STAT_MAX_HEALTH,				// health / armor limit, changeable by handicap
@@ -232,6 +232,9 @@ typedef enum {
 	// UBER ARENA 0.3: Bitmasks for 2x weapons and uberweapons
 	STAT_DOUBLE_MASK,
 	STAT_UBERS_MASK,
+
+	// UBER ARENA 0.4: Display item held inside of Storage Capsule via an item id number
+	STAT_STORED_ITEM_ID,
 } statIndex_t;
 
 
