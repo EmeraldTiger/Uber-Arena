@@ -234,6 +234,9 @@ typedef enum {
 	STAT_UBERS_MASK,
 
 	// UBER ARENA 0.4: Display item held inside of Storage Capsule via an item id number
+	// If the player has no capsule, or the capsule is in standby mode, set this to 0
+	// If the capsule is in capture mode but currently has no item, set this to -1
+	// -1 is outside of the valid item id range and can be used to tell the client that we haven't captured an item yet
 	STAT_STORED_ITEM_ID,
 } statIndex_t;
 

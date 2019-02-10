@@ -1563,7 +1563,8 @@ static void CG_DrawHoldableItem( void ) {
 
 	// UBER ARENA 0.4: Display items stored inside of the storage capsule above the storage capsule icon
 	stored = cg.snap->ps.stats[STAT_STORED_ITEM_ID];
-	if (stored) {
+	// We do a comparison against 0 instead of just a boolean check, because -1 is a valid value for the stored item stat
+	if (stored > 0) {
 		CG_RegisterItemVisuals(stored);
 		CG_DrawPic(640 - ICON_SIZE, (SCREEN_HEIGHT - ICON_SIZE) / 2 - 50, ICON_SIZE, ICON_SIZE, cg_items[stored].icon);
 	}

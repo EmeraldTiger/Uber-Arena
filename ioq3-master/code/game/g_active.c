@@ -663,10 +663,9 @@ void ClientEvents( gentity_t *ent, int oldEventSequence, pmove_t *pm ) {
 			switch (ent->client->receptacleMode) {
 			case REC_INACTIVE:
 				ent->client->receptacleMode = REC_CAPTURE;
-				Com_Printf("Capture mode on\n");
+				ent->client->ps.stats[STAT_STORED_ITEM_ID] = -1;
 				break;
 			case REC_CAPTURE:
-				Com_Printf("No item captured yet\n");
 				break;
 			case REC_STANDBY:
 				ent->client->receptacleMode = REC_INACTIVE;

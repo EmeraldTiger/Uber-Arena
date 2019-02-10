@@ -420,7 +420,9 @@ static void CG_UseItem( centity_t *cent ) {
 			CG_CenterPrint( "No item to use", SCREEN_HEIGHT * 0.30, BIGCHAR_WIDTH );
 		} else {
 			item = BG_FindItemForHoldable( itemNum );
-			CG_CenterPrint( va("Use %s", item->pickup_name), SCREEN_HEIGHT * 0.30, BIGCHAR_WIDTH );
+			if (cg.snap->ps.stats[STAT_STORED_ITEM_ID] != -1) {
+				CG_CenterPrint(va("Use %s", item->pickup_name), SCREEN_HEIGHT * 0.30, BIGCHAR_WIDTH);
+			}
 		}
 	}
 
@@ -444,6 +446,17 @@ static void CG_UseItem( centity_t *cent ) {
 
 	case HI_TUNER:
 		trap_S_StartSound(NULL, es->number, CHAN_BODY, cgs.media.tunerSound);
+		break;
+
+	case HI_RECEPTACLE:
+		if (cg.snap->ps.stats[STAT_STORED_ITEM_ID] == 0) {
+			trap_S_StartSound(NULL, es->number, CHAN_BODY, cgs.media.useNothingSound);
+			CG_CenterPrint(va("Capture mode activated"), SCREEN_HEIGHT * 0.30, BIGCHAR_WIDTH);
+		}
+		else if (cg.snap->ps.stats[STAT_STORED_ITEM_ID] == -1) {
+			CG_CenterPrint(va("No item captured yet"), SCREEN_HEIGHT * 0.30, BIGCHAR_WIDTH);
+			trap_S_StartSound(NULL, es->number, CHAN_BODY, cgs.media.useNothingSound);
+		}
 		break;
 
 #ifdef MISSIONPACK
