@@ -542,40 +542,40 @@ void RespawnItem( gentity_t *ent ) {
 	ent->r.contents = CONTENTS_TRIGGER;
 	ent->s.eFlags &= ~EF_NODRAW;
 	ent->r.svFlags &= ~SVF_NOCLIENT;
-	trap_LinkEntity (ent);
+	trap_LinkEntity(ent);
 
-	if ( ent->item->giType == IT_POWERUP ) {
+	if (ent->item->giType == IT_POWERUP) {
 		// play powerup spawn sound to all clients
 		gentity_t	*te;
 
 		// if the powerup respawn sound should Not be global
 		if (ent->speed) {
-			te = G_TempEntity( ent->s.pos.trBase, EV_GENERAL_SOUND );
+			te = G_TempEntity(ent->s.pos.trBase, EV_GENERAL_SOUND);
 		}
 		else {
-			te = G_TempEntity( ent->s.pos.trBase, EV_GLOBAL_SOUND );
+			te = G_TempEntity(ent->s.pos.trBase, EV_GLOBAL_SOUND);
 		}
-		te->s.eventParm = G_SoundIndex( "sound/items/poweruprespawn.wav" );
+		te->s.eventParm = G_SoundIndex("sound/items/poweruprespawn.wav");
 		te->r.svFlags |= SVF_BROADCAST;
 	}
 
-	if ( ent->item->giType == IT_HOLDABLE && ent->item->giTag == HI_KAMIKAZE ) {
+	if (ent->item->giType == IT_HOLDABLE && ent->item->giTag == HI_KAMIKAZE) {
 		// play powerup spawn sound to all clients
 		gentity_t	*te;
 
 		// if the powerup respawn sound should Not be global
 		if (ent->speed) {
-			te = G_TempEntity( ent->s.pos.trBase, EV_GENERAL_SOUND );
+			te = G_TempEntity(ent->s.pos.trBase, EV_GENERAL_SOUND);
 		}
 		else {
-			te = G_TempEntity( ent->s.pos.trBase, EV_GLOBAL_SOUND );
+			te = G_TempEntity(ent->s.pos.trBase, EV_GLOBAL_SOUND);
 		}
-		te->s.eventParm = G_SoundIndex( "sound/items/kamikazerespawn.wav" );
+		te->s.eventParm = G_SoundIndex("sound/items/kamikazerespawn.wav");
 		te->r.svFlags |= SVF_BROADCAST;
 	}
 
 	// play the normal respawn sound only to nearby clients
-	G_AddEvent( ent, EV_ITEM_RESPAWN, 0 );
+	G_AddEvent(ent, EV_ITEM_RESPAWN, 0);
 
 	ent->nextthink = 0;
 }
@@ -930,7 +930,16 @@ gentity_t *Knock_Item(gentity_t *ent, gitem_t *item, vec3_t angles, float force)
 		ent->think = G_FreeEntity;
 	}
 	else {
-		ent->think = ReturnItem;
+		// UBER ARENA 0.4: Same logic as for dropped items. "Properly" returns the flag with an announcement
+		// and removing the "?" status marker, in addition to moving it back
+		if (g_gametype.integer == GT_CTF && item->giType == IT_TEAM) {
+			ent->think = Team_DroppedFlagThink;
+			ent->nextthink = level.time + 10000;
+			Team_CheckDroppedItem(ent);
+		}
+		else {
+			ent->think = ReturnItem;
+		}
 	}
 	// Bounced items respawn back in original locations after 10 seconds
 	ent->nextthink = level.time + 10000;
