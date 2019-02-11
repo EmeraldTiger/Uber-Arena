@@ -42,6 +42,8 @@ MAIN MENU
 #define ID_EXIT					17
 
 #define MAIN_BANNER_MODEL				"models/mapobjects/banner/ua_banner.md3"
+#define MAIN_ORB_MODEL					"models/mapobjects/banner/bannerOrb.md3"
+#define MAIN_BACKGROUND					"menu/back1"
 #define MAIN_MENU_VERTICAL_SPACING		34
 
 
@@ -58,6 +60,10 @@ typedef struct {
 	menutext_s		exit;
 
 	qhandle_t		bannerModel;
+
+	qhandle_t		orbModel;
+
+	qhandle_t		background1;
 
 	sfxHandle_t		uberIntroSound;
 } mainmenu_t;
@@ -140,7 +146,9 @@ MainMenu_Cache
 */
 void MainMenu_Cache( void ) {
 	s_main.bannerModel = trap_R_RegisterModel( MAIN_BANNER_MODEL );
+	s_main.orbModel = trap_R_RegisterModel(MAIN_ORB_MODEL);
 	s_main.uberIntroSound = trap_S_RegisterSound("sound/misc/uberintro.wav", qfalse);
+	s_main.background1 = trap_R_RegisterShaderNoMip("backgroundMatrix");
 }
 
 sfxHandle_t ErrorMessage_Key(int key)
@@ -159,10 +167,10 @@ TTimo: this function is common to the main menu and errorMessage menu
 
 static void Main_MenuDraw( void ) {
 	refdef_t		refdef;
-	refEntity_t		ent;
+	refEntity_t		ent, ent2;
 	vec3_t			origin;
-	vec3_t			angles;
-	float			adjust;
+	vec3_t			angles, angles2;
+	float			adjust, adjust2;
 	float			x, y, w, h;
 	vec4_t			color = {0.5, 0, 0, 1};
 
@@ -196,6 +204,8 @@ static void Main_MenuDraw( void ) {
 
 	trap_R_ClearScene();
 
+	UI_DrawHandlePic(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, s_main.background1);
+
 	// add the model
 
 	memset( &ent, 0, sizeof(ent) );
@@ -210,6 +220,21 @@ static void Main_MenuDraw( void ) {
 	VectorCopy( ent.origin, ent.oldorigin );
 
 	trap_R_AddRefEntityToScene( &ent );
+
+	// UBER ARENA 0.4: Spinning orb around Uber Arena logo
+
+	memset(&ent2, 0, sizeof(ent2));
+
+	adjust2 = 25.0 * (float)uis.realtime / 498;
+	VectorSet(angles2, 0, 180 - adjust2, 0);
+	AnglesToAxis(angles2, ent2.axis);
+	ent2.hModel = s_main.orbModel;
+	VectorCopy(origin, ent2.origin);
+	VectorCopy(origin, ent2.lightingOrigin);
+	ent.renderfx = RF_LIGHTING_ORIGIN | RF_NOSHADOW;
+	VectorCopy(ent2.origin, ent2.oldorigin);
+
+	trap_R_AddRefEntityToScene(&ent2);
 
 	trap_R_RenderScene( &refdef );
 	
@@ -322,7 +347,7 @@ void UI_MainMenu( void ) {
 	y = 134;
 	s_main.singleplayer.generic.type		= MTYPE_PTEXT;
 	s_main.singleplayer.generic.flags		= QMF_CENTER_JUSTIFY|QMF_PULSEIFFOCUS;
-	s_main.singleplayer.generic.x			= 128;
+	s_main.singleplayer.generic.x			= 148;
 	s_main.singleplayer.generic.y			= 320;
 	s_main.singleplayer.generic.id			= ID_SINGLEPLAYER;
 	s_main.singleplayer.generic.callback	= Main_MenuEvent; 
@@ -333,7 +358,7 @@ void UI_MainMenu( void ) {
 	y += MAIN_MENU_VERTICAL_SPACING;
 	s_main.multiplayer.generic.type			= MTYPE_PTEXT;
 	s_main.multiplayer.generic.flags		= QMF_CENTER_JUSTIFY|QMF_PULSEIFFOCUS;
-	s_main.multiplayer.generic.x			= 300;
+	s_main.multiplayer.generic.x			= 320;
 	s_main.multiplayer.generic.y			= 320;
 	s_main.multiplayer.generic.id			= ID_MULTIPLAYER;
 	s_main.multiplayer.generic.callback		= Main_MenuEvent; 
@@ -344,7 +369,7 @@ void UI_MainMenu( void ) {
 	y += MAIN_MENU_VERTICAL_SPACING;
 	s_main.setup.generic.type				= MTYPE_PTEXT;
 	s_main.setup.generic.flags				= QMF_CENTER_JUSTIFY|QMF_PULSEIFFOCUS;
-	s_main.setup.generic.x					= 472;
+	s_main.setup.generic.x					= 492;
 	s_main.setup.generic.y					= 320;
 	s_main.setup.generic.id					= ID_SETUP;
 	s_main.setup.generic.callback			= Main_MenuEvent; 
@@ -355,7 +380,7 @@ void UI_MainMenu( void ) {
 	y += MAIN_MENU_VERTICAL_SPACING;
 	s_main.demos.generic.type				= MTYPE_PTEXT;
 	s_main.demos.generic.flags				= QMF_CENTER_JUSTIFY|QMF_PULSEIFFOCUS;
-	s_main.demos.generic.x					= 128;
+	s_main.demos.generic.x					= 148;
 	s_main.demos.generic.y					= 370;
 	s_main.demos.generic.id					= ID_DEMOS;
 	s_main.demos.generic.callback			= Main_MenuEvent; 
@@ -392,7 +417,7 @@ void UI_MainMenu( void ) {
 		y += MAIN_MENU_VERTICAL_SPACING;
 		s_main.mods.generic.type			= MTYPE_PTEXT;
 		s_main.mods.generic.flags			= QMF_CENTER_JUSTIFY|QMF_PULSEIFFOCUS;
-		s_main.mods.generic.x				= 300;
+		s_main.mods.generic.x				= 320;
 		s_main.mods.generic.y				= 370;
 		s_main.mods.generic.id				= ID_MODS;
 		s_main.mods.generic.callback		= Main_MenuEvent; 
@@ -404,7 +429,7 @@ void UI_MainMenu( void ) {
 	y += MAIN_MENU_VERTICAL_SPACING;
 	s_main.exit.generic.type				= MTYPE_PTEXT;
 	s_main.exit.generic.flags				= QMF_CENTER_JUSTIFY|QMF_PULSEIFFOCUS;
-	s_main.exit.generic.x					= 472;
+	s_main.exit.generic.x					= 492;
 	s_main.exit.generic.y					= 370;
 	s_main.exit.generic.id					= ID_EXIT;
 	s_main.exit.generic.callback			= Main_MenuEvent; 
