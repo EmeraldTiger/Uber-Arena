@@ -61,7 +61,7 @@ void G_BounceMissile( gentity_t *ent, trace_t *trace, int grenadeNumber, qboolea
 
 	// UBER ARENA 0.3
 	// Reuse the "done" check for ion plasma mod determination
-	if (ent->parent->client && ent->classname == "plasma") {
+	if (ent->parent->client && ent->s.weapon == WP_PLASMAGUN) {
 		ent->done = qtrue;
 	}
 
@@ -342,7 +342,7 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace ) {
 	if ( !other->takedamage &&
 		( ent->s.eFlags & ( EF_BOUNCE | EF_BOUNCE_HALF ) ) ) {
 		G_BounceMissile( ent, trace, ent->grenadeNumber, ent->done );
-		if (ent->classname == "plasma" && isUber(ent->parent, COUNTER_PLASMA)) {
+		if ((ent->s.weapon == WP_PLASMAGUN) && isUber(ent->parent, COUNTER_PLASMA)) {
 			G_AddEvent(ent, EV_ION_BOUNCE, 0);
 		}
 		else {
@@ -548,7 +548,7 @@ void G_RunMissile( gentity_t *ent ) {
 	// COME BACK LATER: Rocket code can act crazy at times, still determining fix
 	// Some code courtesy of Chris Hilton of Code3Arena
 	// https://www.quakewiki.net/archives/code3arena/tutorials/tutorial35.shtml
-	if (isUber(ent->parent, COUNTER_ROCKET) && ent->classname == "rocket" && level.numPlayingClients > 1) {
+	if (isUber(ent->parent, COUNTER_ROCKET) && ent->s.weapon == WP_ROCKET_LAUNCHER && level.numPlayingClients > 1) {
 		VectorCopy(ent->s.pos.trDelta, forward);
 		VectorNormalize(forward);
 		// Homing rockets can "see" for 2048 units
@@ -626,7 +626,7 @@ void G_RunMissile( gentity_t *ent ) {
 	// UBER ARENA
 	// Ion plasma bolts don't collide against players, so use radius-based damage instead
 	if (ent->parent->client) {
-		if (isUber(ent->parent, COUNTER_PLASMA) && ent->classname == "plasma") {
+		if (isUber(ent->parent, COUNTER_PLASMA) && ent->s.weapon == WP_PLASMAGUN) {
 			if (ent->done) {
 				mod = MOD_ION_PLASMA_BOUNCE;
 			}
