@@ -519,7 +519,8 @@ void G_RunMissile( gentity_t *ent ) {
 	vec3_t		forward, dir, finaldir;
 	float		finallength;
 	gentity_t	*spotted, *candidate;
-	int			i, rocketlength;
+	int			i;
+	float		rocketlength;
 	trace_t		vtr;
 	int			mod;
 
@@ -554,9 +555,15 @@ void G_RunMissile( gentity_t *ent ) {
 		// Homing rockets can "see" for 2048 units
 		finallength = 2048;
 
+		candidate = NULL;
+
 		for (i = 0; i < level.maxclients; i++) {
 			spotted = &g_entities[i];
 			if (!spotted->client) {
+				continue;
+			}
+
+			if (spotted == ent) {
 				continue;
 			}
 
