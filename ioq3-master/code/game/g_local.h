@@ -185,6 +185,8 @@ struct gentity_s {
 	// UBER ARENA
 	// These are related to item knockback
 	vec3_t		init_origin; // the original spawn location for an item on startup; items that were knocked back will eventually return here
+
+	qboolean	stored;
 };
 
 
@@ -353,6 +355,7 @@ struct gclient_s {
 	// Storage capsule-related attributes
 	int			receptacleMode; // Can switch between INACTIVE_MODE, CAPTURE_MODE, and STANDBY_MODE
 	gentity_t	*capturedItem; // the item the storage capsule is currently holding
+	gentity_t	captureCopy; // 0.4: copy item info from capturedItem, so that it doesn't affect the original item (also fixes a dropped item crash)
 
 	// UBER ARENA 0.3
 	// Number of uberweapons player has obtained in a single life; used for the Tyrant reward

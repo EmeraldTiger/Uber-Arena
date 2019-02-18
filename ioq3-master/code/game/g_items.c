@@ -731,8 +731,14 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace) {
 
 	if (captureMode) {
 		other->client->capturedItem = ent;
+		// UBER ARENA 0.4: Copy item info into separate entity so calling the touch item function doesn't affect the original
+		other->client->captureCopy = *other->client->capturedItem;
+		other->client->captureCopy.stored = qtrue;
 		other->client->ps.stats[STAT_STORED_ITEM_ID] = ent->item - bg_itemlist;
 		other->client->receptacleMode = REC_STANDBY;
+		if (other->client->capturedItem->flags & FL_DROPPED_ITEM) {
+			other->client->capturedItem->freeAfterEvent = qtrue;
+		}
 	}
 
 	// play the normal pickup sound
@@ -788,7 +794,7 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace) {
 	}
 
 	// dropped items will not respawn
-	if ( ent->flags & FL_DROPPED_ITEM ) {
+	if ( ent->flags & FL_DROPPED_ITEM && !ent->stored ) {
 		ent->freeAfterEvent = qtrue;
 	}
 
