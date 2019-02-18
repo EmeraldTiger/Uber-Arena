@@ -333,12 +333,6 @@ void UI_MainMenu( void ) {
 		return;
 	}
 
-	// UBER ARENA 0.4: "Welcome to Uber Arena"
-	if (ui_uberIntro.integer) {
-		trap_S_StartLocalSound(s_main.uberIntroSound, CHAN_ANNOUNCER);
-		ui_uberIntro.integer = 0;
-	}
-
 	s_main.menu.draw = Main_MenuDraw;
 	s_main.menu.fullscreen = qtrue;
 	s_main.menu.wrapAround = qtrue;
@@ -448,7 +442,13 @@ void UI_MainMenu( void ) {
 	if ( !uis.demoversion ) {
 		Menu_AddItem( &s_main.menu,	&s_main.mods );
 	}
-	Menu_AddItem( &s_main.menu,	&s_main.exit );             
+	Menu_AddItem( &s_main.menu,	&s_main.exit ); 
+
+	// UBER ARENA 0.4: "Welcome to Uber Arena"
+	if (ui_uberIntro.integer) {
+		trap_S_StartLocalSound(s_main.uberIntroSound, CHAN_ANNOUNCER);
+		ui_uberIntro.integer = 0;
+	}
 
 	trap_Key_SetCatcher( KEYCATCH_UI );
 	uis.menusp = 0;
