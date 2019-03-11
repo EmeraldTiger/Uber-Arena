@@ -354,7 +354,6 @@ static void CG_Obituary( entityState_t *ent ) {
 		case MOD_RAMPAGE:
 			message = "got a little too close to";
 			break;
-#ifdef MISSIONPACK
 		case MOD_NAIL:
 			message = "was nailed by";
 			break;
@@ -373,7 +372,6 @@ static void CG_Obituary( entityState_t *ent ) {
 		case MOD_JUICED:
 			message = "was juiced by";
 			break;
-#endif
 		case MOD_TELEFRAG:
 			message = "tried to invade";
 			message2 = "'s personal space";
@@ -1009,7 +1007,6 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		}
 		break;
 
-#ifdef MISSIONPACK
 	case EV_PROXIMITY_MINE_STICK:
 		DEBUGNAME("EV_PROXIMITY_MINE_STICK");
 		if( es->eventParm & SURF_FLESH ) {
@@ -1025,7 +1022,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		DEBUGNAME("EV_PROXIMITY_MINE_TRIGGER");
 		trap_S_StartSound (NULL, es->number, CHAN_AUTO, cgs.media.wstbactvSound );
 		break;
-	case EV_KAMIKAZE:
+	/*case EV_KAMIKAZE:
 		DEBUGNAME("EV_KAMIKAZE");
 		CG_KamikazeEffect( cent->lerpOrigin );
 		break;
@@ -1048,8 +1045,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 	case EV_LIGHTNINGBOLT:
 		DEBUGNAME("EV_LIGHTNINGBOLT");
 		CG_LightningBoltBeam(es->origin2, es->pos.trBase);
-		break;
-#endif
+		break;*/
 	case EV_SCOREPLUM:
 		DEBUGNAME("EV_SCOREPLUM");
 		CG_ScorePlum( cent->currentState.otherEntityNum, cent->lerpOrigin, cent->currentState.time );

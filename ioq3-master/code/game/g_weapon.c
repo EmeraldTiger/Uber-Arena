@@ -174,10 +174,8 @@ void SnapVectorTowards( vec3_t v, vec3_t to ) {
 	}
 }
 
-#ifdef MISSIONPACK
 #define CHAINGUN_SPREAD		600
 #define CHAINGUN_DAMAGE		7
-#endif
 #define MACHINEGUN_SPREAD	200
 #define	MACHINEGUN_DAMAGE	7
 #define	MACHINEGUN_TEAM_DAMAGE	5		// wimpier MG in teamplay
@@ -850,7 +848,6 @@ void Weapon_LightningFire( gentity_t *ent ) {
 	}
 }
 
-#ifdef MISSIONPACK
 /*
 ======================================================================
 
@@ -894,8 +891,6 @@ void weapon_proxlauncher_fire (gentity_t *ent) {
 
 //	VectorAdd( m->s.pos.trDelta, ent->client->ps.velocity, m->s.pos.trDelta );	// "real" physics
 }
-
-#endif
 
 //======================================================================
 
@@ -1002,15 +997,12 @@ void FireWeapon( gentity_t *ent ) {
 
 	// track shots taken for accuracy tracking.  Grapple is not a weapon and gauntet is just not tracked
 	if( ent->s.weapon != WP_GRAPPLING_HOOK && ent->s.weapon != WP_GAUNTLET ) {
-#ifdef MISSIONPACK
 		if( ent->s.weapon == WP_NAILGUN ) {
 			ent->client->accuracy_shots += NUM_NAILSHOTS;
 		} else {
 			ent->client->accuracy_shots++;
 		}
-#else
 		ent->client->accuracy_shots++;
-#endif
 	}
 
 	// set aiming directions
@@ -1071,7 +1063,6 @@ void FireWeapon( gentity_t *ent ) {
 	case WP_GRAPPLING_HOOK:
 		Weapon_GrapplingHook_Fire( ent );
 		break;
-#ifdef MISSIONPACK
 	case WP_NAILGUN:
 		Weapon_Nailgun_Fire( ent );
 		break;
@@ -1081,7 +1072,6 @@ void FireWeapon( gentity_t *ent ) {
 	case WP_CHAINGUN:
 		Bullet_Fire( ent, CHAINGUN_SPREAD, CHAINGUN_DAMAGE, MOD_CHAINGUN );
 		break;
-#endif
 	default:
 // FIXME		G_Error( "Bad ent->s.weapon" );
 		break;

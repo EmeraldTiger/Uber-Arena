@@ -770,10 +770,8 @@ typedef struct {
 
 	qhandle_t	scavengerAuraModel; // UBER ARENA 0.4
 
-#ifdef MISSIONPACK
 	qhandle_t	nailPuffShader;
 	qhandle_t	blueProxMine;
-#endif
 
 	qhandle_t	numberShaders[11];
 
@@ -877,7 +875,6 @@ typedef struct {
 	//sfxHandle_t	sfx_railg;
 	sfxHandle_t	sfx_rockexp;
 	sfxHandle_t	sfx_plasmaexp;
-#ifdef MISSIONPACK
 	sfxHandle_t	sfx_proxexp;
 	sfxHandle_t	sfx_nghit;
 	sfxHandle_t	sfx_nghitflesh;
@@ -899,7 +896,6 @@ typedef struct {
 	sfxHandle_t	obeliskRespawnSound;
 	sfxHandle_t	winnerSound;
 	sfxHandle_t	loserSound;
-#endif
 	sfxHandle_t	gibSound;
 	sfxHandle_t	gibBounce1Sound;
 	sfxHandle_t	gibBounce2Sound;
@@ -956,9 +952,7 @@ typedef struct {
 
 	sfxHandle_t tunerSound; // UBER ARENA
 
-#ifdef MISSIONPACK
 	sfxHandle_t weaponHoverSound;
-#endif
 
 	// teamplay sounds
 	sfxHandle_t captureAwardSound;
