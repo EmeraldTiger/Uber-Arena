@@ -24,6 +24,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #define	MISSILE_PRESTEP_TIME	50
 
+#define PROX_LIMIT				3
+
 /*
 ================
 G_BounceMissile
@@ -154,7 +156,6 @@ void G_ExplodeMissile( gentity_t *ent ) {
 	trap_LinkEntity( ent );
 }
 
-
 /*
 ================
 ProximityMine_Explode
@@ -166,6 +167,40 @@ static void ProximityMine_Explode( gentity_t *mine ) {
 	if (mine->activator) {
 		G_FreeEntity(mine->activator);
 		mine->activator = NULL;
+	}
+}
+
+/*
+================
+ProximityMine_CheckExisting
+================
+*/
+static void ProximityMine_CheckExisting(gentity_t *mine) {
+	gentity_t	*ent;
+	int			minecount;
+	int			i, j;
+
+	minecount = 0;
+
+	for (i = 0; i < MAX_GENTITIES; i++) {
+		ent = &g_entities[i];
+
+		if (ent->classname == "prox mine") {
+			minecount++;
+		}
+	}
+
+	// If there's more than 3 mines, detonate the oldest one
+	if (minecount > PROX_LIMIT) {
+		for (j = 0; j < MAX_GENTITIES; j++) {
+			ent = &g_entities[j];
+
+			if (ent->classname == "prox mine") {
+				if (ent->proxId <= level.proxCount - PROX_LIMIT) {
+					ProximityMine_Explode(ent);
+				}
+			}
+		}
 	}
 }
 
@@ -975,6 +1010,8 @@ fire_prox
 gentity_t *fire_prox( gentity_t *self, vec3_t start, vec3_t dir ) {
 	gentity_t	*bolt;
 
+	level.proxCount++;
+
 	VectorNormalize (dir);
 
 	bolt = G_Spawn();
@@ -997,6 +1034,7 @@ gentity_t *fire_prox( gentity_t *self, vec3_t start, vec3_t dir ) {
 	// count is used to check if the prox mine left the player bbox
 	// if count == 1 then the prox mine left the player bbox and can attack to it
 	bolt->count = 0;
+	bolt->proxId = level.proxCount;
 
 	//FIXME: we prolly wanna abuse another field
 	bolt->s.generic1 = self->client->sess.sessionTeam;
@@ -1006,6 +1044,8 @@ gentity_t *fire_prox( gentity_t *self, vec3_t start, vec3_t dir ) {
 	VectorCopy( start, bolt->s.pos.trBase );
 	VectorScale( dir, 700, bolt->s.pos.trDelta );
 	SnapVector( bolt->s.pos.trDelta );			// save net bandwidth
+
+	ProximityMine_CheckExisting(bolt);
 
 	VectorCopy (start, bolt->r.currentOrigin);
 

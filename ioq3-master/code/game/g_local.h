@@ -187,6 +187,8 @@ struct gentity_s {
 	vec3_t		init_origin; // the original spawn location for an item on startup; items that were knocked back will eventually return here
 
 	qboolean	stored;
+
+	int			proxId;
 };
 
 
@@ -460,6 +462,9 @@ typedef struct {
 	gentity_t	*locationHead;			// head of the location list
 	int			bodyQueIndex;			// dead bodies
 	gentity_t	*bodyQue[BODY_QUEUE_SIZE];
+
+	// UBER ARENA 0.5
+	int			proxCount;
 #ifdef MISSIONPACK
 	int			portalSequence;
 #endif
