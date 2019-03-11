@@ -380,11 +380,12 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace ) {
 			return;
 		}
 
-		// if it's a player, stick it on to them (flag them and remove this entity)
-		/*if( other->s.eType == ET_PLAYER && other->health > 0 ) {
-			ProximityMine_Player( ent, other );
+		// UBER ARENA 0.5
+		// Don't stick to the player, just blow up instead
+		if( other->s.eType == ET_PLAYER && other->health > 0 ) {
+			ProximityMine_Explode(ent);
 			return;
-		}*/
+		}
 
 		SnapVectorTowards( trace->endpos, ent->s.pos.trBase );
 		G_SetOrigin( ent, trace->endpos );
