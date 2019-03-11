@@ -363,6 +363,59 @@ gitem_t	bg_itemlist[] =
 /* sounds */ ""
 	},
 
+/*QUAKED weapon_nailgun (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+	*/
+	{
+		"weapon_nailgun",
+		"sound/misc/w_pkup.wav",
+		{ "models/weapons/nailgun/nailgun.md3",
+		NULL, NULL, NULL },
+		/* icon */		"icons/iconw_nailgun",
+		/* pickup */	"Nailgun",
+		10,
+		IT_WEAPON,
+		WP_NAILGUN,
+		/* precache */ "",
+		/* sounds */ ""
+	},
+
+/*QUAKED weapon_prox_launcher (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+	*/
+	{
+		"weapon_prox_launcher",
+		"sound/misc/w_pkup.wav",
+		{ "models/weapons/proxmine/proxmine.md3",
+		NULL, NULL, NULL },
+		/* icon */		"icons/iconw_proxlauncher",
+		/* pickup */	"Prox Launcher",
+		5,
+		IT_WEAPON,
+		WP_PROX_LAUNCHER,
+		/* precache */ "",
+		/* sounds */ "sound/weapons/proxmine/wstbtick.wav "
+		"sound/weapons/proxmine/wstbactv.wav "
+	"sound/weapons/proxmine/wstbimpl.wav "
+	"sound/weapons/proxmine/wstbimpm.wav "
+	"sound/weapons/proxmine/wstbimpd.wav "
+	"sound/weapons/proxmine/wstbactv.wav"
+	},
+
+/*QUAKED weapon_chaingun (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+	*/
+	{
+		"weapon_chaingun",
+		"sound/misc/w_pkup.wav",
+		{ "models/weapons/vulcan/vulcan.md3",
+		NULL, NULL, NULL },
+		/* icon */		"icons/iconw_chaingun",
+		/* pickup */	"Chaingun",
+		80,
+		IT_WEAPON,
+		WP_CHAINGUN,
+		/* precache */ "",
+		/* sounds */ "sound/weapons/vulcan/wvulwind.wav"
+	},
+
 	//
 	// AMMO ITEMS
 	//
@@ -493,6 +546,54 @@ gitem_t	bg_itemlist[] =
 		WP_BFG,
 /* precache */ "",
 /* sounds */ ""
+	},
+
+/*QUAKED ammo_nails (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+	*/
+	{
+		"ammo_nails",
+		"sound/misc/am_pkup.wav",
+		{ "models/powerups/ammo/nailgunam.md3",
+		NULL, NULL, NULL },
+		/* icon */		"icons/icona_nailgun",
+		/* pickup */	"Nails",
+		20,
+		IT_AMMO,
+		WP_NAILGUN,
+		/* precache */ "",
+		/* sounds */ ""
+	},
+
+/*QUAKED ammo_mines (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+	*/
+	{
+		"ammo_mines",
+		"sound/misc/am_pkup.wav",
+		{ "models/powerups/ammo/proxmineam.md3",
+		NULL, NULL, NULL },
+		/* icon */		"icons/icona_proxlauncher",
+		/* pickup */	"Proximity Mines",
+		10,
+		IT_AMMO,
+		WP_PROX_LAUNCHER,
+		/* precache */ "",
+		/* sounds */ ""
+	},
+
+/*QUAKED ammo_belt (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+	*/
+	{
+		"ammo_belt",
+		"sound/misc/am_pkup.wav",
+		{ "models/powerups/ammo/chaingunam.md3",
+		NULL, NULL, NULL },
+		/* icon */		"icons/icona_chaingun",
+		/* pickup */	"Chaingun Belt",
+		100,
+		IT_AMMO,
+		WP_CHAINGUN,
+		/* precache */ "",
+		/* sounds */ ""
 	},
 
 // UBER ARENA: This is a unique ammo item that needs specialized coding
