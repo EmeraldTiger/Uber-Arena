@@ -367,6 +367,9 @@ struct gclient_s {
 	// In duel mode only, players get a limited amount of "ubered" ammo before reverting to a standard weapon
 	int			uberAmmo[MAX_COUNTERS];
 
+	// UBER ARENA 0.5
+	int			proxCount;
+
 #ifdef MISSIONPACK
 	gentity_t	*persistantPowerup;
 	int			portalID;

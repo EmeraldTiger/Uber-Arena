@@ -196,7 +196,7 @@ static void ProximityMine_CheckExisting(gentity_t *mine) {
 			ent = &g_entities[j];
 
 			if (ent->classname == "prox mine") {
-				if (ent->proxId <= level.proxCount - PROX_LIMIT) {
+				if (ent->proxId <= mine->parent->client->proxCount - PROX_LIMIT) {
 					ProximityMine_Explode(ent);
 				}
 			}
@@ -1010,8 +1010,6 @@ fire_prox
 gentity_t *fire_prox( gentity_t *self, vec3_t start, vec3_t dir ) {
 	gentity_t	*bolt;
 
-	level.proxCount++;
-
 	VectorNormalize (dir);
 
 	bolt = G_Spawn();
@@ -1034,7 +1032,8 @@ gentity_t *fire_prox( gentity_t *self, vec3_t start, vec3_t dir ) {
 	// count is used to check if the prox mine left the player bbox
 	// if count == 1 then the prox mine left the player bbox and can attack to it
 	bolt->count = 0;
-	bolt->proxId = level.proxCount;
+	self->client->proxCount++;
+	bolt->proxId = self->client->proxCount;
 
 	//FIXME: we prolly wanna abuse another field
 	bolt->s.generic1 = self->client->sess.sessionTeam;
