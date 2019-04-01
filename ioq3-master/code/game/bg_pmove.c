@@ -1565,6 +1565,23 @@ Generates weapon events and modifes the weapon counter
 */
 static void PM_Weapon( void ) {
 	int		addTime;
+	static int	chaingunTime;
+
+	// UBER ARENA 0.5: Chaingun spin-up time
+	if (pm->ps->weapon == WP_CHAINGUN && pm->ps->weaponstate == WEAPON_FIRING) {
+		chaingunTime--;
+		if (chaingunTime < 30) {
+			chaingunTime = 30;
+		}
+	}
+	else {
+		if (pm->ps->powerups[PW_HASTE]) {
+			chaingunTime = 192;
+		}
+		else {
+			chaingunTime = 250;
+		}
+	}
 
 	// don't allow attack until all buttons are up
 	if ( pm->ps->pm_flags & PMF_RESPAWNED ) {
@@ -1720,7 +1737,7 @@ static void PM_Weapon( void ) {
 		addTime = 800;
 		break;
 	case WP_CHAINGUN:
-		addTime = 30;
+		addTime = chaingunTime;
 		break;
 	}
 
