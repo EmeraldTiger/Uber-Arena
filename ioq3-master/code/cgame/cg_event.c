@@ -376,6 +376,26 @@ static void CG_Obituary( entityState_t *ent ) {
 			message = "tried to invade";
 			message2 = "'s personal space";
 			break;
+		case MOD_PHANTOM_NAIL:
+			message = "was nailed by";
+			message2 = "'s Phantom Nailgun";
+			break;
+		case MOD_PHANTOM_NAIL_PHASED:
+			message = "thought they could take cover from";
+			message2 = "'s Phantom Nailgun";
+			break;
+		case MOD_LASER_PROXIMITY_MINE:
+			message = "was too close to";
+			message2 = "'s Laser Prox Mine";
+			break;
+		case MOD_LASER_PROXIMITY_MINE_REMOTE:
+			message = "wasn't fast enough to avoid";
+			message2 = "'s Laser Prox Mine probe";
+			break;
+		case MOD_INFINITY_CHAINGUN:
+			message = "'s flesh was transmuted by";
+			message2 = "'s Infinity Chaingun";
+			break;
 		default:
 			message = "was killed by";
 			break;

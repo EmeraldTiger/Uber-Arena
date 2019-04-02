@@ -1532,6 +1532,15 @@ char* CG_DrawUberNames(void) {
 		case WP_BFG:
 			return "BFG30K";
 			break;
+		case WP_NAILGUN:
+			return "Phantom Nailgun";
+			break;
+		case WP_PROX_LAUNCHER:
+			return "Laser Prox Launcher";
+			break;
+		case WP_CHAINGUN:
+			return "Infinity Chaingun";
+			break;
 		default:
 			return "invalid";
 			break;
