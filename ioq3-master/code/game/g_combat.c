@@ -1290,7 +1290,11 @@ qboolean G_RadiusDamage ( vec3_t origin, gentity_t *attacker, float damage, floa
 
 		// UBER ARENA: Item Knockback
 		// UBER ARENA 0.4: Player can't knock around flag if they just capped
-		if (ent->item && !(ent->s.eFlags & EF_NODRAW) && !(attacker->client->ps.eFlags & EF_AWARD_CAP && (ent->item->giTag == PW_REDFLAG || ent->item->giTag == PW_BLUEFLAG))) {
+		// UBER ARENA 0.5: Nails can't do item knockback (because of the radius damage hack...)
+		if (ent->item && !(ent->s.eFlags & EF_NODRAW) && 
+			attacker->client->ps.weapon != WP_NAILGUN && 
+			!(attacker->client->ps.eFlags & EF_AWARD_CAP && 
+			(ent->item->giTag == PW_REDFLAG || ent->item->giTag == PW_BLUEFLAG))) {
 			VectorSubtract(ent->r.currentOrigin, origin, angles);
 			Knock_Item(ent, ent->item, angles, damage);
 		}

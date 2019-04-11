@@ -660,6 +660,21 @@ void G_RunMissile( gentity_t *ent ) {
 		}
 	}
 
+	// UBER ARENA 0.5
+	// Nailgun (both regular and phantom) now uses radius-based damage
+	// This is needed as without it Scavenger can't be used with the Nailgun
+	if (ent->parent->client) {
+		if (ent->s.weapon == WP_NAILGUN) {
+			if (isUber(ent->parent, COUNTER_NAIL)) {
+				// Give phantom nailgun a 20-unit radius around the nails to make it easier to hit players (especially behind walls)
+				G_RadiusDamage(ent->r.currentOrigin, ent->parent, 20, 20, ent->parent, MOD_PHANTOM_NAIL);
+			}
+			else {
+				G_RadiusDamage(ent->r.currentOrigin, ent->parent, 0, 1, ent->parent, MOD_NAIL);
+			}
+		}
+	}
+
 	if ( tr.fraction != 1 ) {
 		// never explode or bounce on sky
 		if ( tr.surfaceFlags & SURF_NOIMPACT ) {
@@ -967,7 +982,13 @@ gentity_t *fire_nail( gentity_t *self, vec3_t start, vec3_t forward, vec3_t righ
 
 	bolt = G_Spawn();
 	bolt->classname = "nail";
-	bolt->nextthink = level.time + 10000;
+	if (isUber(self, COUNTER_NAIL)) {
+		// Reduce phantom nail lifetime for balancing / networking reasons
+		bolt->nextthink = level.time + 3000;
+	}
+	else {
+		bolt->nextthink = level.time + 10000;
+	}
 	bolt->think = G_ExplodeMissile;
 	bolt->s.eType = ET_MISSILE;
 	bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN;
@@ -975,13 +996,24 @@ gentity_t *fire_nail( gentity_t *self, vec3_t start, vec3_t forward, vec3_t righ
 	bolt->r.ownerNum = self->s.number;
 	bolt->parent = self;
 	bolt->damage = 20;
-	bolt->methodOfDeath = MOD_NAIL;
 	bolt->clipmask = MASK_SHOT;
 	bolt->target_ent = NULL;
 
 	bolt->s.pos.trType = TR_LINEAR;
 	bolt->s.pos.trTime = level.time;
 	VectorCopy( start, bolt->s.pos.trBase );
+
+	// UBER ARENA 0.5
+	if (isUber(bolt->parent, COUNTER_NAIL))
+	{
+		// Phantom nails go through everything, even level geometry
+		bolt->clipmask = NULL;
+		bolt->methodOfDeath = MOD_PHANTOM_NAIL;
+	}
+	else {
+		bolt->clipmask = MASK_SHOT;
+		bolt->methodOfDeath = MOD_NAIL;
+	}
 
 	r = random() * M_PI * 2.0f;
 	u = sin(r) * crandom() * NAILGUN_SPREAD * 16;
@@ -995,6 +1027,13 @@ gentity_t *fire_nail( gentity_t *self, vec3_t start, vec3_t forward, vec3_t righ
 	scale = 555 + random() * 1800;
 	VectorScale( dir, scale, bolt->s.pos.trDelta );
 	SnapVector( bolt->s.pos.trDelta );
+
+	if (isUber(bolt->parent, COUNTER_NAIL)) {
+		bolt->s.eFlags |= EF_UBER;
+	}
+	else {
+		bolt->s.eFlags &= ~EF_UBER;
+	}
 
 	VectorCopy( start, bolt->r.currentOrigin );
 
