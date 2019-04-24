@@ -1114,13 +1114,19 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 				VectorMA(es->origin2, 4, cg.refdef.viewaxis[1], es->origin2);
 		}
 
-		CG_RailTrail(ci, es->origin2, es->pos.trBase);
+		CG_RailTrail(ci, es->origin2, es->pos.trBase, qfalse);
 
 		// if the end was on a nomark surface, don't make an explosion
 		if ( es->eventParm != 255 ) {
 			ByteToDir( es->eventParm, dir );
 			CG_MissileHitWall( es->weapon, es->clientNum, position, dir, IMPACTSOUND_DEFAULT, qfalse );
 		}
+		break;
+
+	case EV_PROX_LASER:
+		DEBUGNAME("EV_PROX_LASER");
+		CG_RailTrail(ci, es->origin2, es->pos.trBase, qtrue);
+
 		break;
 
 	case EV_BULLET_HIT_WALL:

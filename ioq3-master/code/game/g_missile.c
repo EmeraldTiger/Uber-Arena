@@ -257,6 +257,32 @@ void ProximityMine_Trigger( gentity_t *trigger, gentity_t *other, trace_t *trace
 
 /*
 ================
+LaserProximityMine_Laser
+================
+*/
+static void LaserProximityMine_Think(gentity_t *ent) {
+	trace_t		trace;
+	gentity_t	*tent;
+	gentity_t	*traceEnt;
+	vec3_t		end;
+
+	VectorScale(ent->movedir, 1000, end);
+	VectorAdd(end, ent->r.currentOrigin, end);
+
+	trap_Trace(&trace, ent->r.currentOrigin, NULL, NULL, end, ent->s.number, MASK_SHOT);
+	traceEnt = &g_entities[trace.entityNum];
+
+	if (traceEnt->takedamage) {
+		G_Damage(traceEnt, ent, ent->parent, NULL, traceEnt->s.origin, 100, DAMAGE_NO_KNOCKBACK, MOD_LASER_PROXIMITY_MINE_REMOTE);
+	}
+
+	tent = G_TempEntity(trace.endpos, EV_PROX_LASER);
+
+	VectorCopy(ent->r.currentOrigin, tent->s.origin2);
+}
+
+/*
+================
 ProximityMine_Activate
 ================
 */
@@ -645,6 +671,10 @@ void G_RunMissile( gentity_t *ent ) {
 	}
 
 	trap_LinkEntity( ent );
+
+	if (ent->classname == "prox mine" && ent->s.eFlags & EF_UBER && ent->takedamage) {
+		LaserProximityMine_Think(ent);
+	}
 
 	// UBER ARENA
 	// Ion plasma bolts don't collide against players, so use radius-based damage instead
@@ -1084,6 +1114,13 @@ gentity_t *fire_prox( gentity_t *self, vec3_t start, vec3_t dir ) {
 	SnapVector( bolt->s.pos.trDelta );			// save net bandwidth
 
 	ProximityMine_CheckExisting(bolt);
+
+	if (isUber(bolt->parent, COUNTER_PROX)) {
+		bolt->s.eFlags |= EF_UBER;
+	}
+	else {
+		bolt->s.eFlags &= ~EF_UBER;
+	}
 
 	VectorCopy (start, bolt->r.currentOrigin);
 

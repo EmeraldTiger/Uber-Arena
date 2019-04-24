@@ -300,13 +300,15 @@ void AwardTyrant(gentity_t *other) {
 
 // Note: if passing a weapon id to the counter argument, subtract 1 from it first
 qboolean isUber(gentity_t *ent, int counter) {
-	if (ent->client->weaponCounters[counter] >= 3)
-	{
-		return qtrue;
-	}
-	else
-	{
-		return qfalse;
+	if (ent->client) {
+		if (ent->client->weaponCounters[counter] >= 3)
+		{
+			return qtrue;
+		}
+		else
+		{
+			return qfalse;
+		}
 	}
 }
 

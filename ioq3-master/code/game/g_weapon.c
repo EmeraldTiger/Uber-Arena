@@ -194,6 +194,8 @@ void Bullet_Fire (gentity_t *ent, float spread, int damage, int mod ) {
 	int			dflags;
 	int			spreadFactor;
 
+	vec3_t		wforward, wforward2, wright, wup;
+
 	damage *= s_quadFactor;
 
 	// UBER ARENA 0.3: Piercing machinegun
