@@ -194,8 +194,6 @@ void Bullet_Fire (gentity_t *ent, float spread, int damage, int mod ) {
 	int			dflags;
 	int			spreadFactor;
 
-	vec3_t		wforward, wforward2, wright, wup;
-
 	damage *= s_quadFactor;
 
 	// UBER ARENA 0.3: Piercing machinegun
@@ -265,6 +263,12 @@ void Bullet_Fire (gentity_t *ent, float spread, int damage, int mod ) {
 #endif
 				G_Damage( traceEnt, ent, ent, forward, tr.endpos,
 					damage, dflags, mod);
+
+				// UBER ARENA 0.5: Infinity Chaingun
+				// Give back chaingun belt ammo equivalent to damage inflicted
+				if (ent->s.weapon == WP_CHAINGUN && isUber(ent, COUNTER_CHAINGUN)) {
+					ent->client->ps.ammo[WP_CHAINGUN] += damage;
+				}
 #ifdef MISSIONPACK
 			}
 #endif
@@ -1072,7 +1076,7 @@ void FireWeapon( gentity_t *ent ) {
 		weapon_proxlauncher_fire( ent );
 		break;
 	case WP_CHAINGUN:
-		Bullet_Fire( ent, CHAINGUN_SPREAD, CHAINGUN_DAMAGE, MOD_CHAINGUN );
+		Bullet_Fire(ent, CHAINGUN_SPREAD, CHAINGUN_DAMAGE, MOD_CHAINGUN);
 		break;
 	default:
 // FIXME		G_Error( "Bad ent->s.weapon" );

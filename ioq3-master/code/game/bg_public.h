@@ -238,6 +238,9 @@ typedef enum {
 	// If the capsule is in capture mode but currently has no item, set this to -1
 	// -1 is outside of the valid item id range and can be used to tell the client that we haven't captured an item yet
 	STAT_STORED_ITEM_ID,
+
+	// UBER ARENA 0.5: Timer for chaingun spin-up and spindown
+	STAT_CHAINGUN_TIMER,
 } statIndex_t;
 
 

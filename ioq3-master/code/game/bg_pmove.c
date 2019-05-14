@@ -1565,21 +1565,19 @@ Generates weapon events and modifes the weapon counter
 */
 static void PM_Weapon( void ) {
 	int		addTime;
-	static int	chaingunTime;
 
 	// UBER ARENA 0.5: Chaingun spin-up time
-	if (pm->ps->weapon == WP_CHAINGUN && pm->ps->weaponstate == WEAPON_FIRING) {
-		chaingunTime--;
-		if (chaingunTime < 30) {
-			chaingunTime = 30;
+	if (pm->ps->weapon == WP_CHAINGUN && pm->ps->weaponstate == WEAPON_FIRING && pm->cmd.buttons & BUTTON_ATTACK) {
+		pm->ps->stats[STAT_CHAINGUN_TIMER]--;
+		if (pm->ps->stats[STAT_CHAINGUN_TIMER] < 30) {
+			pm->ps->stats[STAT_CHAINGUN_TIMER] = 30;
 		}
 	}
+	// Spin-down
 	else {
-		if (pm->ps->powerups[PW_HASTE]) {
-			chaingunTime = 192;
-		}
-		else {
-			chaingunTime = 250;
+		pm->ps->stats[STAT_CHAINGUN_TIMER]++;
+		if (pm->ps->stats[STAT_CHAINGUN_TIMER] >= 250) {
+			pm->ps->stats[STAT_CHAINGUN_TIMER] = 250;
 		}
 	}
 
@@ -1633,7 +1631,8 @@ static void PM_Weapon( void ) {
 	// check for weapon change
 	// can't change if weapon is firing, but can change
 	// again if lowering or raising
-	if ( pm->ps->weaponTime <= 0 || pm->ps->weaponstate != WEAPON_FIRING ) {
+	// UBER ARENA 0.5: Don't change weapons until chaingun finishes spindown
+	if ( (pm->ps->weaponTime <= 0 || pm->ps->weaponstate != WEAPON_FIRING) && pm->ps->stats[STAT_CHAINGUN_TIMER] >= 250) {
 		if ( pm->ps->weapon != pm->cmd.weapon ) {
 			PM_BeginWeaponChange( pm->cmd.weapon );
 		}
@@ -1660,7 +1659,8 @@ static void PM_Weapon( void ) {
 	}
 
 	// check for fire
-	if ( ! (pm->cmd.buttons & BUTTON_ATTACK) ) {
+	// UBER ARENA 0.5: Chaingun continues to fire during spin-down
+	if ( ! (pm->cmd.buttons & BUTTON_ATTACK) && pm->ps->stats[STAT_CHAINGUN_TIMER] >= 250 ) {
 		pm->ps->weaponTime = 0;
 		pm->ps->weaponstate = WEAPON_READY;
 		return;
@@ -1737,7 +1737,7 @@ static void PM_Weapon( void ) {
 		addTime = 800;
 		break;
 	case WP_CHAINGUN:
-		addTime = chaingunTime;
+		addTime = pm->ps->stats[STAT_CHAINGUN_TIMER];
 		break;
 	}
 
