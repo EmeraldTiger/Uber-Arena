@@ -1196,7 +1196,7 @@ static float	CG_MachinegunSpinAngle( centity_t *cent ) {
 		speed = 0.5 * ( SPIN_SPEED + (float)( COAST_TIME - delta ) / COAST_TIME);
 		if (cent->currentState.weapon == WP_CHAINGUN && !(cent->currentState.eFlags & EF_FIRING)) {
 			// UBER ARENA 0.5: Show chaingun actually spinning down on client
-			speed += 250 - cg.snap->ps.stats[STAT_CHAINGUN_TIMER];
+			speed += CHAINGUN_MAXDELAY - cg.snap->ps.stats[STAT_CHAINGUN_TIMER];
 		}
 		angle = cent->pe.barrelAngle + delta * speed;
 	}

@@ -1187,7 +1187,7 @@ void ClientSpawn(gentity_t *ent) {
 	client->ps.stats[STAT_CURRENT_UBER_AMMO] = 0;
 
 	// UBER ARENA 0.5
-	client->ps.stats[STAT_CHAINGUN_TIMER] = 250;
+	client->ps.stats[STAT_CHAINGUN_TIMER] = CHAINGUN_MAXDELAY;
 
 	// health will count down towards max_health
 	ent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] + 25;
