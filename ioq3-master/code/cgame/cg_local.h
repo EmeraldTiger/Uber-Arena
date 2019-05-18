@@ -952,6 +952,8 @@ typedef struct {
 
 	sfxHandle_t tunerSound; // UBER ARENA
 
+	sfxHandle_t	proxLaserSound; // UBER ARENA 0.5
+
 	sfxHandle_t weaponHoverSound;
 
 	// teamplay sounds

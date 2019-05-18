@@ -732,6 +732,7 @@ static void CG_RegisterSounds( void ) {
 	cgs.media.rampageSound = trap_S_RegisterSound("sound/items/rampagefx.wav", qfalse);
 	cgs.media.medkitSound = trap_S_RegisterSound ("sound/items/use_medkit.wav", qfalse);
 	cgs.media.tunerSound = trap_S_RegisterSound("sound/items/use_tuner.wav", qfalse); // UBER ARENA
+	cgs.media.proxLaserSound = trap_S_RegisterSound("sound/weapons/proxmine/plaser1.wav", qfalse); // UBER ARENA 0.5
 	cgs.media.quadSound = trap_S_RegisterSound("sound/items/damage3.wav", qfalse);
 	cgs.media.sfx_ric1 = trap_S_RegisterSound ("sound/weapons/machinegun/ric1.wav", qfalse);
 	cgs.media.sfx_ric2 = trap_S_RegisterSound ("sound/weapons/machinegun/ric2.wav", qfalse);

@@ -264,21 +264,73 @@ static void LaserProximityMine_Think(gentity_t *ent) {
 	trace_t		trace;
 	gentity_t	*tent;
 	gentity_t	*traceEnt;
-	vec3_t		end;
+	gentity_t	*spotted;
+	int			i;
+	vec3_t		dir;
+	float		dot;
+	vec3_t		forward;
 
-	VectorScale(ent->movedir, 1000, end);
-	VectorAdd(end, ent->r.currentOrigin, end);
+	// Fire laser beams at enemies
+	for (i = 0; i < level.maxclients; i++) {
+		spotted = &g_entities[i];
 
-	trap_Trace(&trace, ent->r.currentOrigin, NULL, NULL, end, ent->s.number, MASK_SHOT);
-	traceEnt = &g_entities[trace.entityNum];
+		if (!spotted->client) {
+			continue;
+		}
 
-	if (traceEnt->takedamage) {
-		G_Damage(traceEnt, ent, ent->parent, NULL, traceEnt->s.origin, 100, DAMAGE_NO_KNOCKBACK, MOD_LASER_PROXIMITY_MINE_REMOTE);
+		if (spotted == ent) {
+			continue;
+		}
+
+		if (spotted == ent->parent) {
+			continue;
+		}
+
+		if (spotted->client->ps.pm_type == PM_DEAD) {
+			continue;
+		}
+
+		if (!spotted->takedamage) {
+			continue;
+		}
+
+		if (OnSameTeam(spotted, ent->parent)) {
+			continue;
+		}
+
+		if (spotted->client->ps.powerups[PW_INVIS]) {
+			continue;
+		}
+
+		VectorSubtract(spotted->r.currentOrigin, ent->r.currentOrigin, dir);
+		VectorNormalize(dir);
+
+		VectorCopy(ent->movedir, forward);
+		VectorNormalize(forward);
+
+		dot = DotProduct(forward, dir);
+
+		trap_Trace(&trace, ent->r.currentOrigin, NULL, NULL, spotted->r.currentOrigin, ent->s.number, MASK_SHOT);
+		traceEnt = &g_entities[trace.entityNum];
+
+		if (trace.contents & CONTENTS_SOLID) {
+			continue;
+		}
+
+		// pew pew pew
+		if (spotted != NULL) {
+			// doesn't work if outside of sight cone
+			if (dot > 0.9) {
+				if (spotted->client->proxLaserTrailTime < level.time) {
+					spotted->client->proxLaserTrailTime = level.time + 500;
+					tent = G_TempEntity(trace.endpos, EV_PROX_LASER);
+					VectorCopy(ent->r.currentOrigin, tent->s.origin2);
+					G_Damage(traceEnt, ent, ent->parent, NULL, traceEnt->s.origin, 20, DAMAGE_NO_KNOCKBACK, MOD_LASER_PROXIMITY_MINE_REMOTE);
+				}
+			}
+		}
 	}
 
-	tent = G_TempEntity(trace.endpos, EV_PROX_LASER);
-
-	VectorCopy(ent->r.currentOrigin, tent->s.origin2);
 }
 
 /*

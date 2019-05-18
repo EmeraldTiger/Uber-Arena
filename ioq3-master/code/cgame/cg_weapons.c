@@ -238,7 +238,7 @@ void CG_RailTrail (clientInfo_t *ci, vec3_t start, vec3_t end, qboolean prox) {
  
 	VectorCopy(start, re->origin);
 	VectorCopy(end, re->oldorigin);
- 
+
 	re->shaderRGBA[0] = ci->color1[0] * 255;
 	re->shaderRGBA[1] = ci->color1[1] * 255;
 	re->shaderRGBA[2] = ci->color1[2] * 255;

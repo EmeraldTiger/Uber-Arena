@@ -372,7 +372,8 @@ struct gclient_s {
 	int			uberAmmo[MAX_COUNTERS];
 
 	// UBER ARENA 0.5
-	int			proxCount;
+	int			proxCount; // track how many prox mines a player has; no more than 3 allowed per player
+	int			proxLaserTrailTime; // delay between laser beam shots from a laser prox mine
 
 #ifdef MISSIONPACK
 	gentity_t	*persistantPowerup;

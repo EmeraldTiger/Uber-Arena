@@ -389,8 +389,8 @@ static void CG_Obituary( entityState_t *ent ) {
 			message2 = "'s Laser Prox Mine";
 			break;
 		case MOD_LASER_PROXIMITY_MINE_REMOTE:
-			message = "wasn't fast enough to avoid";
-			message2 = "'s Laser Prox Mine probe";
+			message = "saw the light of";
+			message2 = "'s Laser Prox Mine beams";
 			break;
 		case MOD_INFINITY_CHAINGUN:
 			message = "'s flesh was transmuted by";
@@ -1125,6 +1125,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 
 	case EV_PROX_LASER:
 		DEBUGNAME("EV_PROX_LASER");
+		trap_S_StartSound(NULL, es->number, CHAN_VOICE, cgs.media.proxLaserSound);
 		CG_RailTrail(ci, es->origin2, es->pos.trBase, qtrue);
 
 		break;
