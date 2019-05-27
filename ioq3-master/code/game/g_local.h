@@ -188,7 +188,9 @@ struct gentity_s {
 
 	qboolean	stored;
 
-	int			proxId;
+	int			proxId; // UBER ARENA 0.5
+
+	qboolean	hitWorld; // UBER ARENA 0.5
 };
 
 

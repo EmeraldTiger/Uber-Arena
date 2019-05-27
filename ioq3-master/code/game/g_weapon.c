@@ -230,7 +230,7 @@ void Bullet_Fire (gentity_t *ent, float spread, int damage, int mod ) {
 		if ( traceEnt->takedamage && traceEnt->client ) {
 			tent = G_TempEntity( tr.endpos, EV_BULLET_HIT_FLESH );
 			tent->s.eventParm = traceEnt->s.number;
-			if( LogAccuracyHit( traceEnt, ent ) ) {
+			if( LogAccuracyHit( traceEnt, ent ) ) { 
 				ent->client->accuracy_hits++;
 			}
 		} else {
@@ -1076,7 +1076,12 @@ void FireWeapon( gentity_t *ent ) {
 		weapon_proxlauncher_fire( ent );
 		break;
 	case WP_CHAINGUN:
-		Bullet_Fire(ent, CHAINGUN_SPREAD, CHAINGUN_DAMAGE, MOD_CHAINGUN);
+		if (isUber(ent, COUNTER_CHAINGUN)) {
+			Bullet_Fire(ent, CHAINGUN_SPREAD, CHAINGUN_DAMAGE, MOD_INFINITY_CHAINGUN);
+		}
+		else {
+			Bullet_Fire(ent, CHAINGUN_SPREAD, CHAINGUN_DAMAGE, MOD_CHAINGUN);
+		}
 		break;
 	default:
 // FIXME		G_Error( "Bad ent->s.weapon" );

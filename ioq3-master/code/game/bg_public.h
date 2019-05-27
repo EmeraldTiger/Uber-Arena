@@ -748,6 +748,8 @@ qboolean	BG_CanItemBeGrabbed( int gametype, const entityState_t *ent, const play
 // UBER ARENA
 // Define a mask for use only when Scavenger is active, which checks against triggers (content type used by items)
 #define MASK_SHOT_SCAVENGER		(CONTENTS_SOLID|CONTENTS_BODY|CONTENTS_CORPSE|CONTENTS_TRIGGER)
+// UBER ARENA 0.5
+#define MASK_PHANTOM			(CONTENTS_BODY|CONTENTS_CORPSE)
 
 
 //

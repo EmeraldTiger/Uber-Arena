@@ -269,6 +269,7 @@ static void LaserProximityMine_Think(gentity_t *ent) {
 	vec3_t		dir;
 	float		dot;
 	vec3_t		forward;
+	vec3_t		correction = { 0, 0, 10 }; // move laser starting point up a bit, otherwise it will appear below the mine
 
 	// Fire laser beams at enemies
 	for (i = 0; i < level.maxclients; i++) {
@@ -324,7 +325,7 @@ static void LaserProximityMine_Think(gentity_t *ent) {
 				if (spotted->client->proxLaserTrailTime < level.time) {
 					spotted->client->proxLaserTrailTime = level.time + 500;
 					tent = G_TempEntity(trace.endpos, EV_PROX_LASER);
-					VectorCopy(ent->r.currentOrigin, tent->s.origin2);
+					VectorAdd(ent->r.currentOrigin, correction, tent->s.origin2);
 					G_Damage(traceEnt, ent, ent->parent, NULL, traceEnt->s.origin, 20, DAMAGE_NO_KNOCKBACK, MOD_LASER_PROXIMITY_MINE_REMOTE);
 				}
 			}
@@ -619,6 +620,7 @@ void G_RunMissile( gentity_t *ent ) {
 	float		rocketlength;
 	trace_t		vtr;
 	int			mod;
+	trace_t		phtr;
 
 	// get current position
 	BG_EvaluateTrajectory( &ent->s.pos, level.time, origin );
@@ -713,6 +715,16 @@ void G_RunMissile( gentity_t *ent ) {
 		}
 	}
 
+	if (isUber(ent->parent, COUNTER_NAIL) && ent->s.weapon == WP_NAILGUN) {
+		// Separate trace for phantom nails that can detect solids
+		// Used to detect whether a phantom nail is currently passing through a solid
+		trap_Trace(&phtr, ent->r.currentOrigin, ent->r.mins, ent->r.maxs, ent->r.currentOrigin, passent, MASK_SOLID);
+		if (phtr.startsolid || phtr.allsolid) {
+			// make sure the tr.entityNum is set to the entity we're stuck in
+			phtr.fraction = 0;
+		}
+	}
+
 	if ( tr.startsolid || tr.allsolid ) {
 		// make sure the tr.entityNum is set to the entity we're stuck in
 		trap_Trace( &tr, ent->r.currentOrigin, ent->r.mins, ent->r.maxs, ent->r.currentOrigin, passent, ent->clipmask );
@@ -726,6 +738,13 @@ void G_RunMissile( gentity_t *ent ) {
 
 	if (ent->classname == "prox mine" && ent->s.eFlags & EF_UBER && ent->takedamage) {
 		LaserProximityMine_Think(ent);
+	}
+
+	if (&phtr != NULL) {
+		// We hit part of the world
+		if (phtr.entityNum == ENTITYNUM_WORLD) {
+			ent->hitWorld = qtrue;
+		}
 	}
 
 	// UBER ARENA
@@ -748,8 +767,15 @@ void G_RunMissile( gentity_t *ent ) {
 	if (ent->parent->client) {
 		if (ent->s.weapon == WP_NAILGUN) {
 			if (isUber(ent->parent, COUNTER_NAIL)) {
+				// Different MOD message if the phantom nail frags someone after having passed through geometry
+				if (ent->hitWorld) {
+					mod = MOD_PHANTOM_NAIL_PHASED;
+				}
+				else {
+					mod = MOD_PHANTOM_NAIL;
+				}
 				// Give phantom nailgun a 20-unit radius around the nails to make it easier to hit players (especially behind walls)
-				G_RadiusDamage(ent->r.currentOrigin, ent->parent, 20, 20, ent->parent, MOD_PHANTOM_NAIL);
+				G_RadiusDamage(ent->r.currentOrigin, ent->parent, 20, 20, ent->parent, mod);
 			}
 			else {
 				G_RadiusDamage(ent->r.currentOrigin, ent->parent, 0, 1, ent->parent, MOD_NAIL);
@@ -757,7 +783,9 @@ void G_RunMissile( gentity_t *ent ) {
 		}
 	}
 
-	if ( tr.fraction != 1 ) {
+	// !(isUber(ent->parent, COUNTER_NAIL) && ent->s.weapon == WP_NAILGUN)
+
+	if ( tr.fraction != 1 && !(isUber(ent->parent, COUNTER_NAIL) && ent->s.weapon == WP_NAILGUN)) {
 		// never explode or bounce on sky
 		if ( tr.surfaceFlags & SURF_NOIMPACT ) {
 			// If grapple, reset owner
@@ -1088,8 +1116,8 @@ gentity_t *fire_nail( gentity_t *self, vec3_t start, vec3_t forward, vec3_t righ
 	// UBER ARENA 0.5
 	if (isUber(bolt->parent, COUNTER_NAIL))
 	{
-		// Phantom nails go through everything, even level geometry
-		bolt->clipmask = NULL;
+		// Phantom nails go all level geometry, but still terminate if they hit a player
+		bolt->clipmask = MASK_PHANTOM;
 		bolt->methodOfDeath = MOD_PHANTOM_NAIL;
 	}
 	else {
