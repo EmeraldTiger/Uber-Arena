@@ -260,6 +260,10 @@ void Add_Ammo (gentity_t *ent, int weapon, int count)
 		ent->client->ps.ammo[WP_RAILGUN] = qmax(ent->client->ps.ammo[WP_RAILGUN], 25);
 		ent->client->ps.ammo[WP_PLASMAGUN] = qmax(ent->client->ps.ammo[WP_PLASMAGUN], 150);
 		ent->client->ps.ammo[WP_BFG] = qmax(ent->client->ps.ammo[WP_BFG], 25);
+		// UBER ARENA 0.5: Support TA weapons
+		ent->client->ps.ammo[WP_NAILGUN] = qmax(ent->client->ps.ammo[WP_NAILGUN], 25);
+		ent->client->ps.ammo[WP_CHAINGUN] = qmax(ent->client->ps.ammo[WP_CHAINGUN], 150);
+		ent->client->ps.ammo[WP_PROX_LAUNCHER] = qmax(ent->client->ps.ammo[WP_PROX_LAUNCHER], 25);
 	}
 }
 
@@ -345,12 +349,15 @@ void Upgrade_Weapon(int counter, gentity_t *other, int steps) {
 				case COUNTER_ROCKET:
 				case COUNTER_RAIL:
 				case COUNTER_BFG:
+				case COUNTER_NAIL:
+				case COUNTER_PROX:
 					other->client->uberAmmo[counter] += 6;
 					break;
 				// Rapid-fire weapons get 25 shots
 				case COUNTER_MACHINEGUN:
 				case COUNTER_LIGHTNING:
 				case COUNTER_PLASMA:
+				case COUNTER_CHAINGUN:
 					other->client->uberAmmo[counter] += 26;
 					break;
 			}
