@@ -983,6 +983,9 @@ static void CG_RegisterGraphics( void ) {
 	cgs.media.uberPlasmaModel = trap_R_RegisterModel("models/uber/uberplasma.md3"); // UBER ARENA 0.4
 	cgs.media.uberRailgunModel = trap_R_RegisterModel("models/uber/uberrailgun.md3"); // UBER ARENA 0.4
 	cgs.media.uberBFGModel = trap_R_RegisterModel("models/uber/uberbfg.md3"); // UBER ARENA 0.4
+	cgs.media.uberNailModel = trap_R_RegisterModel("models/uber/ubernailgun.md3"); // UBER ARENA 0.5
+	cgs.media.uberChaingunModel = trap_R_RegisterModel("models/uber/uberchaingun.md3"); // UBER ARENA 0.5
+	cgs.media.uberProxModel = trap_R_RegisterModel("models/uber/uberprox.md3"); // UBER ARENA 0.5
 
 	cgs.media.scavengerAuraModel = trap_R_RegisterModel("models/powerups/scavengerAura.md3"); // UBER ARENA 0.4
 

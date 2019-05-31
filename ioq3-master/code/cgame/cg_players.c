@@ -2289,6 +2289,12 @@ qhandle_t CG_UberEffect(centity_t *cent) {
 			return cgs.media.uberRailgunModel;
 		case WP_BFG:
 			return cgs.media.uberBFGModel;
+		case WP_NAILGUN:
+			return cgs.media.uberNailModel;
+		case WP_CHAINGUN:
+			return cgs.media.uberChaingunModel;
+		case WP_PROX_LAUNCHER:
+			return cgs.media.uberProxModel;
 		default:
 			break;
 	}

@@ -767,6 +767,9 @@ typedef struct {
 	qhandle_t	uberRailgunModel;
 	qhandle_t	uberPlasmaModel;
 	qhandle_t	uberBFGModel;
+	qhandle_t	uberNailModel;
+	qhandle_t	uberChaingunModel;
+	qhandle_t	uberProxModel;
 
 	qhandle_t	scavengerAuraModel; // UBER ARENA 0.4
 
