@@ -2264,6 +2264,41 @@ int CG_LightVerts( vec3_t normal, int numVerts, polyVert_t *verts )
 
 /*
 ===============
+CG_PlayerHoldable
+Display the holdable item the player is currently carrying above their head.
+===============
+*/
+
+void CG_PlayerHoldable(centity_t *cent) {
+	refEntity_t		ent, storedEnt;
+	vec3_t			angles;
+	int				stored;
+
+	VectorCopy(cent->lerpAngles, angles);
+	angles[PITCH] = 0;
+	angles[ROLL] = 0;
+	angles[YAW] -= 90; // so they face the way the player is facing
+	//AnglesToAxis(angles, axis);
+
+	memset(&ent, 0, sizeof(ent));
+	VectorCopy(cent->lerpOrigin, ent.origin);
+	ent.origin[2] += 50;
+	angles[YAW] += 90;
+	AnglesToAxis(angles, ent.axis);
+
+	VectorScale(ent.axis[0], 0.5, ent.axis[0]);
+	VectorScale(ent.axis[1], 0.5, ent.axis[1]);
+	VectorScale(ent.axis[2], 0.5, ent.axis[2]);
+
+	// HACK ALERT: We stored holdables (and capsule-stored items) in time2, retrieve it from there
+	// We can't use cg.snap->ps.stats[STAT_HOLDABLE_ITEM] because it wouldn't show up for other players
+	ent.hModel = cg_items[cent->currentState.time2].models[0];
+
+	trap_R_AddRefEntityToScene(&ent);
+}
+
+/*
+===============
 CG_UberEffect
 Display a rotating orb of light corresponding to the player's currently held uberweapon
 ===============
@@ -2442,6 +2477,9 @@ void CG_Player( centity_t *cent ) {
 		uberRing.customSkin = 0;
 		trap_R_AddRefEntityToScene(&uberRing);
 	}
+
+	// UBER ARENA 0.5
+	CG_PlayerHoldable(cent);
 
 #ifdef MISSIONPACK
 	if ( cent->currentState.eFlags & EF_KAMIKAZE ) {

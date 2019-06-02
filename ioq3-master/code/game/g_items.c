@@ -200,6 +200,9 @@ int Pickup_PersistantPowerup( gentity_t *ent, gentity_t *other ) {
 int Pickup_Holdable( gentity_t *ent, gentity_t *other ) {
 
 	other->client->ps.stats[STAT_HOLDABLE_ITEM] = ent->item - bg_itemlist;
+	// UBER ARENA 0.5:
+	// HACK ALERT: Put in the (unused by clients) time2 variable to transmit to client state
+	other->s.time2 = other->client->ps.stats[STAT_HOLDABLE_ITEM];
 
 	if( ent->item->giTag == HI_KAMIKAZE ) {
 		other->client->ps.eFlags |= EF_KAMIKAZE;
@@ -744,6 +747,11 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace) {
 		other->client->captureCopy = *other->client->capturedItem;
 		other->client->captureCopy.stored = qtrue;
 		other->client->ps.stats[STAT_STORED_ITEM_ID] = ent->item - bg_itemlist;
+		// UBER ARENA 0.5:
+		// HACK ALERT: Store the item id in time2
+		// This variable is shared by holdables, but since a player can't grab another holdable while storing an item
+		// in the capsule at the same time, this is okay.
+		other->s.time2 = other->client->ps.stats[STAT_STORED_ITEM_ID];
 		other->client->receptacleMode = REC_STANDBY;
 		if (other->client->capturedItem->flags & FL_DROPPED_ITEM) {
 			other->client->capturedItem->freeAfterEvent = qtrue;
