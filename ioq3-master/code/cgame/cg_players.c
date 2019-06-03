@@ -2468,7 +2468,7 @@ void CG_Player( centity_t *cent ) {
 	}
 
 	// UBER ARENA 0.4
-	if (cent->currentState.eFlags & EF_UBER) {
+	if (cent->currentState.eFlags & EF_UBER && !(cent->currentState.eFlags & EF_DEAD)) {
 		memcpy(&uberRing, &torso, sizeof(torso));
 		uberRing.hModel = CG_UberEffect(cent);
 		VectorCopy(torso.origin, uberRing.origin);
@@ -2479,7 +2479,9 @@ void CG_Player( centity_t *cent ) {
 	}
 
 	// UBER ARENA 0.5
-	CG_PlayerHoldable(cent);
+	if (cent->currentState.time2) {
+		CG_PlayerHoldable(cent);
+	}
 
 #ifdef MISSIONPACK
 	if ( cent->currentState.eFlags & EF_KAMIKAZE ) {

@@ -1296,7 +1296,7 @@ qboolean G_RadiusDamage ( vec3_t origin, gentity_t *attacker, float damage, floa
 			!(attacker->client->ps.eFlags & EF_AWARD_CAP && 
 			(ent->item->giTag == PW_REDFLAG || ent->item->giTag == PW_BLUEFLAG))) {
 			VectorSubtract(ent->r.currentOrigin, origin, angles);
-			Knock_Item(ent, ent->item, angles, damage);
+			Knock_Item(ent, ent->item, angles, points);
 		}
 
 		if( CanDamage (ent, origin) ) {
