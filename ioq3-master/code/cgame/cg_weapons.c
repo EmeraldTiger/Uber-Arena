@@ -1565,6 +1565,7 @@ void CG_DrawWeaponSelect( void ) {
 	char	*name;
 	float	*color;
 	int		mask;
+	vec4_t	ubercolor;
 
 	// don't display if dead
 	if ( cg.predictedPlayerState.stats[STAT_HEALTH] <= 0 ) {
@@ -1576,6 +1577,8 @@ void CG_DrawWeaponSelect( void ) {
 		return;
 	}
 	trap_R_SetColor( color );
+
+	VectorSet(ubercolor, 1, 0.9, 0, 1);
 
 	// showing weapon select clears pickup item display, but not the blend blob
 	cg.itemPickupTime = 0;
@@ -1639,7 +1642,14 @@ void CG_DrawWeaponSelect( void ) {
 		if ( name ) {
 			w = CG_DrawStrlen( name ) * BIGCHAR_WIDTH;
 			x = ( SCREEN_WIDTH - w ) / 2;
-			CG_DrawBigStringColor(x, y - 22, name, color);
+			if (cg.snap->ps.stats[STAT_UBERS_MASK] & mask) {
+				// UBER ARENA 0.5: Gold uber names
+				trap_R_SetColor(ubercolor);
+				CG_DrawBigStringColor(x, y - 22, name, ubercolor);
+			}
+			else {
+				CG_DrawBigStringColor(x, y - 22, name, color);
+			}
 		}
 	}
 
