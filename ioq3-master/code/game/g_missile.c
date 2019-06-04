@@ -323,7 +323,7 @@ static void LaserProximityMine_Think(gentity_t *ent) {
 			// doesn't work if outside of sight cone
 			if (dot > 0.9) {
 				if (spotted->client->proxLaserTrailTime < level.time) {
-					spotted->client->proxLaserTrailTime = level.time + 500;
+					spotted->client->proxLaserTrailTime = level.time + 1000;
 					tent = G_TempEntity(trace.endpos, EV_PROX_LASER);
 					VectorAdd(ent->r.currentOrigin, correction, tent->s.origin2);
 					G_Damage(traceEnt, ent, ent->parent, NULL, traceEnt->s.origin, 20, DAMAGE_NO_KNOCKBACK, MOD_LASER_PROXIMITY_MINE_REMOTE);

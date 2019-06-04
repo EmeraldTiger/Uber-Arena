@@ -265,9 +265,9 @@ void Bullet_Fire (gentity_t *ent, float spread, int damage, int mod ) {
 					damage, dflags, mod);
 
 				// UBER ARENA 0.5: Infinity Chaingun
-				// Give back chaingun belt ammo equivalent to damage inflicted
+				// Give back chaingun belt ammo equivalent to half the damage inflicted
 				if (ent->s.weapon == WP_CHAINGUN && isUber(ent, COUNTER_CHAINGUN)) {
-					ent->client->ps.ammo[WP_CHAINGUN] += damage;
+					ent->client->ps.ammo[WP_CHAINGUN] += (damage / 2);
 				}
 #ifdef MISSIONPACK
 			}
