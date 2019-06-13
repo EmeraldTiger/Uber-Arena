@@ -376,6 +376,7 @@ void Upgrade_Weapon(int counter, gentity_t *other, int steps) {
 
 int Pickup_Weapon (gentity_t *ent, gentity_t *other, qboolean captureMode) {
 	int		quantity;
+	float	startingAmmoScale;
 
 	if (captureMode) {
 		return g_weaponRespawn.integer; // don't pickup weapon, just store it in the capsule
@@ -389,6 +390,14 @@ int Pickup_Weapon (gentity_t *ent, gentity_t *other, qboolean captureMode) {
 		} else {
 			quantity = ent->item->quantity;
 		}
+
+		startingAmmoScale = (float)g_startingAmmoPercentage.integer / 100;
+
+		if (startingAmmoScale < 0) {
+			startingAmmoScale = 0;
+		}
+
+		quantity *= startingAmmoScale;
 
 		// dropped items and teamplay weapons always have full ammo
 		if ( ! (ent->flags & FL_DROPPED_ITEM) && g_gametype.integer != GT_TEAM ) {

@@ -1057,6 +1057,7 @@ void ClientSpawn(gentity_t *ent) {
 	int		accuracy_hits, accuracy_shots;
 	int		eventSequence;
 	char	userinfo[MAX_INFO_STRING];
+	float	startingAmmoScale;
 
 	index = ent - g_entities;
 	client = ent->client;
@@ -1165,8 +1166,11 @@ void ClientSpawn(gentity_t *ent) {
 	client->ps.clientNum = index;
 
 	client->ps.stats[STAT_WEAPONS] = ( 1 << WP_MACHINEGUN );
+
+	startingAmmoScale = (float)g_startingAmmoPercentage.integer / 100;
+
 	// UBER ARENA: Machinegun starting ammo is now 50 across all gametypes
-	client->ps.ammo[WP_MACHINEGUN] = 50;
+	client->ps.ammo[WP_MACHINEGUN] = 100 * startingAmmoScale;
 
 	// UBER ARENA 0.3: Gauntlet and machinegun counters start at 1
 	client->weaponCounters[COUNTER_GAUNTLET] = 1;
