@@ -923,12 +923,18 @@ gentity_t *Knock_Item(gentity_t *ent, gitem_t *item, vec3_t angles, float force)
 	float	dot;
 	vec3_t	up;
 	float	knockBackScale;
+	int		respawnTime;
 
 	VectorSet(up, 0, 0, 1);
 
 	knockBackScale = (float)g_knockback_Item.integer / 1000;
 	if (knockBackScale < 0) {
 		knockBackScale = 0;
+	}
+
+	respawnTime = g_knockedItemRespawnTime.integer * 1000;
+	if (respawnTime < 3000) {
+		respawnTime = 3000;
 	}
 
 	VectorCopy(angles, velocity);
@@ -966,7 +972,7 @@ gentity_t *Knock_Item(gentity_t *ent, gitem_t *item, vec3_t angles, float force)
 		// and removing the "?" status marker, in addition to moving it back
 		if (g_gametype.integer == GT_CTF && item->giType == IT_TEAM) {
 			ent->think = Team_DroppedFlagThink;
-			ent->nextthink = level.time + 10000;
+			ent->nextthink = level.time + respawnTime;
 			Team_CheckDroppedItem(ent);
 		}
 		else {
@@ -974,7 +980,7 @@ gentity_t *Knock_Item(gentity_t *ent, gitem_t *item, vec3_t angles, float force)
 		}
 	}
 	// Bounced items respawn back in original locations after 10 seconds
-	ent->nextthink = level.time + 10000;
+	ent->nextthink = level.time + respawnTime;
 }
 
 
