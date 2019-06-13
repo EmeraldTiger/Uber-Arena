@@ -829,6 +829,18 @@ extern	vmCvar_t	g_localTeamPref;
 
 // UBER ARENA
 extern vmCvar_t		g_bouncy;
+// 0.5
+extern vmCvar_t		g_knockback_Item;
+extern vmCvar_t		g_knockedItemRespawnTime;
+extern vmCvar_t		g_startingAmmoPercentage;
+extern vmCvar_t		g_startingWeaponLimit;
+extern vmCvar_t		g_crouchDecelRate;
+extern vmCvar_t		g_startingPowerupSpawnTime;
+extern vmCvar_t		g_powerupRespawnTime;
+extern vmCvar_t		g_dropHoldables;
+extern vmCvar_t		g_maxProxMines;
+extern vmCvar_t		g_trampolineElasticity;
+extern vmCvar_t		g_trampolineBoost;
 
 void	trap_Print( const char *text );
 void	trap_Error( const char *text ) __attribute__((noreturn));

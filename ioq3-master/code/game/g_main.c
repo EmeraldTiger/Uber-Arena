@@ -82,8 +82,6 @@ vmCvar_t	pmove_msec;
 vmCvar_t	g_rankings;
 vmCvar_t	g_listEntity;
 vmCvar_t	g_localTeamPref;
-// UBER ARENA
-vmCvar_t	g_bouncy;
 vmCvar_t	g_obeliskHealth;
 vmCvar_t	g_obeliskRegenPeriod;
 vmCvar_t	g_obeliskRegenAmount;
@@ -95,6 +93,21 @@ vmCvar_t	g_singlePlayer;
 vmCvar_t	g_enableDust;
 vmCvar_t	g_enableBreath;
 vmCvar_t	g_proxMineTimeout;
+
+// UBER ARENA
+vmCvar_t		g_bouncy;
+// 0.5
+vmCvar_t		g_knockback_Item;
+vmCvar_t		g_knockedItemRespawnTime;
+vmCvar_t		g_startingAmmoPercentage;
+vmCvar_t		g_startingWeaponLimit;
+vmCvar_t		g_crouchDecelRate;
+vmCvar_t		g_startingPowerupSpawnTime;
+vmCvar_t		g_powerupRespawnTime;
+vmCvar_t		g_dropHoldables;
+vmCvar_t		g_maxProxMines;
+vmCvar_t		g_trampolineElasticity;
+vmCvar_t		g_trampolineBoost;
 
 static cvarTable_t		gameCvarTable[] = {
 	// don't override the cheat state set by the system
@@ -179,7 +192,19 @@ static cvarTable_t		gameCvarTable[] = {
 	{ &g_localTeamPref, "g_localTeamPref", "", 0, 0, qfalse },
 
 	// UBER ARENA
-	{ &g_bouncy, "g_bouncy", "0", 0, 0, qfalse },
+	{ &g_bouncy, "g_bouncy", "0", 0, 0, qtrue },
+	// 0.5
+	{ &g_knockback_Item, "g_knockback_Item", "1000", 0, 0, qtrue },
+	{ &g_knockedItemRespawnTime, "g_knockedItemRespawnTime", "10", 0, 0, qtrue },
+	{ &g_startingAmmoPercentage, "g_startingAmmoPercentage", "50", 0, 0, qtrue },
+	{ &g_startingWeaponLimit, "g_startingWeaponLimit", "3", 0, 0, qtrue },
+	{ &g_crouchDecelRate, "g_crouchDecelRate", "5", 0, 0, qtrue },
+	{ &g_startingPowerupSpawnTime, "g_startingPowerupSpawnTime", "45", 0, 0, qtrue },
+	{ &g_powerupRespawnTime, "g_powerupRespawnTime", "120", 0, 0, qtrue },
+	{ &g_dropHoldables, "g_dropHoldables", "0", 0, 0, qtrue },
+	{ &g_maxProxMines, "g_maxProxMines", "3", 0, 0, qtrue },
+	{ &g_trampolineElasticity, "g_trampolineElasticity", "80", 0, 0, qtrue },
+	{ &g_trampolineBoost, "g_trampolineBoost", "70", 0, 0, qtrue },
 
 };
 
