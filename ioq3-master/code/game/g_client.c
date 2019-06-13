@@ -1058,6 +1058,7 @@ void ClientSpawn(gentity_t *ent) {
 	int		eventSequence;
 	char	userinfo[MAX_INFO_STRING];
 	float	startingAmmoScale;
+	int		weaponLimitMax;
 
 	index = ent - g_entities;
 	client = ent->client;
@@ -1180,9 +1181,15 @@ void ClientSpawn(gentity_t *ent) {
 	client->ps.ammo[WP_GAUNTLET] = -1;
 	client->ps.ammo[WP_GRAPPLING_HOOK] = -1;
 
+	weaponLimitMax = g_startingWeaponLimit.integer - 2;
+
+	if (weaponLimitMax < 0) {
+		weaponLimitMax = 0;
+	}
+
 	// UBER ARENA: Weapon limits
 	client->ps.stats[STAT_WEAPONCOUNT] = 0;
-	client->ps.stats[STAT_MAX_WEAPONS] = 1;
+	client->ps.stats[STAT_MAX_WEAPONS] = weaponLimitMax;
 
 	// UBER ARENA 0.3: Number of uberweapons collected starts at 0
 	client->uberCount = 0;
