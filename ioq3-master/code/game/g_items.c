@@ -922,8 +922,14 @@ gentity_t *Knock_Item(gentity_t *ent, gitem_t *item, vec3_t angles, float force)
 	vec3_t	velocity;
 	float	dot;
 	vec3_t	up;
+	float	knockBackScale;
 
 	VectorSet(up, 0, 0, 1);
+
+	knockBackScale = (float)g_knockback_Item.integer / 1000;
+	if (knockBackScale < 0) {
+		knockBackScale = 0;
+	}
 
 	VectorCopy(angles, velocity);
 	VectorNormalize(velocity);
@@ -933,7 +939,7 @@ gentity_t *Knock_Item(gentity_t *ent, gitem_t *item, vec3_t angles, float force)
 		// makes it easier to knock off items on high ledges
 		velocity[2] *= -1;
 	// UBER ARENA 0.5: Now distance-based (more intuitive behavior)
-	VectorScale(velocity, force*5, velocity);
+	VectorScale(velocity, (force*5) * knockBackScale, velocity);
 	VectorMA(velocity, -2 * dot, up, ent->s.pos.trDelta);
 	ent->s.modelindex2 = 1; // UBER ARENA 0.4: Set this because dropped items do it too
 
