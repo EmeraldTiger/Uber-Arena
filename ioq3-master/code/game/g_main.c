@@ -198,7 +198,6 @@ static cvarTable_t		gameCvarTable[] = {
 	{ &g_knockedItemRespawnTime, "g_knockedItemRespawnTime", "10", 0, 0, qtrue },
 	{ &g_startingAmmoPercentage, "g_startingAmmoPercentage", "50", 0, 0, qtrue },
 	{ &g_startingWeaponLimit, "g_startingWeaponLimit", "3", 0, 0, qtrue },
-	{ &g_crouchDecelRate, "g_crouchDecelRate", "5", 0, 0, qtrue },
 	{ &g_startingPowerupSpawnTime, "g_startingPowerupSpawnTime", "45", 0, 0, qtrue },
 	{ &g_powerupRespawnTime, "g_powerupRespawnTime", "120", 0, 0, qtrue },
 	{ &g_dropHoldables, "g_dropHoldables", "0", 0, 0, qtrue },

@@ -53,7 +53,7 @@ int Pickup_Powerup( gentity_t *ent, gentity_t *other, qboolean captureMode ) {
 	gclient_t	*client;
 
 	if (captureMode) {
-		return RESPAWN_POWERUP; // don't pickup powerup, just store it in the capsule
+		return g_powerupRespawnTime.integer; // don't pickup powerup, just store it in the capsule
 	}
 
 	if ( !other->client->ps.powerups[ent->item->giTag] ) {
@@ -117,7 +117,7 @@ int Pickup_Powerup( gentity_t *ent, gentity_t *other, qboolean captureMode ) {
 		// anti-reward
 		client->ps.persistant[PERS_PLAYEREVENTS] ^= PLAYEREVENT_DENIEDREWARD;
 	}
-	return RESPAWN_POWERUP;
+	return g_powerupRespawnTime.integer;
 }
 
 //======================================================================
@@ -1071,7 +1071,7 @@ void FinishSpawningItem( gentity_t *ent ) {
 		float	respawn;
 
 		// UBER ARENA 0.3: No more random initial power-up spawns
-		respawn = 45;
+		respawn = g_startingPowerupSpawnTime.integer;
 		ent->s.eFlags |= EF_NODRAW;
 		ent->r.contents = 0;
 		ent->nextthink = level.time + respawn * 1000;
