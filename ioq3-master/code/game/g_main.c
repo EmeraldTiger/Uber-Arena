@@ -106,8 +106,6 @@ vmCvar_t		g_startingPowerupSpawnTime;
 vmCvar_t		g_powerupRespawnTime;
 vmCvar_t		g_dropHoldables;
 vmCvar_t		g_maxProxMines;
-vmCvar_t		g_trampolineElasticity;
-vmCvar_t		g_trampolineBoost;
 
 static cvarTable_t		gameCvarTable[] = {
 	// don't override the cheat state set by the system
@@ -192,18 +190,16 @@ static cvarTable_t		gameCvarTable[] = {
 	{ &g_localTeamPref, "g_localTeamPref", "", 0, 0, qfalse },
 
 	// UBER ARENA
-	{ &g_bouncy, "g_bouncy", "0", 0, 0, qtrue },
+	{ &g_bouncy, "g_bouncy", "0", 0, 0, qfalse },
 	// 0.5
-	{ &g_knockback_Item, "g_knockback_Item", "1000", 0, 0, qtrue },
-	{ &g_knockedItemRespawnTime, "g_knockedItemRespawnTime", "10", 0, 0, qtrue },
-	{ &g_startingAmmoPercentage, "g_startingAmmoPercentage", "50", 0, 0, qtrue },
-	{ &g_startingWeaponLimit, "g_startingWeaponLimit", "3", 0, 0, qtrue },
-	{ &g_startingPowerupSpawnTime, "g_startingPowerupSpawnTime", "45", 0, 0, qtrue },
-	{ &g_powerupRespawnTime, "g_powerupRespawnTime", "120", 0, 0, qtrue },
-	{ &g_dropHoldables, "g_dropHoldables", "0", 0, 0, qtrue },
-	{ &g_maxProxMines, "g_maxProxMines", "3", 0, 0, qtrue },
-	{ &g_trampolineElasticity, "g_trampolineElasticity", "80", 0, 0, qtrue },
-	{ &g_trampolineBoost, "g_trampolineBoost", "70", 0, 0, qtrue },
+	{ &g_knockback_Item, "g_knockback_Item", "1000", 0, 0, qfalse },
+	{ &g_knockedItemRespawnTime, "g_knockedItemRespawnTime", "10", 0, 0, qfalse },
+	{ &g_startingAmmoPercentage, "g_startingAmmoPercentage", "50", 0, 0, qfalse },
+	{ &g_startingWeaponLimit, "g_startingWeaponLimit", "3", 0, 0, qfalse },
+	{ &g_startingPowerupSpawnTime, "g_startingPowerupSpawnTime", "45", 0, 0, qfalse },
+	{ &g_powerupRespawnTime, "g_powerupRespawnTime", "120", 0, 0, qfalse },
+	{ &g_dropHoldables, "g_dropHoldables", "1", 0, 0, qfalse },
+	{ &g_maxProxMines, "g_maxProxMines", "3", 0, 0, qfalse },
 
 };
 

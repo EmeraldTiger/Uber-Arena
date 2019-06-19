@@ -130,7 +130,7 @@ void TossClientItems( gentity_t *self ) {
 	
 	// UBER ARENA 0.4: Holdable items can now be dropped
 	// Storage capsule will reset to standby mode if dropped
-	if (self->client->ps.stats[STAT_HOLDABLE_ITEM]) {
+	if (self->client->ps.stats[STAT_HOLDABLE_ITEM] && g_dropHoldables.integer) {
 		item = BG_FindItemForHoldable(bg_itemlist[self->client->ps.stats[STAT_HOLDABLE_ITEM]].giTag);
 		drop = Drop_Item(self, item, angle);
 		if (bg_itemlist[self->client->ps.stats[STAT_HOLDABLE_ITEM]].giTag == HI_RECEPTACLE && self->client->capturedItem) {

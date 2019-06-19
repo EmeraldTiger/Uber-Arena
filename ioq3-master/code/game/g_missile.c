@@ -191,12 +191,12 @@ static void ProximityMine_CheckExisting(gentity_t *mine) {
 	}
 
 	// If there's more than 3 mines, detonate the oldest one
-	if (minecount > PROX_LIMIT) {
+	if (minecount > g_maxProxMines.integer) {
 		for (j = 0; j < MAX_GENTITIES; j++) {
 			ent = &g_entities[j];
 
 			if (ent->classname == "prox mine") {
-				if (ent->proxId <= mine->parent->client->proxCount - PROX_LIMIT) {
+				if (ent->proxId <= mine->parent->client->proxCount - g_maxProxMines.integer) {
 					ProximityMine_Explode(ent);
 				}
 			}

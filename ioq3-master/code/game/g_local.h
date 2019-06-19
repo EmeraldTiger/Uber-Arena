@@ -839,8 +839,6 @@ extern vmCvar_t		g_startingPowerupSpawnTime;
 extern vmCvar_t		g_powerupRespawnTime;
 extern vmCvar_t		g_dropHoldables;
 extern vmCvar_t		g_maxProxMines;
-extern vmCvar_t		g_trampolineElasticity;
-extern vmCvar_t		g_trampolineBoost;
 
 void	trap_Print( const char *text );
 void	trap_Error( const char *text ) __attribute__((noreturn));
