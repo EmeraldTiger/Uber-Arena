@@ -101,7 +101,6 @@ vmCvar_t		g_knockback_Item;
 vmCvar_t		g_knockedItemRespawnTime;
 vmCvar_t		g_startingAmmoPercentage;
 vmCvar_t		g_startingWeaponLimit;
-vmCvar_t		g_crouchDecelRate;
 vmCvar_t		g_startingPowerupSpawnTime;
 vmCvar_t		g_powerupRespawnTime;
 vmCvar_t		g_dropHoldables;

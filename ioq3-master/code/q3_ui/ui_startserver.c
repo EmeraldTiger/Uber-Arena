@@ -59,6 +59,15 @@ START SERVER MENU *****
 #define ID_STARTSERVERBACK		17
 #define ID_STARTSERVERNEXT		18
 
+#define ID_BACK					19
+
+#define ART_BACK0			"menu/art/back_0"
+#define ART_BACK1			"menu/art/back_1"
+
+#define ART_FRAMEL			"menu/art/frame2_l"
+#define ART_FRAMER			"menu/art/frame1_r"
+
+
 typedef struct {
 	menuframework_s	menu;
 
@@ -103,6 +112,27 @@ static int gametype_remap2[] = {0, 2, 0, 1, 3};
 extern const char* punkbuster_items[];
 
 static void UI_ServerOptionsMenu( qboolean multiplayer );
+
+typedef struct {
+	menuframework_s	menu;
+
+	menuslider_s	itemknockbackscale;
+	menuslider_s	knockeditemrespawntime;
+	menuslider_s		startingammopercent;
+	menuslider_s		startingweaponlimit;
+	menuslider_s		startingpowerupspawntime;
+	menuslider_s		poweruprespawntime;
+	menutext_s		dropholdables;
+	menuslider_s		maxproxmines;
+
+	menubitmap_s		framel;
+	menubitmap_s		framer;
+
+	menubitmap_s	back;
+
+} advancedsettings_t;
+
+static advancedsettings_t	s_advancedsettings;
 
 
 /*
@@ -618,6 +648,7 @@ SERVER OPTIONS MENU *****
 #define ID_DEDICATED			22
 #define ID_GO					23
 #define ID_BACK					24
+#define ID_ADVANCED				25
 
 #define PLAYER_SLOTS			12
 
@@ -658,6 +689,8 @@ typedef struct {
 	char				newBotName[16];
 	
 	menulist_s		punkbuster;
+
+	menulist_s		advancedSettings; // UBER ARENA 0.5
 } serveroptions_t;
 
 static serveroptions_t s_serveroptions;
@@ -971,6 +1004,13 @@ static void ServerOptions_Event( void* ptr, int event ) {
 		}
 		UI_PopMenu();
 		break;
+	case ID_ADVANCED:
+		if (event != QM_ACTIVATED) {
+			break;
+		}
+		UI_AdvancedSettings();
+		break;
+
 	}
 }
 
@@ -984,6 +1024,167 @@ static void ServerOptions_PlayerNameEvent( void* ptr, int event ) {
 	n = ((menutext_s*)ptr)->generic.id;
 	s_serveroptions.newBotIndex = n;
 	UI_BotSelectMenu( s_serveroptions.playerNameBuffers[n] );
+}
+
+#define AS_TEXTHEIGHT 18
+
+/*
+=================
+UI_AdvancedSettings_MenuInit
+=================
+*/
+
+void UI_AdvancedSettings_MenuInit() {
+	int		y;
+	int		x;
+
+	x = 320;
+
+	memset(&s_advancedsettings, 0, sizeof(advancedsettings_t));
+
+	trap_R_RegisterShaderNoMip(ART_FRAMEL);
+	trap_R_RegisterShaderNoMip(ART_FRAMER);
+
+	s_advancedsettings.menu.wrapAround = qtrue;
+	s_advancedsettings.menu.fullscreen = qtrue;
+
+	s_advancedsettings.framel.generic.type = MTYPE_BITMAP;
+	s_advancedsettings.framel.generic.name = ART_FRAMEL;
+	s_advancedsettings.framel.generic.flags = QMF_LEFT_JUSTIFY | QMF_INACTIVE;
+	s_advancedsettings.framel.generic.x = 0;
+	s_advancedsettings.framel.generic.y = 78;
+	s_advancedsettings.framel.width = 256;
+	s_advancedsettings.framel.height = 329;
+
+	s_advancedsettings.framer.generic.type = MTYPE_BITMAP;
+	s_advancedsettings.framer.generic.name = ART_FRAMER;
+	s_advancedsettings.framer.generic.flags = QMF_LEFT_JUSTIFY | QMF_INACTIVE;
+	s_advancedsettings.framer.generic.x = 376;
+	s_advancedsettings.framer.generic.y = 76;
+	s_advancedsettings.framer.width = 256;
+	s_advancedsettings.framer.height = 334;
+
+	y = 148;
+	s_advancedsettings.itemknockbackscale.generic.type = MTYPE_SLIDER;
+	s_advancedsettings.itemknockbackscale.generic.x = x;
+	s_advancedsettings.itemknockbackscale.generic.y = y;
+	s_advancedsettings.itemknockbackscale.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
+	s_advancedsettings.itemknockbackscale.generic.name = "Item Knockback Force";
+	s_advancedsettings.itemknockbackscale.minvalue = 0;
+	s_advancedsettings.itemknockbackscale.maxvalue = 5000;
+	s_advancedsettings.itemknockbackscale.curvalue = 1000;
+
+	y += AS_TEXTHEIGHT;
+	s_advancedsettings.knockeditemrespawntime.generic.type = MTYPE_SLIDER;
+	s_advancedsettings.knockeditemrespawntime.generic.x = x;
+	s_advancedsettings.knockeditemrespawntime.generic.y = y;
+	s_advancedsettings.knockeditemrespawntime.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
+	s_advancedsettings.knockeditemrespawntime.generic.name = "Knocked Item Respawn Time";
+	s_advancedsettings.knockeditemrespawntime.minvalue = 5;
+	s_advancedsettings.knockeditemrespawntime.maxvalue = 25;
+	s_advancedsettings.knockeditemrespawntime.curvalue = 10;
+
+	y += AS_TEXTHEIGHT;
+	s_advancedsettings.startingammopercent.generic.type = MTYPE_SLIDER;
+	s_advancedsettings.startingammopercent.generic.x = x;
+	s_advancedsettings.startingammopercent.generic.y = y;
+	s_advancedsettings.startingammopercent.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
+	s_advancedsettings.startingammopercent.generic.name = "Starting Ammo Percentage";
+	s_advancedsettings.startingammopercent.minvalue = 0;
+	s_advancedsettings.startingammopercent.maxvalue = 100;
+	s_advancedsettings.startingammopercent.curvalue = 50;
+
+	y += AS_TEXTHEIGHT;
+	s_advancedsettings.startingweaponlimit.generic.type = MTYPE_SLIDER;
+	s_advancedsettings.startingweaponlimit.generic.x = x;
+	s_advancedsettings.startingweaponlimit.generic.y = y;
+	s_advancedsettings.startingweaponlimit.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
+	s_advancedsettings.startingweaponlimit.generic.name = "Starting Weapon Limit";
+	s_advancedsettings.startingweaponlimit.minvalue = 2;
+	s_advancedsettings.startingweaponlimit.maxvalue = 10;
+	s_advancedsettings.startingweaponlimit.curvalue = 3;
+
+	y += AS_TEXTHEIGHT;
+	s_advancedsettings.startingpowerupspawntime.generic.type = MTYPE_SLIDER;
+	s_advancedsettings.startingpowerupspawntime.generic.x = x;
+	s_advancedsettings.startingpowerupspawntime.generic.y = y;
+	s_advancedsettings.startingpowerupspawntime.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
+	s_advancedsettings.startingpowerupspawntime.generic.name = "Initial Powerup Spawn Time";
+	s_advancedsettings.startingpowerupspawntime.minvalue = 30;
+	s_advancedsettings.startingpowerupspawntime.maxvalue = 120;
+	s_advancedsettings.startingpowerupspawntime.curvalue = 45;
+
+	y += AS_TEXTHEIGHT;
+	s_advancedsettings.poweruprespawntime.generic.type = MTYPE_SLIDER;
+	s_advancedsettings.poweruprespawntime.generic.x = x;
+	s_advancedsettings.poweruprespawntime.generic.y = y;
+	s_advancedsettings.poweruprespawntime.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
+	s_advancedsettings.poweruprespawntime.generic.name = "Powerup Respawn Time";
+	s_advancedsettings.poweruprespawntime.minvalue = 30;
+	s_advancedsettings.poweruprespawntime.maxvalue = 120;
+	s_advancedsettings.poweruprespawntime.curvalue = 120;
+
+	y += AS_TEXTHEIGHT;
+	s_advancedsettings.maxproxmines.generic.type = MTYPE_SLIDER;
+	s_advancedsettings.maxproxmines.generic.x = x;
+	s_advancedsettings.maxproxmines.generic.y = y;
+	s_advancedsettings.maxproxmines.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
+	s_advancedsettings.maxproxmines.generic.name = "Prox Mine Limit";
+	s_advancedsettings.maxproxmines.minvalue = 1;
+	s_advancedsettings.maxproxmines.maxvalue = 10;
+	s_advancedsettings.maxproxmines.curvalue = 3;
+
+	y += AS_TEXTHEIGHT;
+	s_advancedsettings.dropholdables.generic.type = MTYPE_RADIOBUTTON;
+	s_advancedsettings.dropholdables.generic.x = x;
+	s_advancedsettings.dropholdables.generic.y = y;
+	s_advancedsettings.dropholdables.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
+	s_advancedsettings.dropholdables.generic.name = "Drop Holdables";
+
+	s_advancedsettings.back.generic.type = MTYPE_BITMAP;
+	s_advancedsettings.back.generic.name = ART_BACK0;
+	s_advancedsettings.back.generic.flags = QMF_LEFT_JUSTIFY | QMF_PULSEIFFOCUS;
+	s_advancedsettings.back.generic.callback = ServerOptions_Event;
+	s_advancedsettings.back.generic.id = ID_BACK;
+	s_advancedsettings.back.generic.x = 0;
+	s_advancedsettings.back.generic.y = 480 - 64;
+	s_advancedsettings.back.width = 128;
+	s_advancedsettings.back.height = 64;
+	s_advancedsettings.back.focuspic = ART_BACK1;
+
+	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.framel);
+	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.framer);
+	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.itemknockbackscale);
+	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.knockeditemrespawntime);
+	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.startingammopercent);
+	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.startingweaponlimit);
+	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.startingpowerupspawntime);
+	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.poweruprespawntime);
+	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.maxproxmines);
+	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.dropholdables);
+	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.back);
+
+	/*y = 168;
+	s_options.graphics.generic.type = MTYPE_PTEXT;
+	s_options.graphics.generic.flags = QMF_CENTER_JUSTIFY | QMF_PULSEIFFOCUS;
+	s_options.graphics.generic.callback = Options_Event;
+	s_options.graphics.generic.id = ID_GRAPHICS;
+	s_options.graphics.generic.x = 320;
+	s_options.graphics.generic.y = y;
+	s_options.graphics.string = "GRAPHICS";
+	s_options.graphics.color = color_red;
+	s_options.graphics.style = UI_CENTER;*/
+}
+
+/*
+=================
+UI_AdvancedSettings
+=================
+*/
+
+void UI_AdvancedSettings() {
+	UI_AdvancedSettings_MenuInit();
+	UI_PushMenu(&s_advancedsettings.menu);
 }
 
 
@@ -1358,6 +1559,16 @@ static void ServerOptions_MenuInit( qboolean multiplayer ) {
 	s_serveroptions.punkbuster.generic.x				= OPTIONS_X;
 	s_serveroptions.punkbuster.generic.y				= y;
 	s_serveroptions.punkbuster.itemnames				= punkbuster_items;
+
+	y += BIGCHAR_HEIGHT + 2;
+	s_serveroptions.advancedSettings.generic.type = MTYPE_SPINCONTROL;
+	s_serveroptions.advancedSettings.generic.name = "Advanced Settings";
+	s_serveroptions.advancedSettings.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
+	s_serveroptions.advancedSettings.generic.id = ID_ADVANCED;
+	s_serveroptions.advancedSettings.generic.x = OPTIONS_X;
+	s_serveroptions.advancedSettings.generic.y = y;
+	s_serveroptions.advancedSettings.itemnames = punkbuster_items;
+	s_serveroptions.advancedSettings.generic.callback = ServerOptions_Event;
 	
 	y = 80;
 	s_serveroptions.botSkill.generic.type			= MTYPE_SPINCONTROL;
@@ -1483,6 +1694,7 @@ static void ServerOptions_MenuInit( qboolean multiplayer ) {
 	Menu_AddItem( &s_serveroptions.menu, &s_serveroptions.go );
 
 	Menu_AddItem( &s_serveroptions.menu, (void*) &s_serveroptions.punkbuster );
+	Menu_AddItem(&s_serveroptions.menu, &s_serveroptions.advancedSettings); // UBER ARENA 0.5
 	
 	ServerOptions_SetMenuItems();
 }
