@@ -116,14 +116,16 @@ static void UI_ServerOptionsMenu( qboolean multiplayer );
 typedef struct {
 	menuframework_s	menu;
 
-	menuslider_s	itemknockbackscale;
-	menuslider_s	knockeditemrespawntime;
-	menuslider_s		startingammopercent;
-	menuslider_s		startingweaponlimit;
-	menuslider_s		startingpowerupspawntime;
-	menuslider_s		poweruprespawntime;
-	menutext_s		dropholdables;
-	menuslider_s		maxproxmines;
+	menutext_s			banner;
+
+	menufield_s			itemknockbackscale;
+	menufield_s			knockeditemrespawntime;
+	menufield_s			startingammopercent;
+	menufield_s			startingweaponlimit;
+	menufield_s			startingpowerupspawntime;
+	menufield_s			poweruprespawntime;
+	menuradiobutton_s	dropholdables;
+	menufield_s			maxproxmines;
 
 	menubitmap_s		framel;
 	menubitmap_s		framer;
@@ -1027,6 +1029,55 @@ static void ServerOptions_PlayerNameEvent( void* ptr, int event ) {
 }
 
 #define AS_TEXTHEIGHT 18
+#define AS_SLIDERVALUE_OFFSET 200
+
+#define ID_ITEM_KNOCKBACK_SCALE 623
+#define ID_KNOCKED_ITEM_RESPAWN_TIME 624
+#define ID_STARTING_AMMO_PERCENTAGE 625
+#define ID_STARTING_WEAPON_LIMIT 626
+#define ID_STARTING_POWERUP_SPAWN_TIME 627
+#define ID_POWERUP_RESPAWN_TIME 628
+#define ID_MAX_PROX_MINES 629
+#define ID_DROP_HOLDABLES 630
+
+/*
+=================
+AdvancedSettings_StatusBar
+=================
+*/
+static void AdvancedSettings_StatusBar(void* ptr) {
+	//UI_DrawString(320, 440, "TESTING 123", UI_CENTER | UI_SMALLFONT, colorWhite);
+	switch (((menucommon_s*)ptr)->id) {
+	case ID_ITEM_KNOCKBACK_SCALE:
+		UI_DrawString(320, 440, "Default = 1000", UI_CENTER | UI_SMALLFONT, colorWhite);
+		break;
+	case ID_KNOCKED_ITEM_RESPAWN_TIME:
+		UI_DrawString(320, 440, "Default = 10, Minimum = 3", UI_CENTER | UI_SMALLFONT, colorWhite);
+		break;
+	case ID_STARTING_AMMO_PERCENTAGE:
+		UI_DrawString(320, 440, "Default = 50", UI_CENTER | UI_SMALLFONT, colorWhite);
+		break;
+	case ID_STARTING_WEAPON_LIMIT:
+		UI_DrawString(320, 440, "Default = 3, Minimum = 2", UI_CENTER | UI_SMALLFONT, colorWhite);
+		break;
+	case ID_STARTING_POWERUP_SPAWN_TIME:
+		UI_DrawString(320, 440, "Default = 45", UI_CENTER | UI_SMALLFONT, colorWhite);
+		break;
+	case ID_POWERUP_RESPAWN_TIME:
+		UI_DrawString(320, 440, "Default = 120", UI_CENTER | UI_SMALLFONT, colorWhite);
+		break;
+	case ID_MAX_PROX_MINES:
+		UI_DrawString(320, 440, "Default = 3", UI_CENTER | UI_SMALLFONT, colorWhite);
+		break;
+	case ID_DROP_HOLDABLES:
+		UI_DrawString(320, 440, "Default = On", UI_CENTER | UI_SMALLFONT, colorWhite);
+		break;
+	default:
+		UI_DrawString(320, 440, "invalid", UI_CENTER | UI_SMALLFONT, colorWhite);
+		break;
+	}
+}
+
 
 /*
 =================
@@ -1038,7 +1089,7 @@ void UI_AdvancedSettings_MenuInit() {
 	int		y;
 	int		x;
 
-	x = 320;
+	x = 370;
 
 	memset(&s_advancedsettings, 0, sizeof(advancedsettings_t));
 
@@ -1047,6 +1098,13 @@ void UI_AdvancedSettings_MenuInit() {
 
 	s_advancedsettings.menu.wrapAround = qtrue;
 	s_advancedsettings.menu.fullscreen = qtrue;
+
+	s_advancedsettings.banner.generic.type = MTYPE_BTEXT;
+	s_advancedsettings.banner.generic.x = 320;
+	s_advancedsettings.banner.generic.y = 16;
+	s_advancedsettings.banner.string = "ADVANCED SETTINGS";
+	s_advancedsettings.banner.color = color_white;
+	s_advancedsettings.banner.style = UI_CENTER;
 
 	s_advancedsettings.framel.generic.type = MTYPE_BITMAP;
 	s_advancedsettings.framel.generic.name = ART_FRAMEL;
@@ -1065,74 +1123,81 @@ void UI_AdvancedSettings_MenuInit() {
 	s_advancedsettings.framer.height = 334;
 
 	y = 148;
-	s_advancedsettings.itemknockbackscale.generic.type = MTYPE_SLIDER;
+	s_advancedsettings.itemknockbackscale.generic.type = MTYPE_FIELD;
+	s_advancedsettings.itemknockbackscale.generic.name = "Item Knockback Force: ";
+	s_advancedsettings.itemknockbackscale.generic.flags = QMF_NUMBERSONLY | QMF_PULSEIFFOCUS | QMF_SMALLFONT;
 	s_advancedsettings.itemknockbackscale.generic.x = x;
 	s_advancedsettings.itemknockbackscale.generic.y = y;
-	s_advancedsettings.itemknockbackscale.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
-	s_advancedsettings.itemknockbackscale.generic.name = "Item Knockback Force";
-	s_advancedsettings.itemknockbackscale.minvalue = 0;
-	s_advancedsettings.itemknockbackscale.maxvalue = 5000;
-	s_advancedsettings.itemknockbackscale.curvalue = 1000;
+	s_advancedsettings.itemknockbackscale.generic.id = ID_ITEM_KNOCKBACK_SCALE;
+	s_advancedsettings.itemknockbackscale.generic.statusbar = AdvancedSettings_StatusBar;
+	s_advancedsettings.itemknockbackscale.field.widthInChars = 4;
+	s_advancedsettings.itemknockbackscale.field.maxchars = 4;
 
 	y += AS_TEXTHEIGHT;
-	s_advancedsettings.knockeditemrespawntime.generic.type = MTYPE_SLIDER;
+	s_advancedsettings.knockeditemrespawntime.generic.type = MTYPE_FIELD;
 	s_advancedsettings.knockeditemrespawntime.generic.x = x;
 	s_advancedsettings.knockeditemrespawntime.generic.y = y;
-	s_advancedsettings.knockeditemrespawntime.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
-	s_advancedsettings.knockeditemrespawntime.generic.name = "Knocked Item Respawn Time";
-	s_advancedsettings.knockeditemrespawntime.minvalue = 5;
-	s_advancedsettings.knockeditemrespawntime.maxvalue = 25;
-	s_advancedsettings.knockeditemrespawntime.curvalue = 10;
+	s_advancedsettings.knockeditemrespawntime.generic.flags = QMF_NUMBERSONLY | QMF_PULSEIFFOCUS | QMF_SMALLFONT;
+	s_advancedsettings.knockeditemrespawntime.generic.name = "Knocked Item Respawn Time: ";
+	s_advancedsettings.knockeditemrespawntime.generic.id = ID_KNOCKED_ITEM_RESPAWN_TIME;
+	s_advancedsettings.knockeditemrespawntime.generic.statusbar = AdvancedSettings_StatusBar;
+	s_advancedsettings.knockeditemrespawntime.field.widthInChars = 3;
+	s_advancedsettings.knockeditemrespawntime.field.maxchars = 3;
 
 	y += AS_TEXTHEIGHT;
-	s_advancedsettings.startingammopercent.generic.type = MTYPE_SLIDER;
+	s_advancedsettings.startingammopercent.generic.type = MTYPE_FIELD;
 	s_advancedsettings.startingammopercent.generic.x = x;
 	s_advancedsettings.startingammopercent.generic.y = y;
-	s_advancedsettings.startingammopercent.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
-	s_advancedsettings.startingammopercent.generic.name = "Starting Ammo Percentage";
-	s_advancedsettings.startingammopercent.minvalue = 0;
-	s_advancedsettings.startingammopercent.maxvalue = 100;
-	s_advancedsettings.startingammopercent.curvalue = 50;
+	s_advancedsettings.startingammopercent.generic.flags = QMF_NUMBERSONLY | QMF_PULSEIFFOCUS | QMF_SMALLFONT;
+	s_advancedsettings.startingammopercent.generic.name = "Starting Ammo Percentage: ";
+	s_advancedsettings.startingammopercent.generic.id = ID_STARTING_AMMO_PERCENTAGE;
+	s_advancedsettings.startingammopercent.generic.statusbar = AdvancedSettings_StatusBar;
+	s_advancedsettings.startingammopercent.field.widthInChars = 3;
+	s_advancedsettings.startingammopercent.field.maxchars = 3;
 
 	y += AS_TEXTHEIGHT;
-	s_advancedsettings.startingweaponlimit.generic.type = MTYPE_SLIDER;
+	s_advancedsettings.startingweaponlimit.generic.type = MTYPE_FIELD;
 	s_advancedsettings.startingweaponlimit.generic.x = x;
 	s_advancedsettings.startingweaponlimit.generic.y = y;
-	s_advancedsettings.startingweaponlimit.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
-	s_advancedsettings.startingweaponlimit.generic.name = "Starting Weapon Limit";
-	s_advancedsettings.startingweaponlimit.minvalue = 2;
-	s_advancedsettings.startingweaponlimit.maxvalue = 10;
-	s_advancedsettings.startingweaponlimit.curvalue = 3;
+	s_advancedsettings.startingweaponlimit.generic.flags = QMF_NUMBERSONLY | QMF_PULSEIFFOCUS | QMF_SMALLFONT;
+	s_advancedsettings.startingweaponlimit.generic.name = "Starting Weapon Limit: ";
+	s_advancedsettings.startingweaponlimit.generic.id = ID_STARTING_WEAPON_LIMIT;
+	s_advancedsettings.startingweaponlimit.generic.statusbar = AdvancedSettings_StatusBar;
+	s_advancedsettings.startingweaponlimit.field.widthInChars = 2;
+	s_advancedsettings.startingweaponlimit.field.maxchars = 2;
 
 	y += AS_TEXTHEIGHT;
-	s_advancedsettings.startingpowerupspawntime.generic.type = MTYPE_SLIDER;
+	s_advancedsettings.startingpowerupspawntime.generic.type = MTYPE_FIELD;
 	s_advancedsettings.startingpowerupspawntime.generic.x = x;
 	s_advancedsettings.startingpowerupspawntime.generic.y = y;
-	s_advancedsettings.startingpowerupspawntime.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
-	s_advancedsettings.startingpowerupspawntime.generic.name = "Initial Powerup Spawn Time";
-	s_advancedsettings.startingpowerupspawntime.minvalue = 30;
-	s_advancedsettings.startingpowerupspawntime.maxvalue = 120;
-	s_advancedsettings.startingpowerupspawntime.curvalue = 45;
+	s_advancedsettings.startingpowerupspawntime.generic.flags = QMF_NUMBERSONLY | QMF_PULSEIFFOCUS | QMF_SMALLFONT;
+	s_advancedsettings.startingpowerupspawntime.generic.name = "Initial Powerup Spawn Time: ";
+	s_advancedsettings.startingpowerupspawntime.generic.id = ID_STARTING_POWERUP_SPAWN_TIME;
+	s_advancedsettings.startingpowerupspawntime.generic.statusbar = AdvancedSettings_StatusBar;
+	s_advancedsettings.startingpowerupspawntime.field.widthInChars = 3;
+	s_advancedsettings.startingpowerupspawntime.field.maxchars = 3;
 
 	y += AS_TEXTHEIGHT;
-	s_advancedsettings.poweruprespawntime.generic.type = MTYPE_SLIDER;
+	s_advancedsettings.poweruprespawntime.generic.type = MTYPE_FIELD;
 	s_advancedsettings.poweruprespawntime.generic.x = x;
 	s_advancedsettings.poweruprespawntime.generic.y = y;
-	s_advancedsettings.poweruprespawntime.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
-	s_advancedsettings.poweruprespawntime.generic.name = "Powerup Respawn Time";
-	s_advancedsettings.poweruprespawntime.minvalue = 30;
-	s_advancedsettings.poweruprespawntime.maxvalue = 120;
-	s_advancedsettings.poweruprespawntime.curvalue = 120;
+	s_advancedsettings.poweruprespawntime.generic.flags = QMF_NUMBERSONLY | QMF_PULSEIFFOCUS | QMF_SMALLFONT;
+	s_advancedsettings.poweruprespawntime.generic.name = "Powerup Respawn Time: ";
+	s_advancedsettings.poweruprespawntime.generic.id = ID_POWERUP_RESPAWN_TIME;
+	s_advancedsettings.poweruprespawntime.generic.statusbar = AdvancedSettings_StatusBar;
+	s_advancedsettings.poweruprespawntime.field.widthInChars = 3;
+	s_advancedsettings.poweruprespawntime.field.maxchars = 3;
 
 	y += AS_TEXTHEIGHT;
-	s_advancedsettings.maxproxmines.generic.type = MTYPE_SLIDER;
+	s_advancedsettings.maxproxmines.generic.type = MTYPE_FIELD;
 	s_advancedsettings.maxproxmines.generic.x = x;
 	s_advancedsettings.maxproxmines.generic.y = y;
-	s_advancedsettings.maxproxmines.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
-	s_advancedsettings.maxproxmines.generic.name = "Prox Mine Limit";
-	s_advancedsettings.maxproxmines.minvalue = 1;
-	s_advancedsettings.maxproxmines.maxvalue = 10;
-	s_advancedsettings.maxproxmines.curvalue = 3;
+	s_advancedsettings.maxproxmines.generic.flags = QMF_NUMBERSONLY | QMF_PULSEIFFOCUS | QMF_SMALLFONT;
+	s_advancedsettings.maxproxmines.generic.name = "Prox Mine Limit: ";
+	s_advancedsettings.maxproxmines.generic.id = ID_MAX_PROX_MINES;
+	s_advancedsettings.maxproxmines.generic.statusbar = AdvancedSettings_StatusBar;
+	s_advancedsettings.maxproxmines.field.widthInChars = 2;
+	s_advancedsettings.maxproxmines.field.maxchars = 2;
 
 	y += AS_TEXTHEIGHT;
 	s_advancedsettings.dropholdables.generic.type = MTYPE_RADIOBUTTON;
@@ -1140,6 +1205,9 @@ void UI_AdvancedSettings_MenuInit() {
 	s_advancedsettings.dropholdables.generic.y = y;
 	s_advancedsettings.dropholdables.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
 	s_advancedsettings.dropholdables.generic.name = "Drop Holdables";
+	s_advancedsettings.dropholdables.generic.id = ID_DROP_HOLDABLES;
+	s_advancedsettings.dropholdables.generic.statusbar = AdvancedSettings_StatusBar;
+	s_advancedsettings.dropholdables.curvalue = qtrue;
 
 	s_advancedsettings.back.generic.type = MTYPE_BITMAP;
 	s_advancedsettings.back.generic.name = ART_BACK0;
@@ -1152,6 +1220,7 @@ void UI_AdvancedSettings_MenuInit() {
 	s_advancedsettings.back.height = 64;
 	s_advancedsettings.back.focuspic = ART_BACK1;
 
+	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.banner);
 	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.framel);
 	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.framer);
 	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.itemknockbackscale);
@@ -1164,16 +1233,6 @@ void UI_AdvancedSettings_MenuInit() {
 	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.dropholdables);
 	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.back);
 
-	/*y = 168;
-	s_options.graphics.generic.type = MTYPE_PTEXT;
-	s_options.graphics.generic.flags = QMF_CENTER_JUSTIFY | QMF_PULSEIFFOCUS;
-	s_options.graphics.generic.callback = Options_Event;
-	s_options.graphics.generic.id = ID_GRAPHICS;
-	s_options.graphics.generic.x = 320;
-	s_options.graphics.generic.y = y;
-	s_options.graphics.string = "GRAPHICS";
-	s_options.graphics.color = color_red;
-	s_options.graphics.style = UI_CENTER;*/
 }
 
 /*
@@ -1186,7 +1245,6 @@ void UI_AdvancedSettings() {
 	UI_AdvancedSettings_MenuInit();
 	UI_PushMenu(&s_advancedsettings.menu);
 }
-
 
 /*
 =================
