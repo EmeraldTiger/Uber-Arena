@@ -102,6 +102,16 @@ typedef struct {
 vmCvar_t	ui_ffa_fraglimit;
 vmCvar_t	ui_ffa_timelimit;
 
+// UBER ARENA 0.5
+vmCvar_t		ui_itemknockbackscale;
+vmCvar_t		ui_knockeditemrespawntime;
+vmCvar_t		ui_startingammopercent;
+vmCvar_t		ui_startingweaponlimit;
+vmCvar_t		ui_startingpowerupspawntime;
+vmCvar_t		ui_poweruprespawntime;
+vmCvar_t		ui_dropholdables;
+vmCvar_t		ui_maxproxmines;
+
 vmCvar_t	ui_tourney_fraglimit;
 vmCvar_t	ui_tourney_timelimit;
 
@@ -163,6 +173,16 @@ vmCvar_t	ui_uberIntro;
 static cvarTable_t		cvarTable[] = {
 	{ &ui_ffa_fraglimit, "ui_ffa_fraglimit", "20", CVAR_ARCHIVE },
 	{ &ui_ffa_timelimit, "ui_ffa_timelimit", "0", CVAR_ARCHIVE },
+
+	// UBER ARENA 0.5
+	{ &ui_itemknockbackscale, "ui_itemknockbackscale", "1000", CVAR_ARCHIVE },
+	{ &ui_startingammopercent, "ui_startingammopercent", "50", CVAR_ARCHIVE },
+	{ &ui_knockeditemrespawntime, "ui_knockeditemrespawntime", "10", CVAR_ARCHIVE },
+	{ &ui_startingweaponlimit, "ui_startingweaponlimit", "3", CVAR_ARCHIVE },
+	{ &ui_startingpowerupspawntime, "ui_startingpowerupspawntime", "45", CVAR_ARCHIVE },
+	{ &ui_poweruprespawntime, "ui_poweruprespawntime", "120", CVAR_ARCHIVE },
+	{ &ui_dropholdables, "ui_dropholdables", "1", CVAR_ARCHIVE },
+	{ &ui_maxproxmines, "ui_maxproxmines", "3", CVAR_ARCHIVE },
 
 	{ &ui_tourney_fraglimit, "ui_tourney_fraglimit", "0", CVAR_ARCHIVE },
 	{ &ui_tourney_timelimit, "ui_tourney_timelimit", "15", CVAR_ARCHIVE },

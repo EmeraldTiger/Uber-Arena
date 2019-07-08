@@ -38,6 +38,16 @@ typedef void (*voidfunc_f)(void);
 extern vmCvar_t	ui_ffa_fraglimit;
 extern vmCvar_t	ui_ffa_timelimit;
 
+// UBER ARENA 0.5
+extern vmCvar_t		ui_itemknockbackscale;
+extern vmCvar_t		ui_knockeditemrespawntime;
+extern vmCvar_t		ui_startingammopercent;
+extern vmCvar_t		ui_startingweaponlimit;
+extern vmCvar_t		ui_startingpowerupspawntime;
+extern vmCvar_t		ui_poweruprespawntime;
+extern vmCvar_t		ui_dropholdables;
+extern vmCvar_t		ui_maxproxmines;
+
 extern vmCvar_t	ui_tourney_fraglimit;
 extern vmCvar_t	ui_tourney_timelimit;
 

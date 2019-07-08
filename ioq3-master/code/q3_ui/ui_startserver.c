@@ -67,6 +67,11 @@ START SERVER MENU *****
 #define ART_FRAMEL			"menu/art/frame2_l"
 #define ART_FRAMER			"menu/art/frame1_r"
 
+#define AS_ACCEPT0	"menu/art/save_0"
+#define AS_ACCEPT1	"menu/art/save_1"
+#define AS_RESET0	"menu/art/reset_0"
+#define AS_RESET1	"menu/art/reset_1"	
+
 
 typedef struct {
 	menuframework_s	menu;
@@ -131,6 +136,8 @@ typedef struct {
 	menubitmap_s		framer;
 
 	menubitmap_s	back;
+	menubitmap_s	accept;
+	menubitmap_s	reset;
 
 } advancedsettings_t;
 
@@ -651,6 +658,8 @@ SERVER OPTIONS MENU *****
 #define ID_GO					23
 #define ID_BACK					24
 #define ID_ADVANCED				25
+#define	ID_ACCEPT				26
+#define	ID_RESET				27
 
 #define PLAYER_SLOTS			12
 
@@ -751,6 +760,93 @@ static qboolean BotAlreadySelected( const char *checkName ) {
 	return qfalse;
 }
 
+/*
+=================
+AdvancedSettings_Reset
+=================
+*/
+static void AdvancedSettings_Reset(void) {
+	int		itemknockbackscale;
+	int		knockeditemrespawntime;
+	int		startingammopercent;
+	int		startingweaponlimit;
+	int		startingpowerupspawntime;
+	int		poweruprespawntime;
+	int		dropholdables;
+	int		maxproxmines;
+
+	itemknockbackscale = 1000;
+	knockeditemrespawntime = 10;
+	startingammopercent = 50;
+	startingweaponlimit = 3;
+	startingpowerupspawntime = 45;
+	poweruprespawntime = 120;
+	dropholdables = 1;
+	maxproxmines = 3;
+
+	trap_Cvar_SetValue("ui_itemknockbackscale", itemknockbackscale);
+	trap_Cvar_SetValue("ui_startingammopercent", startingammopercent);
+	trap_Cvar_SetValue("ui_knockedItemRespawnTime", knockeditemrespawntime);
+	trap_Cvar_SetValue("ui_startingweaponlimit", startingweaponlimit);
+	trap_Cvar_SetValue("ui_startingpowerupspawntime", startingpowerupspawntime);
+	trap_Cvar_SetValue("ui_poweruprespawntime", poweruprespawntime);
+	trap_Cvar_SetValue("ui_dropholdables", dropholdables);
+	trap_Cvar_SetValue("ui_maxproxmines", maxproxmines);
+
+	trap_Cvar_SetValue("g_knockback_Item", Com_Clamp(0, itemknockbackscale, itemknockbackscale));
+	trap_Cvar_SetValue("g_knockedItemRespawnTime", Com_Clamp(0, knockeditemrespawntime, knockeditemrespawntime));
+	trap_Cvar_SetValue("g_startingAmmoPercentage", Com_Clamp(0, startingammopercent, startingammopercent));
+	trap_Cvar_SetValue("g_startingWeaponLimit", Com_Clamp(0, startingweaponlimit, startingweaponlimit));
+	trap_Cvar_SetValue("g_startingPowerupSpawnTime", Com_Clamp(0, startingpowerupspawntime, startingpowerupspawntime));
+	trap_Cvar_SetValue("g_powerupRespawnTime", Com_Clamp(0, poweruprespawntime, poweruprespawntime));
+	trap_Cvar_SetValue("g_dropHoldables", Com_Clamp(0, dropholdables, dropholdables));
+	trap_Cvar_SetValue("g_maxProxMines", Com_Clamp(0, maxproxmines, maxproxmines));
+}
+
+
+/*
+=================
+AdvancedSettings_Save
+=================
+*/
+static void AdvancedSettings_Save(void) {
+	int		itemknockbackscale;
+	int		knockeditemrespawntime;
+	int		startingammopercent;
+	int		startingweaponlimit;
+	int		startingpowerupspawntime;
+	int		poweruprespawntime;
+	int		dropholdables;
+	int		maxproxmines;
+
+	itemknockbackscale = atoi(s_advancedsettings.itemknockbackscale.field.buffer);
+	knockeditemrespawntime = atoi(s_advancedsettings.knockeditemrespawntime.field.buffer);
+	startingammopercent = atoi(s_advancedsettings.startingammopercent.field.buffer);
+	startingweaponlimit = atoi(s_advancedsettings.startingweaponlimit.field.buffer);
+	startingpowerupspawntime = atoi(s_advancedsettings.startingpowerupspawntime.field.buffer);
+	poweruprespawntime = atoi(s_advancedsettings.poweruprespawntime.field.buffer);
+	dropholdables = s_advancedsettings.dropholdables.curvalue;
+	maxproxmines = atoi(s_advancedsettings.maxproxmines.field.buffer);
+
+	trap_Cvar_SetValue("ui_itemknockbackscale", itemknockbackscale);
+	trap_Cvar_SetValue("ui_startingammopercent", startingammopercent);
+	trap_Cvar_SetValue("ui_knockedItemRespawnTime", knockeditemrespawntime);
+	trap_Cvar_SetValue("ui_startingweaponlimit", startingweaponlimit);
+	trap_Cvar_SetValue("ui_startingpowerupspawntime", startingpowerupspawntime);
+	trap_Cvar_SetValue("ui_poweruprespawntime", poweruprespawntime);
+	trap_Cvar_SetValue("ui_dropholdables", dropholdables);
+	trap_Cvar_SetValue("ui_maxproxmines", maxproxmines);
+
+	trap_Cvar_SetValue("g_knockback_Item", Com_Clamp(0, itemknockbackscale, itemknockbackscale));
+	trap_Cvar_SetValue("g_knockedItemRespawnTime", Com_Clamp(0, knockeditemrespawntime, knockeditemrespawntime));
+	trap_Cvar_SetValue("g_startingAmmoPercentage", Com_Clamp(0, startingammopercent, startingammopercent));
+	trap_Cvar_SetValue("g_startingWeaponLimit", Com_Clamp(0, startingweaponlimit, startingweaponlimit));
+	trap_Cvar_SetValue("g_startingPowerupSpawnTime", Com_Clamp(0, startingpowerupspawntime, startingpowerupspawntime));
+	trap_Cvar_SetValue("g_powerupRespawnTime", Com_Clamp(0, poweruprespawntime, poweruprespawntime));
+	trap_Cvar_SetValue("g_dropHoldables", Com_Clamp(0, dropholdables, dropholdables));
+	trap_Cvar_SetValue("g_maxProxMines", Com_Clamp(0, maxproxmines, maxproxmines));
+}
+
 
 /*
 =================
@@ -770,6 +866,16 @@ static void ServerOptions_Start( void ) {
 	char	buf[64];
 	const char *info;
 
+	// UBER ARENA 0.5: Advanced settings
+	int		itemknockbackscale;
+	int		knockeditemrespawntime;
+	int		startingammopercent;
+	int		startingweaponlimit;
+	int		startingpowerupspawntime;
+	int		poweruprespawntime;
+	int		dropholdables;
+	int		maxproxmines;
+
 	timelimit	 = atoi( s_serveroptions.timelimit.field.buffer );
 	fraglimit	 = atoi( s_serveroptions.fraglimit.field.buffer );
 	flaglimit	 = atoi( s_serveroptions.flaglimit.field.buffer );
@@ -777,6 +883,15 @@ static void ServerOptions_Start( void ) {
 	friendlyfire = s_serveroptions.friendlyfire.curvalue;
 	pure		 = s_serveroptions.pure.curvalue;
 	skill		 = s_serveroptions.botSkill.curvalue + 1;
+
+	itemknockbackscale = atoi( s_advancedsettings.itemknockbackscale.field.buffer );
+	knockeditemrespawntime = atoi(s_advancedsettings.knockeditemrespawntime.field.buffer);
+	startingammopercent = atoi(s_advancedsettings.startingammopercent.field.buffer);
+	startingweaponlimit = atoi(s_advancedsettings.startingweaponlimit.field.buffer);
+	startingpowerupspawntime = atoi(s_advancedsettings.startingpowerupspawntime.field.buffer);
+	poweruprespawntime = atoi(s_advancedsettings.poweruprespawntime.field.buffer);
+	dropholdables = s_advancedsettings.dropholdables.curvalue;
+	maxproxmines = atoi(s_advancedsettings.maxproxmines.field.buffer);
 
 	//set maxclients
 	for( n = 0, maxclients = 0; n < PLAYER_SLOTS; n++ ) {
@@ -822,6 +937,26 @@ static void ServerOptions_Start( void ) {
 	trap_Cvar_SetValue( "g_friendlyfire", friendlyfire );
 	trap_Cvar_SetValue( "sv_pure", pure );
 	trap_Cvar_Set("sv_hostname", s_serveroptions.hostname.field.buffer );
+
+	// UBER ARNEA 0.5
+	trap_Cvar_SetValue("ui_itemknockbackscale", itemknockbackscale);
+	trap_Cvar_SetValue("ui_startingammopercent", startingammopercent);
+	trap_Cvar_SetValue("ui_knockedItemRespawnTime", knockeditemrespawntime);
+	trap_Cvar_SetValue("ui_startingweaponlimit", startingweaponlimit);
+	trap_Cvar_SetValue("ui_startingpowerupspawntime", startingpowerupspawntime);
+	trap_Cvar_SetValue("ui_poweruprespawntime", poweruprespawntime);
+	trap_Cvar_SetValue("ui_dropholdables", dropholdables);
+	trap_Cvar_SetValue("ui_maxproxmines", maxproxmines);
+
+	// UBER ARENA 0.5
+	trap_Cvar_SetValue("g_knockback_Item", Com_Clamp(0, itemknockbackscale, itemknockbackscale));
+	trap_Cvar_SetValue("g_knockedItemRespawnTime", Com_Clamp(0, knockeditemrespawntime, knockeditemrespawntime));
+	trap_Cvar_SetValue("g_startingAmmoPercentage", Com_Clamp(0, startingammopercent, startingammopercent));
+	trap_Cvar_SetValue("g_startingWeaponLimit", Com_Clamp(0, startingweaponlimit, startingweaponlimit));
+	trap_Cvar_SetValue("g_startingPowerupSpawnTime", Com_Clamp(0, startingpowerupspawntime, startingpowerupspawntime));
+	trap_Cvar_SetValue("g_powerupRespawnTime", Com_Clamp(0, poweruprespawntime, poweruprespawntime));
+	trap_Cvar_SetValue("g_dropHoldables", Com_Clamp(0, dropholdables, dropholdables));
+	trap_Cvar_SetValue("g_maxProxMines", Com_Clamp(0, maxproxmines, maxproxmines));
 	
 	trap_Cvar_SetValue( "sv_punkbuster", s_serveroptions.punkbuster.curvalue );
 
@@ -1012,8 +1147,21 @@ static void ServerOptions_Event( void* ptr, int event ) {
 		}
 		UI_AdvancedSettings();
 		break;
-
-	}
+	case ID_ACCEPT:
+		if (event != QM_ACTIVATED) {
+			break;
+		}
+		AdvancedSettings_Save();
+		UI_PopMenu();
+		break;
+	case ID_RESET:
+		if (event != QM_ACTIVATED) {
+			break;
+		}
+		AdvancedSettings_Reset();
+		UI_PopMenu();
+		break;
+}
 }
 
 
@@ -1046,36 +1194,58 @@ AdvancedSettings_StatusBar
 =================
 */
 static void AdvancedSettings_StatusBar(void* ptr) {
-	//UI_DrawString(320, 440, "TESTING 123", UI_CENTER | UI_SMALLFONT, colorWhite);
+	int x;
+	int y;
+
+	x = 320;
+	y = 340;
+
 	switch (((menucommon_s*)ptr)->id) {
 	case ID_ITEM_KNOCKBACK_SCALE:
-		UI_DrawString(320, 440, "Default = 1000", UI_CENTER | UI_SMALLFONT, colorWhite);
+		UI_DrawString(x, y, "Default = 1000", UI_CENTER | UI_SMALLFONT, colorWhite);
 		break;
 	case ID_KNOCKED_ITEM_RESPAWN_TIME:
-		UI_DrawString(320, 440, "Default = 10, Minimum = 3", UI_CENTER | UI_SMALLFONT, colorWhite);
+		UI_DrawString(x, y, "Default = 10, Minimum = 3", UI_CENTER | UI_SMALLFONT, colorWhite);
 		break;
 	case ID_STARTING_AMMO_PERCENTAGE:
-		UI_DrawString(320, 440, "Default = 50", UI_CENTER | UI_SMALLFONT, colorWhite);
+		UI_DrawString(x, y, "Default = 50", UI_CENTER | UI_SMALLFONT, colorWhite);
 		break;
 	case ID_STARTING_WEAPON_LIMIT:
-		UI_DrawString(320, 440, "Default = 3, Minimum = 2", UI_CENTER | UI_SMALLFONT, colorWhite);
+		UI_DrawString(x, y, "Default = 3, Minimum = 2", UI_CENTER | UI_SMALLFONT, colorWhite);
 		break;
 	case ID_STARTING_POWERUP_SPAWN_TIME:
-		UI_DrawString(320, 440, "Default = 45", UI_CENTER | UI_SMALLFONT, colorWhite);
+		UI_DrawString(x, y, "Default = 45", UI_CENTER | UI_SMALLFONT, colorWhite);
 		break;
 	case ID_POWERUP_RESPAWN_TIME:
-		UI_DrawString(320, 440, "Default = 120", UI_CENTER | UI_SMALLFONT, colorWhite);
+		UI_DrawString(x, y, "Default = 120", UI_CENTER | UI_SMALLFONT, colorWhite);
 		break;
 	case ID_MAX_PROX_MINES:
-		UI_DrawString(320, 440, "Default = 3", UI_CENTER | UI_SMALLFONT, colorWhite);
+		UI_DrawString(x, y, "Default = 3", UI_CENTER | UI_SMALLFONT, colorWhite);
 		break;
 	case ID_DROP_HOLDABLES:
-		UI_DrawString(320, 440, "Default = On", UI_CENTER | UI_SMALLFONT, colorWhite);
+		UI_DrawString(x, y, "Default = On", UI_CENTER | UI_SMALLFONT, colorWhite);
 		break;
 	default:
-		UI_DrawString(320, 440, "invalid", UI_CENTER | UI_SMALLFONT, colorWhite);
+		UI_DrawString(x, y, "invalid", UI_CENTER | UI_SMALLFONT, colorWhite);
 		break;
 	}
+}
+
+/*
+=================
+AdvancedSettings_SetMenuItems
+=================
+*/
+
+static void AdvancedSettings_SetMenuItems(void) {
+	Com_sprintf(s_advancedsettings.itemknockbackscale.field.buffer, 5, "%i", (int)Com_Clamp(0, 1000, trap_Cvar_VariableValue("ui_itemknockbackscale")));
+	Com_sprintf(s_advancedsettings.knockeditemrespawntime.field.buffer, 4, "%i", (int)Com_Clamp(0, 999, trap_Cvar_VariableValue("ui_knockeditemrespawntime")));
+	Com_sprintf(s_advancedsettings.startingammopercent.field.buffer, 4, "%i", (int)Com_Clamp(0, 999, trap_Cvar_VariableValue("ui_startingammopercent")));
+	Com_sprintf(s_advancedsettings.startingweaponlimit.field.buffer, 4, "%i", (int)Com_Clamp(0, 999, trap_Cvar_VariableValue("ui_startingweaponlimit")));
+	Com_sprintf(s_advancedsettings.startingpowerupspawntime.field.buffer, 4, "%i", (int)Com_Clamp(0, 999, trap_Cvar_VariableValue("ui_startingpowerupspawntime")));
+	Com_sprintf(s_advancedsettings.poweruprespawntime.field.buffer, 4, "%i", (int)Com_Clamp(0, 999, trap_Cvar_VariableValue("ui_poweruprespawntime")));
+	Com_sprintf(s_advancedsettings.maxproxmines.field.buffer, 4, "%i", (int)Com_Clamp(0, 999, trap_Cvar_VariableValue("ui_maxproxmines")));
+	s_advancedsettings.dropholdables.curvalue = (int)Com_Clamp(0, 1, trap_Cvar_VariableValue("ui_dropholdables"));
 }
 
 
@@ -1220,6 +1390,28 @@ void UI_AdvancedSettings_MenuInit() {
 	s_advancedsettings.back.height = 64;
 	s_advancedsettings.back.focuspic = ART_BACK1;
 
+	s_advancedsettings.accept.generic.type = MTYPE_BITMAP;
+	s_advancedsettings.accept.generic.name = AS_ACCEPT0;
+	s_advancedsettings.accept.generic.flags = QMF_RIGHT_JUSTIFY | QMF_PULSEIFFOCUS;
+	s_advancedsettings.accept.generic.callback = ServerOptions_Event;
+	s_advancedsettings.accept.generic.id = ID_ACCEPT;
+	s_advancedsettings.accept.generic.x = 640;
+	s_advancedsettings.accept.generic.y = 480 - 64;
+	s_advancedsettings.accept.width = 128;
+	s_advancedsettings.accept.height = 64;
+	s_advancedsettings.accept.focuspic = AS_ACCEPT1;
+
+	s_advancedsettings.reset.generic.type = MTYPE_BITMAP;
+	s_advancedsettings.reset.generic.name = AS_RESET0;
+	s_advancedsettings.reset.generic.flags = QMF_CENTER_JUSTIFY | QMF_PULSEIFFOCUS;
+	s_advancedsettings.reset.generic.callback = ServerOptions_Event;
+	s_advancedsettings.reset.generic.id = ID_RESET;
+	s_advancedsettings.reset.generic.x = 320;
+	s_advancedsettings.reset.generic.y = 480 - 64;
+	s_advancedsettings.reset.width = 128;
+	s_advancedsettings.reset.height = 64;
+	s_advancedsettings.reset.focuspic = AS_RESET1;
+
 	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.banner);
 	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.framel);
 	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.framer);
@@ -1232,6 +1424,10 @@ void UI_AdvancedSettings_MenuInit() {
 	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.maxproxmines);
 	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.dropholdables);
 	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.back);
+	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.accept);
+	Menu_AddItem(&s_advancedsettings.menu, (void *)&s_advancedsettings.reset);
+
+	AdvancedSettings_SetMenuItems();
 
 }
 
