@@ -1141,6 +1141,11 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		CG_Bullet( es->pos.trBase, es->otherEntityNum, dir, qtrue, es->eventParm );
 		break;
 
+	case EV_BULLET_TRANSMUTE:
+		DEBUGNAME("EV_BULLET_TRANSMUTE");
+		trap_S_StartSound(NULL, es->number, CHAN_WEAPON, cgs.media.infinitySound);
+		break;
+
 	case EV_SHOTGUN:
 		DEBUGNAME("EV_SHOTGUN");
 		CG_ShotgunFire( es, qfalse );

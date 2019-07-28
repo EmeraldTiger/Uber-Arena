@@ -595,7 +595,8 @@ static void CG_DrawStatusBar( void ) {
 				{ 1.0f, 0.2f, 0.2f, 1.0f },     // low health
 				{ 0.5f, 0.5f, 0.5f, 1.0f },     // weapon firing
 				{ 1.0f, 1.0f, 1.0f, 1.0f },     // health > 100
-				{ 0.0f, 1.0f, 0.0f, 1.0f }, };		// conservation active 
+				{ 0.0f, 1.0f, 0.0f, 1.0f }	// conservation active 
+				};
 
 	// UBER ARENA 0.3: Uber ammo counter pulses from cyan to white while there is uber ammo
 	float ubercolor[4] = { 0.0f, 1.f, 1.f, 1.f };
@@ -674,7 +675,8 @@ static void CG_DrawStatusBar( void ) {
 				&& cg.predictedPlayerState.weaponTime > 100 ) {
 				// draw as dark grey when reloading
 				color = 2;	// dark grey
-			} else {
+			} 
+			else {
 				if ( value >= 0 ) {
 					color = 0;	// green
 				} else {

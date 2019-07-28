@@ -268,6 +268,8 @@ void Bullet_Fire (gentity_t *ent, float spread, int damage, int mod ) {
 				// Give back chaingun belt ammo equivalent to half the damage inflicted
 				if (ent->s.weapon == WP_CHAINGUN && isUber(ent, COUNTER_CHAINGUN)) {
 					ent->client->ps.ammo[WP_CHAINGUN] += (damage / 2);
+					// play flesh transmutation sound
+					tent = G_TempEntity(tr.endpos, EV_BULLET_TRANSMUTE);
 				}
 #ifdef MISSIONPACK
 			}

@@ -455,6 +455,8 @@ typedef enum {
 	EV_BULLET_HIT_FLESH,
 	EV_BULLET_HIT_WALL,
 
+	EV_BULLET_TRANSMUTE,	// UBER ARENA 0.5: Infinity chaingun flesh transmutation
+
 	EV_MISSILE_HIT,
 	EV_MISSILE_MISS,
 	EV_MISSILE_MISS_METAL,
