@@ -159,6 +159,11 @@ static char* netnames[] = {
 
 static char quake3worldMessage[] = "Visit www.quake3world.com - News, Community, Events, Files";
 
+const char* advanced_items[] = {
+	"Click Here",
+	NULL
+};
+
 const char* punkbuster_items[] = {
 	"Disabled",
 	"Enabled",

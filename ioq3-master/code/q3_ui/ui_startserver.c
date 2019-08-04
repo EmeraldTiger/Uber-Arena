@@ -115,6 +115,7 @@ static int gametype_remap2[] = {0, 2, 0, 1, 3};
 
 // use ui_servers2.c definition
 extern const char* punkbuster_items[];
+extern const char* advanced_items[];
 
 static void UI_ServerOptionsMenu( qboolean multiplayer );
 
@@ -1815,13 +1816,13 @@ static void ServerOptions_MenuInit( qboolean multiplayer ) {
 	s_serveroptions.punkbuster.itemnames				= punkbuster_items;
 
 	y += BIGCHAR_HEIGHT + 2;
-	s_serveroptions.advancedSettings.generic.type = MTYPE_SPINCONTROL;
-	s_serveroptions.advancedSettings.generic.name = "Advanced Settings";
+	s_serveroptions.advancedSettings.generic.type = MTYPE_SPINCONTROL; // not really, only one item to tell the player to click here
+	s_serveroptions.advancedSettings.generic.name = "Advanced Settings:";
 	s_serveroptions.advancedSettings.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
 	s_serveroptions.advancedSettings.generic.id = ID_ADVANCED;
 	s_serveroptions.advancedSettings.generic.x = OPTIONS_X;
 	s_serveroptions.advancedSettings.generic.y = y;
-	s_serveroptions.advancedSettings.itemnames = punkbuster_items;
+	s_serveroptions.advancedSettings.itemnames = advanced_items;
 	s_serveroptions.advancedSettings.generic.callback = ServerOptions_Event;
 	
 	y = 80;
