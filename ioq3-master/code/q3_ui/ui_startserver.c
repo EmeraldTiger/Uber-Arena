@@ -59,8 +59,6 @@ START SERVER MENU *****
 #define ID_STARTSERVERBACK		17
 #define ID_STARTSERVERNEXT		18
 
-#define ID_BACK					19
-
 #define ART_BACK0			"menu/art/back_0"
 #define ART_BACK1			"menu/art/back_1"
 

@@ -1578,7 +1578,11 @@ void CG_DrawWeaponSelect( void ) {
 	}
 	trap_R_SetColor( color );
 
-	VectorSet(ubercolor, 1, 0.9, 0, 1);
+	//VectorSet(ubercolor, 1, 0.9, 0, 1);
+	ubercolor[0] = 1;
+	ubercolor[1] = 0.9;
+	ubercolor[2] = 0;
+	ubercolor[3] = 1;
 
 	// showing weapon select clears pickup item display, but not the blend blob
 	cg.itemPickupTime = 0;
