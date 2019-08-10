@@ -1932,7 +1932,12 @@ static void CG_PlayerFloatSprite( centity_t *cent, qhandle_t shader ) {
 
 	memset( &ent, 0, sizeof( ent ) );
 	VectorCopy( cent->lerpOrigin, ent.origin );
-	ent.origin[2] += 48;
+	if (cent->hasHoldable) { // UBER ARENA 0.5: Account for holdables above player heads
+		ent.origin[2] += 78;
+	}
+	else {
+		ent.origin[2] += 48;
+	}
 	ent.reType = RT_SPRITE;
 	ent.customShader = shader;
 	ent.radius = 10;
@@ -2399,6 +2404,15 @@ void CG_Player( centity_t *cent ) {
 	CG_PlayerAnimation( cent, &legs.oldframe, &legs.frame, &legs.backlerp,
 		 &torso.oldframe, &torso.frame, &torso.backlerp );
 
+	// UBER ARENA 0.5
+	if (cent->currentState.time2) {
+		CG_PlayerHoldable(cent);
+		cent->hasHoldable = qtrue;
+	}
+	else {
+		cent->hasHoldable = qfalse;
+	}
+
 	// add the talk baloon or disconnect icon
 	CG_PlayerSprites( cent );
 
@@ -2476,11 +2490,6 @@ void CG_Player( centity_t *cent ) {
 		uberRing.oldframe = 0;
 		uberRing.customSkin = 0;
 		trap_R_AddRefEntityToScene(&uberRing);
-	}
-
-	// UBER ARENA 0.5
-	if (cent->currentState.time2) {
-		CG_PlayerHoldable(cent);
 	}
 
 #ifdef MISSIONPACK

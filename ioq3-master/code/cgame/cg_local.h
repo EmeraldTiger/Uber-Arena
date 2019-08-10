@@ -191,6 +191,8 @@ typedef struct centity_s {
 	// exact interpolated position of entity on this frame
 	vec3_t			lerpOrigin;
 	vec3_t			lerpAngles;
+
+	qboolean		hasHoldable;
 } centity_t;
 
 
