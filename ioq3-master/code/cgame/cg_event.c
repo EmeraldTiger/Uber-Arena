@@ -1102,6 +1102,12 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		}
 		break;
 
+	case EV_MISSILE_MISS_PHASE:
+		DEBUGNAME("EV_MISSILE_MISS_PHASE");
+		ByteToDir(es->eventParm, dir);
+		trap_S_StartSound(NULL, es->number, CHAN_VOICE, cgs.media.nailPhaseSound);
+		break;
+
 	case EV_RAILTRAIL:
 		DEBUGNAME("EV_RAILTRAIL");
 		cent->currentState.weapon = WP_RAILGUN;

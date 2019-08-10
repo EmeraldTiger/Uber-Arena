@@ -743,6 +743,7 @@ void G_RunMissile( gentity_t *ent ) {
 	if (&phtr != NULL) {
 		// We hit part of the world
 		if (phtr.entityNum == ENTITYNUM_WORLD) {
+			G_AddEvent(ent, EV_MISSILE_MISS_PHASE, DirToByte(dir)); // phasing sounds
 			ent->hitWorld = qtrue;
 		}
 	}
@@ -782,8 +783,6 @@ void G_RunMissile( gentity_t *ent ) {
 			}
 		}
 	}
-
-	// !(isUber(ent->parent, COUNTER_NAIL) && ent->s.weapon == WP_NAILGUN)
 
 	if ( tr.fraction != 1 && !(isUber(ent->parent, COUNTER_NAIL) && ent->s.weapon == WP_NAILGUN)) {
 		// never explode or bounce on sky

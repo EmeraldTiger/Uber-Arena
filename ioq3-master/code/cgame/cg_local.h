@@ -774,6 +774,7 @@ typedef struct {
 	qhandle_t	scavengerAuraModel; // UBER ARENA 0.4
 
 	qhandle_t	nailPuffShader;
+	qhandle_t	phantomNailPuffShader;
 	qhandle_t	blueProxMine;
 
 	qhandle_t	numberShaders[11];
@@ -957,6 +958,8 @@ typedef struct {
 	sfxHandle_t tunerSound; // UBER ARENA
 
 	sfxHandle_t	proxLaserSound; // UBER ARENA 0.5
+
+	sfxHandle_t	nailPhaseSound; // UBER ARENA 0.5
 
 	sfxHandle_t weaponHoverSound;
 

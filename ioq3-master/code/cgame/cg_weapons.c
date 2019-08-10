@@ -401,6 +401,7 @@ static void CG_NailTrail( centity_t *ent, const weaponInfo_t *wi ) {
 	entityState_t	*es;
 	vec3_t	up;
 	localEntity_t	*smoke;
+	qhandle_t		puffshader;
 
 	if ( cg_noProjectileTrail.integer ) {
 		return;
@@ -437,6 +438,13 @@ static void CG_NailTrail( centity_t *ent, const weaponInfo_t *wi ) {
 		return;
 	}
 
+	if (ent->currentState.eFlags & EF_UBER) {
+		puffshader = cgs.media.phantomNailPuffShader;
+	}
+	else {
+		puffshader = cgs.media.nailPuffShader;
+	}
+
 	for ( ; t <= ent->trailTime ; t += step ) {
 		BG_EvaluateTrajectory( &es->pos, t, lastPos );
 
@@ -447,7 +455,7 @@ static void CG_NailTrail( centity_t *ent, const weaponInfo_t *wi ) {
 					  t,
 					  0,
 					  0, 
-					  cgs.media.nailPuffShader );
+					  puffshader );
 		// use the optimized local entity add
 		smoke->leType = LE_SCALE_FADE;
 	}
@@ -771,7 +779,7 @@ void CG_RegisterWeapon( int weaponNum ) {
 	case WP_NAILGUN:
 		weaponInfo->ejectBrassFunc = CG_NailgunEjectBrass;
 		weaponInfo->missileTrailFunc = CG_NailTrail;
-//		weaponInfo->missileSound = trap_S_RegisterSound( "sound/weapons/nailgun/wnalflit.wav", qfalse );
+		weaponInfo->missileSound = trap_S_RegisterSound( "sound/weapons/nailgun/wnalflit.wav", qfalse );
 		weaponInfo->trailRadius = 16;
 		weaponInfo->wiTrailTime = 250;
 		weaponInfo->missileModel = trap_R_RegisterModel( "models/weaphits/nail.md3" );
@@ -1924,7 +1932,6 @@ void CG_MissileHitWall( int weapon, int clientNum, vec3_t origin, vec3_t dir, im
 
 	switch ( weapon ) {
 	default:
-#ifdef MISSIONPACK
 	case WP_NAILGUN:
 		if( soundType == IMPACTSOUND_FLESH ) {
 			sfx = cgs.media.sfx_nghitflesh;
@@ -1936,7 +1943,6 @@ void CG_MissileHitWall( int weapon, int clientNum, vec3_t origin, vec3_t dir, im
 		mark = cgs.media.holeMarkShader;
 		radius = 12;
 		break;
-#endif
 	case WP_LIGHTNING:
 		// no explosion at LG impact, it is added with the beam
 		r = rand() & 3;

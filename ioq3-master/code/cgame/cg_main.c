@@ -733,6 +733,7 @@ static void CG_RegisterSounds( void ) {
 	cgs.media.medkitSound = trap_S_RegisterSound ("sound/items/use_medkit.wav", qfalse);
 	cgs.media.tunerSound = trap_S_RegisterSound("sound/items/use_tuner.wav", qfalse); // UBER ARENA
 	cgs.media.proxLaserSound = trap_S_RegisterSound("sound/weapons/proxmine/plaser1.wav", qfalse); // UBER ARENA 0.5
+	cgs.media.nailPhaseSound = trap_S_RegisterSound("sound/weapons/nailgun/wnaphase", qfalse); // UBER ARENA 0.5
 	cgs.media.quadSound = trap_S_RegisterSound("sound/items/damage3.wav", qfalse);
 	cgs.media.infinitySound = trap_S_RegisterSound("sound/weapons/vulcan/transmute.wav", qfalse); // UBER ARENA 0.5
 	cgs.media.sfx_ric1 = trap_S_RegisterSound ("sound/weapons/machinegun/ric1.wav", qfalse);
@@ -861,6 +862,7 @@ static void CG_RegisterGraphics( void ) {
 	cgs.media.smokePuffRageProShader = trap_R_RegisterShader( "smokePuffRagePro" );
 	cgs.media.shotgunSmokePuffShader = trap_R_RegisterShader( "shotgunSmokePuff" );
 	cgs.media.nailPuffShader = trap_R_RegisterShader( "nailtrail" );
+	cgs.media.phantomNailPuffShader = trap_R_RegisterShader("phantomnailtrail");
 	cgs.media.blueProxMine = trap_R_RegisterModel( "models/weaphits/proxmineb.md3" );
 	cgs.media.plasmaBallShader = trap_R_RegisterShader( "sprites/plasma1" );
 	cgs.media.bloodTrailShader = trap_R_RegisterShader( "bloodTrail" );
