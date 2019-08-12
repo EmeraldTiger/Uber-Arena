@@ -786,8 +786,10 @@ static void PM_WalkMove( void ) {
 //		pm->ps->velocity[2] = 0;
 	}
 
-	vel = VectorLength(pm->ps->velocity);
+	PM_ClipVelocity(pm->ps->velocity, pml.groundTrace.plane.normal, pm->ps->velocity, OVERCLIP);
+	//vel = VectorLength(pm->ps->velocity);
 
+	/*
 	// slide along the ground plane
 	PM_ClipVelocity (pm->ps->velocity, pml.groundTrace.plane.normal, 
 		pm->ps->velocity, OVERCLIP );
@@ -799,7 +801,7 @@ static void PM_WalkMove( void ) {
 	// don't do anything if standing still
 	if (!pm->ps->velocity[0] && !pm->ps->velocity[1]) {
 		return;
-	}
+	}*/
 
 	PM_StepSlideMove( qfalse );
 
@@ -990,9 +992,19 @@ static void PM_CrashLand( void ) {
 		VectorCopy(pml.previous_velocity, pvnorm);
 		VectorNormalize(pvnorm);
 		dot = DotProduct(pml.groundTrace.plane.normal, pvnorm);
-		pm->ps->velocity[2] = abs(pm->ps->velocity[0] * 0.7) + abs(pm->ps->velocity[1] * 0.7) + abs(pm->ps->velocity[2]);
+
+		// UBER ARENA 0.5: A (rather hacky) fix for the trampoline overbounce bug
+		// Every time an overbounce would occur the vertical velocity value was always negative, and much much larger (absolute value)
+		// Averaging various divisions of expected versus actual velocity gives a rough estimate of 800, which is the default gravity value
+		// This gives good results for both low, medium, and high falls
+		if (pm->ps->velocity[2] < 0) {
+			pm->ps->velocity[2] /= pm->ps->gravity;
+		}
+
 		VectorCopy(pm->ps->velocity, playervel);
+		playervel[2] = abs(playervel[0] * 0.7) + abs(playervel[1] * 0.7) + abs(playervel[2]);
 		VectorMA(playervel, -2 * dot * VectorLength(pml.previous_velocity), pml.groundTrace.plane.normal, playervel);
+
 		VectorScale(playervel, 0.4, playervel);
 		VectorCopy(playervel, pm->ps->velocity);
 	}
