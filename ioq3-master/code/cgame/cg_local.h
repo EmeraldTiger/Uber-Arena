@@ -889,9 +889,9 @@ typedef struct {
 	sfxHandle_t	sfx_chghit;
 	sfxHandle_t	sfx_chghitflesh;
 	sfxHandle_t	sfx_chghitmetal;
-	sfxHandle_t kamikazeExplodeSound;
-	sfxHandle_t kamikazeImplodeSound;
-	sfxHandle_t kamikazeFarSound;
+	//sfxHandle_t kamikazeExplodeSound;
+	//sfxHandle_t kamikazeImplodeSound;
+	//sfxHandle_t kamikazeFarSound;
 	sfxHandle_t useInvulnerabilitySound;
 	sfxHandle_t invulnerabilityImpactSound1;
 	sfxHandle_t invulnerabilityImpactSound2;
@@ -901,8 +901,8 @@ typedef struct {
 	sfxHandle_t obeliskHitSound2;
 	sfxHandle_t obeliskHitSound3;
 	sfxHandle_t	obeliskRespawnSound;
-	sfxHandle_t	winnerSound;
-	sfxHandle_t	loserSound;
+	//sfxHandle_t	winnerSound;
+	//sfxHandle_t	loserSound;
 	sfxHandle_t	gibSound;
 	sfxHandle_t	gibBounce1Sound;
 	sfxHandle_t	gibBounce2Sound;
@@ -963,7 +963,7 @@ typedef struct {
 
 	sfxHandle_t	nailPhaseSound; // UBER ARENA 0.5
 
-	sfxHandle_t weaponHoverSound;
+	//sfxHandle_t weaponHoverSound;
 
 	// teamplay sounds
 	sfxHandle_t captureAwardSound;
