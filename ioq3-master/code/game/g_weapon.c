@@ -265,11 +265,13 @@ void Bullet_Fire (gentity_t *ent, float spread, int damage, int mod ) {
 					damage, dflags, mod);
 
 				// UBER ARENA 0.5: Infinity Chaingun
-				// Give back chaingun belt ammo equivalent to half the damage inflicted
-				if (ent->s.weapon == WP_CHAINGUN && isUber(ent, COUNTER_CHAINGUN)) {
-					ent->client->ps.ammo[WP_CHAINGUN] += (damage / 2);
-					// play flesh transmutation sound
-					tent = G_TempEntity(tr.endpos, EV_BULLET_TRANSMUTE);
+				// Give back chaingun belt ammo equivalent to 0.7 damage inflicted
+				if (traceEnt->client) {
+					if (ent->s.weapon == WP_CHAINGUN && isUber(ent, COUNTER_CHAINGUN) && traceEnt->client->ps.pm_type != PM_DEAD) {
+						ent->client->ps.ammo[WP_CHAINGUN] += (damage * 0.7);
+						// play flesh transmutation sound
+						tent = G_TempEntity(tr.endpos, EV_BULLET_TRANSMUTE);
+					}
 				}
 #ifdef MISSIONPACK
 			}
