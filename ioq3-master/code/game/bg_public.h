@@ -326,6 +326,10 @@ typedef enum {
 	PW_RAMPAGE,
 	PW_SCAVENGER,
 
+	// UBER ARENA 0.6:
+	PW_LIFELINK,
+	PW_VAMPIRE,
+
 	PW_NUM_POWERUPS
 
 } powerup_t;
