@@ -354,6 +354,18 @@ typedef enum {
 } holdable_t;
 
 
+// UBER ARENA 0.6: PowerPods
+typedef enum {
+	PP_NONE,
+
+	PP_QUAD,
+	PP_SCAVENGER,
+	PP_VAMPIRE,
+
+	PP_NUM_POD,
+} pod_t;
+
+
 typedef enum {
 	WP_NONE,
 
@@ -708,6 +720,9 @@ typedef enum {
 
 	// UBER ARENA: Weapon pouch type
 	IT_POUCH,				// EFX: rotate + minlight
+
+	// UBER ARENA 0.6: PowerPods
+	IT_POD,
 } itemType_t;
 
 #define MAX_ITEM_MODELS 4
