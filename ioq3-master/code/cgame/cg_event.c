@@ -477,6 +477,11 @@ static void CG_UseItem( centity_t *cent ) {
 		}
 		break;
 
+	// UBER ARENA 0.6:
+	case HI_MORATORIUM:
+		// Todo: Future code for the Moratorium holdable
+		break;
+
 #ifdef MISSIONPACK
 	case HI_KAMIKAZE:
 		break;

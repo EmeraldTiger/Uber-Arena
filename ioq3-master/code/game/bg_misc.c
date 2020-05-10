@@ -686,6 +686,24 @@ gitem_t	bg_itemlist[] =
 			/* sounds */ "sound/items/use_receptacle.wav"
 	},
 
+/*QUAKED holdable_moratorium (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+						*/
+	{
+		"holdable_moratorium",
+		"sound/items/moratorium.wav",
+		{
+			"models/powerups/holdable/moratorium.md3",
+			"models/powerups/holdable/moratorium_sphere.md3",
+			0, 0 },
+			/* icon */		"icons/moratorium",
+			/* pickup */	"Moratorium",
+			60,
+			IT_HOLDABLE,
+			HI_MORATORIUM,
+			/* precache */ "",
+			/* sounds */ "sound/items/use_moratorium.wav"
+	},
+
 	//
 	// POWERUP ITEMS
 	//

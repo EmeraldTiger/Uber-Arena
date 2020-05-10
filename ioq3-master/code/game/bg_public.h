@@ -347,6 +347,9 @@ typedef enum {
 	HI_TUNER,
 	HI_RECEPTACLE,
 
+	// UBER ARENA 0.6:
+	HI_MORATORIUM,
+
 	HI_NUM_HOLDABLE
 } holdable_t;
 
