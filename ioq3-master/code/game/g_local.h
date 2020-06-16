@@ -282,7 +282,7 @@ typedef struct {
 #define COUNTER_RAIL		WP_RAILGUN - 1
 #define COUNTER_PLASMA		WP_PLASMAGUN - 1
 #define COUNTER_BFG			WP_BFG - 1
-#define COUNTER_GRAPPLE		WP_GRAPPLING_HOOK - 1 // there's no uber grappling hook (yet, anyway...), we're just doing this to preserve functionality for TA uberweapons
+#define COUNTER_GRAPPLE		WP_GRAPPLING_HOOK - 1
 #define COUNTER_NAIL		WP_NAILGUN - 1
 #define COUNTER_PROX		WP_PROX_LAUNCHER - 1
 #define COUNTER_CHAINGUN	WP_CHAINGUN - 1

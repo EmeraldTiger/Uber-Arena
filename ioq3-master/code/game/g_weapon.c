@@ -1005,8 +1005,9 @@ void FireWeapon( gentity_t *ent ) {
 	}
 #endif
 
-	// track shots taken for accuracy tracking.  Grapple is not a weapon and gauntet is just not tracked
-	if( ent->s.weapon != WP_GRAPPLING_HOOK && ent->s.weapon != WP_GAUNTLET ) {
+	// track shots taken for accuracy tracking.  Gauntet is just not tracked
+	// UBER ARENA 0.6: Grappling Hook will have more utility as a weapon so we'll start tracking accuracy for it
+	if( ent->s.weapon != WP_GAUNTLET ) {
 		if( ent->s.weapon == WP_NAILGUN ) {
 			ent->client->accuracy_shots += NUM_NAILSHOTS;
 		} else {

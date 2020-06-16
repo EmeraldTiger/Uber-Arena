@@ -268,6 +268,8 @@ void Add_Ammo (gentity_t *ent, int weapon, int count)
 		ent->client->ps.ammo[WP_NAILGUN] = qmax(ent->client->ps.ammo[WP_NAILGUN], 25);
 		ent->client->ps.ammo[WP_CHAINGUN] = qmax(ent->client->ps.ammo[WP_CHAINGUN], 150);
 		ent->client->ps.ammo[WP_PROX_LAUNCHER] = qmax(ent->client->ps.ammo[WP_PROX_LAUNCHER], 25);
+		// UBER ARENA 0.6: Support Grappling Hook
+		ent->client->ps.ammo[WP_GRAPPLING_HOOK] = qmax(ent->client->ps.ammo[WP_GRAPPLING_HOOK], 25);
 	}
 }
 
@@ -433,8 +435,9 @@ int Pickup_Weapon (gentity_t *ent, gentity_t *other, qboolean captureMode) {
 		Add_Ammo(other, ent->item->giTag, quantity);
 	}
 
-	if (ent->item->giTag == WP_GRAPPLING_HOOK)
-		other->client->ps.ammo[ent->item->giTag] = -1; // unlimited ammo
+	// UBER ARENA 0.6: Grapplinh hook no longer has unlimited ammo
+	/* if (ent->item->giTag == WP_GRAPPLING_HOOK)
+		other->client->ps.ammo[ent->item->giTag] = -1; // unlimited ammo */
 
 	// team deathmatch has slow weapon respawns
 	if ( g_gametype.integer == GT_TEAM ) {
