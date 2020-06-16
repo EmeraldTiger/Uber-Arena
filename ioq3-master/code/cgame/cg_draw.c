@@ -2549,8 +2549,11 @@ static void CG_DrawWarmup( void ) {
 #endif
 		}
 	} else {
-		if ( cgs.gametype == GT_FFA ) {
+		if (cgs.gametype == GT_FFA) {
 			s = "Free For All";
+		}
+		else if (cgs.gametype == GT_FLAGMATCH) {
+			s = "Flagmatch";
 		} else if ( cgs.gametype == GT_TEAM ) {
 			s = "Team Deathmatch";
 		} else if ( cgs.gametype == GT_CTF ) {

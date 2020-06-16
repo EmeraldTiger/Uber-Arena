@@ -166,6 +166,11 @@ static int GametypeBits( char *string ) {
 			continue;
 		}
 
+		if (Q_stricmp(token, "flagmatch") == 0) {
+			bits |= 1 << GT_FLAGMATCH;
+			continue;
+		}
+
 		if( Q_stricmp( token, "tourney" ) == 0 ) {
 			bits |= 1 << GT_TOURNAMENT;
 			continue;
@@ -1597,6 +1602,11 @@ static void ServerOptions_SetMenuItems( void ) {
 	default:
 		Com_sprintf( s_serveroptions.fraglimit.field.buffer, 4, "%i", (int)Com_Clamp( 0, 999, trap_Cvar_VariableValue( "ui_ffa_fraglimit" ) ) );
 		Com_sprintf( s_serveroptions.timelimit.field.buffer, 4, "%i", (int)Com_Clamp( 0, 999, trap_Cvar_VariableValue( "ui_ffa_timelimit" ) ) );
+		break;
+
+	case GT_FLAGMATCH:
+		Com_sprintf(s_serveroptions.fraglimit.field.buffer, 4, "%i", (int)Com_Clamp(0, 999, trap_Cvar_VariableValue("ui_flagmatch_capturelimit")));
+		Com_sprintf(s_serveroptions.timelimit.field.buffer, 4, "%i", (int)Com_Clamp(0, 999, trap_Cvar_VariableValue("ui_flagmatch_timelimit")));
 		break;
 
 	case GT_TOURNAMENT:
