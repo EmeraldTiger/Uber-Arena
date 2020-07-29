@@ -672,7 +672,7 @@ static void CG_DrawStatusBar( void ) {
 				color = 4; // bright green
 			}
 			else if ( cg.predictedPlayerState.weaponstate == WEAPON_FIRING
-				&& cg.predictedPlayerState.weaponTime > 100 ) {
+				&& cg.predictedPlayerState.weaponTime > 100 && cg.snap->ps.weapon != WP_GRAPPLING_HOOK ) {
 				// draw as dark grey when reloading
 				color = 2;	// dark grey
 			} 
