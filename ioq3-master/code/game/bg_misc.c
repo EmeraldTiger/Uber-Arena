@@ -356,7 +356,7 @@ gitem_t	bg_itemlist[] =
 		NULL, NULL, NULL},
 /* icon */		"icons/iconw_grapple",
 /* pickup */	"Grappling Hook",
-		10,
+		0,
 		IT_WEAPON,
 		WP_GRAPPLING_HOOK,
 /* precache */ "",
@@ -592,22 +592,6 @@ gitem_t	bg_itemlist[] =
 		100,
 		IT_AMMO,
 		WP_CHAINGUN,
-		/* precache */ "",
-		/* sounds */ ""
-	},
-
-/*QUAKED ammo_hooks (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
-		*/
-	{
-		"ammo_hooks",
-		"sound/misc/am_pkup.wav",
-		{ "models/powerups/ammo/hookam.md3",
-		NULL, NULL, NULL },
-		/* icon */		"icons/icona_hook",
-		/* pickup */	"Hooks",
-		10,
-		IT_AMMO,
-		WP_GRAPPLING_HOOK,
 		/* precache */ "",
 		/* sounds */ ""
 	},

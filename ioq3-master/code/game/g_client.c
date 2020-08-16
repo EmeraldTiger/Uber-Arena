@@ -1179,8 +1179,7 @@ void ClientSpawn(gentity_t *ent) {
 
 	client->ps.stats[STAT_WEAPONS] |= ( 1 << WP_GAUNTLET );
 	client->ps.ammo[WP_GAUNTLET] = -1;
-	// UBER ARENA 0.6: Grappling Hook now uses ammo
-	//client->ps.ammo[WP_GRAPPLING_HOOK] = -1;
+	client->ps.ammo[WP_GRAPPLING_HOOK] = -1;
 
 	weaponLimitMax = g_startingWeaponLimit.integer - 2;
 

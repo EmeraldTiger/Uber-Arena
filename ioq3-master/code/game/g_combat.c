@@ -99,8 +99,8 @@ void TossClientItems( gentity_t *self ) {
 
 	// UBER ARENA 0.4
 	// Gauntlet and machinegun can now be dropped, since they are now collectible weapons
-	// UBER ARENA 0.6: And so can the grappling hook!
-	if ( self->client->ps.ammo[ weapon ] ) {
+	if ( weapon != WP_GRAPPLING_HOOK && 
+		self->client->ps.ammo[ weapon ] ) {
 		// find the item type for this weapon
 		item = BG_FindItemForWeapon( weapon );
 
