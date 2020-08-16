@@ -529,9 +529,6 @@ void G_MissileImpact( gentity_t *ent, trace_t *trace ) {
 		gentity_t *nent;
 		vec3_t v;
 
-		// UBER ARENA 0.6: Use up hook ammo when the hook hits something
-		ent->parent->client->ps.ammo[WP_GRAPPLING_HOOK]--;
-
 		nent = G_Spawn();
 		if ( other->takedamage && other->client ) {
 

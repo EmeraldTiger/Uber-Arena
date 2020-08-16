@@ -1709,8 +1709,7 @@ static void PM_Weapon( void ) {
 
 	// take an ammo away if not infinite
 	// UBER ARENA: Don't use up ammo if player has Conservation
-	// UBER ARENA 0.6: We have an alternate method of using up ammo for the Grappling Hook
-	if ( pm->ps->ammo[ pm->ps->weapon ] != -1 && !(pm->ps->powerups[PW_CONSERVATION]) && pm->ps->weapon != WP_GRAPPLING_HOOK) {
+	if ( pm->ps->ammo[ pm->ps->weapon ] != -1 && !(pm->ps->powerups[PW_CONSERVATION]) ) {
 		pm->ps->ammo[ pm->ps->weapon ]--;
 	}
 
