@@ -877,6 +877,23 @@ gitem_t	bg_itemlist[] =
 		/* sounds */ "sound/items/lifelink.wav"
 	},
 
+/*QUAKED item_vampire (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+									*/
+	{
+		"item_vampire",
+		"sound/items/vampire.wav",
+		{ "models/powerups/instant/vampire.md3",
+		"models/powerups/instant/vampire_ring.md3",
+		0, 0 },
+		/* icon */		"icons/vampire",
+		/* pickup */	"Vampire",
+		30,
+		IT_POWERUP,
+		PW_VAMPIRE,
+		/* precache */ "",
+		/* sounds */ "sound/items/vampire.wav"
+	},
+
 /*QUAKED team_CTF_redflag (1 0 0) (-16 -16 -16) (16 16 16)
 Only in CTF games
 */
@@ -1241,15 +1258,15 @@ Only in One Flag CTF games
 		/* sounds */ ""
 	},
 
-/*QUAKED item_pod_lifelink (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+/*QUAKED item_pod_vampire (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
 					*/
 	{
-		"item_pod_lifelink",
-		"sound/items/item_pod_lifelink.wav",
-		{ "models/powerups/pod/pod_lifelink.md3",
+		"item_pod_vampire",
+		"sound/items/item_pod_vampire.wav",
+		{ "models/powerups/pod/pod_vampire.md3",
 		0, 0, 0 },
-		/* icon */		"icons/icon_pod_lifelink",
-		/* pickup */	"Lifelink Pod",
+		/* icon */		"icons/icon_pod_vampire",
+		/* pickup */	"Vampire Pod",
 		1,
 		IT_POD,
 		0,

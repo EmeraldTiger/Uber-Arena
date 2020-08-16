@@ -328,6 +328,7 @@ typedef enum {
 
 	// UBER ARENA 0.6:
 	PW_LIFELINK,
+	PW_VAMPIRE,
 
 	PW_NUM_POWERUPS
 
@@ -359,7 +360,7 @@ typedef enum {
 
 	PP_QUAD,
 	PP_SCAVENGER,
-	PP_LIFELINK,
+	PP_VAMPIRE,
 
 	PP_NUM_POD,
 } pod_t;
