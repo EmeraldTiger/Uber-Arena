@@ -1095,11 +1095,36 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 		}
 	}
 
+	// UBER ARENA 0.6
+	// Lifelink: Half of all damage inflicted to targets is returned to the player
+	// Don't do anything if both players have Lifelink
+	if (targ != attacker && attacker->client)
+	{
+		if (attacker->client->ps.powerups[PW_LIFELINK] && targ->health > 0 && !targ->client->ps.powerups[PW_LIFELINK])
+		{
+			attacker->health += take / 2;
+			if (attacker->health > 999)
+			{
+				attacker->health = 999;
+			}
+			attacker->client->ps.stats[STAT_HEALTH] += attacker->health;
+		}
+	}
+
+
 	// do the damage
 	if (take) {
 		targ->health = targ->health - take;
 		if ( targ->client ) {
 			targ->client->ps.stats[STAT_HEALTH] = targ->health;
+			// UBER ARENA 0.6
+			// Lifelink: Redirect damage back to the attacker
+			if (targ != attacker && attacker->client)
+			{
+				if (targ->client->ps.powerups[PW_LIFELINK] && !attacker->client->ps.powerups[PW_LIFELINK]) {
+					G_Damage(attacker, inflictor, attacker, dir, point, take, NULL, MOD_SUICIDE);
+				}
+			}
 		}
 			
 		if ( targ->health <= 0 ) {

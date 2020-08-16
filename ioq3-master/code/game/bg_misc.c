@@ -686,6 +686,24 @@ gitem_t	bg_itemlist[] =
 			/* sounds */ "sound/items/use_receptacle.wav"
 	},
 
+/*QUAKED holdable_moratorium (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+									*/
+	{
+		"holdable_moratorium",
+		"sound/items/moratorium.wav",
+		{
+			"models/powerups/holdable/moratorium.md3",
+			"models/powerups/holdable/moratorium_sphere.md3",
+			0, 0 },
+			/* icon */		"icons/moratorium",
+			/* pickup */	"Moratorium",
+			60,
+			IT_HOLDABLE,
+			HI_MORATORIUM,
+			/* precache */ "",
+			/* sounds */ "sound/items/use_moratorium.wav"
+	},
+
 	//
 	// POWERUP ITEMS
 	//
@@ -840,6 +858,23 @@ gitem_t	bg_itemlist[] =
 		PW_SCAVENGER,
 		/* precache */ "",
 		/* sounds */ "sound/items/scavenger.wav"
+	},
+
+/*QUAKED item_lifelink (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+									*/
+	{
+		"item_lifelink",
+		"sound/items/lifelink.wav",
+		{ "models/powerups/instant/lifelink.md3",
+		"models/powerups/instant/lifelink_ring.md3",
+		0, 0 },
+		/* icon */		"icons/lifelink",
+		/* pickup */	"Lifelink",
+		30,
+		IT_POWERUP,
+		PW_LIFELINK,
+		/* precache */ "",
+		/* sounds */ "sound/items/lifelink.wav"
 	},
 
 /*QUAKED team_CTF_redflag (1 0 0) (-16 -16 -16) (16 16 16)

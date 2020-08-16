@@ -326,6 +326,9 @@ typedef enum {
 	PW_RAMPAGE,
 	PW_SCAVENGER,
 
+	// UBER ARENA 0.6
+	PW_LIFELINK,
+
 	PW_NUM_POWERUPS
 
 } powerup_t;
@@ -342,6 +345,9 @@ typedef enum {
 	// UBER ARENA: New holdables
 	HI_TUNER,
 	HI_RECEPTACLE,
+
+	// UBER ARENA 0.6
+	HI_MORATORIUM,
 
 	HI_NUM_HOLDABLE
 } holdable_t;
