@@ -238,9 +238,6 @@ void CG_DrawInformation( void ) {
 	case GT_FFA:
 		s = "Free For All";
 		break;
-	case GT_FLAGMATCH:
-		s = "Flagmatch";
-		break;
 	case GT_SINGLE_PLAYER:
 		s = "Single Player";
 		break;

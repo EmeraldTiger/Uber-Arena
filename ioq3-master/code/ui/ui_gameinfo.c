@@ -193,9 +193,6 @@ void UI_LoadArenasIntoMapList( void ) {
 			if( strstr( type, "ffa" ) ) {
 				uiInfo.mapList[uiInfo.mapCount].typeBits |= (1 << GT_FFA);
 			}
-			if (strstr(type, "flagmatch")) {
-				uiInfo.mapList[uiInfo.mapCount].typeBits |= (1 << GT_FLAGMATCH);
-			}
 			if( strstr( type, "tourney" ) ) {
 				uiInfo.mapList[uiInfo.mapCount].typeBits |= (1 << GT_TOURNAMENT);
 			}
