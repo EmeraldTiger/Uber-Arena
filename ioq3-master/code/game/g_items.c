@@ -43,7 +43,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #define	RESPAWN_MEGAHEALTH	35//120
 #define	RESPAWN_POWERUP		120
 #define RESPAWN_POUCH		15 // UBER ARENA
-#define RESPAWN_POD			45 // UBER ARENA 0.6
 
 
 //======================================================================

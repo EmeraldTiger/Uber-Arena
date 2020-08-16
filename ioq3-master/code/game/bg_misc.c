@@ -1224,56 +1224,6 @@ Only in One Flag CTF games
 		/* sounds */ ""
 	},
 
-// UBER ARENA 0.6: PowerPods
-
-/*QUAKED item_pod_quad (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
-		*/
-	{
-		"item_pod_quad",
-		"sound/items/item_pod_quad.wav",
-		{ "models/powerups/pod/pod_quad.md3",
-		0, 0, 0 },
-		/* icon */		"icons/icon_pod_quad",
-		/* pickup */	"Quad Pod",
-		1,
-		IT_POD,
-		0,
-		/* precache */ "",
-		/* sounds */ ""
-	},
-
-/*QUAKED item_pod_scavenger (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
-					*/
-	{
-		"item_pod_scavenger",
-		"sound/items/item_pod_scavenger.wav",
-		{ "models/powerups/pod/pod_scavenger.md3",
-		0, 0, 0 },
-		/* icon */		"icons/icon_pod_scavenger",
-		/* pickup */	"Scavenger Pod",
-		1,
-		IT_POD,
-		0,
-		/* precache */ "",
-		/* sounds */ ""
-	},
-
-/*QUAKED item_pod_vampire (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
-					*/
-	{
-		"item_pod_vampire",
-		"sound/items/item_pod_vampire.wav",
-		{ "models/powerups/pod/pod_vampire.md3",
-		0, 0, 0 },
-		/* icon */		"icons/icon_pod_vampire",
-		/* pickup */	"Vampire Pod",
-		1,
-		IT_POD,
-		0,
-		/* precache */ "",
-		/* sounds */ ""
-	},
-
 	// end of list marker
 	{NULL}
 };
